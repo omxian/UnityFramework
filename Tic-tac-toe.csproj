@@ -86,7 +86,8 @@
     <Compile Include="Assets\Framework\Manager\NotifyManager\NotifyArg.cs" />
     <Compile Include="Assets\Framework\Manager\NotifyManager\NotifyId.cs" />
     <Compile Include="Assets\Framework\Manager\NotifyManager\NotifyManager.cs" />
-    <Compile Include="Assets\Framework\Manager\ObjectPoolManager.cs" />
+    <Compile Include="Assets\Framework\Manager\ObjectPool\IPoolable.cs" />
+    <Compile Include="Assets\Framework\Manager\ObjectPool\ObjectPoolManager.cs" />
     <Compile Include="Assets\Framework\Manager\ResourceManager.cs" />
     <Compile Include="Assets\Framework\Manager\SceneManager.cs" />
     <Compile Include="Assets\Framework\UIComponent\UIDragable.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Assets\Framework\UIFramework\IView.cs" />
     <Compile Include="Assets\Framework\UIFramework\View.cs" />
     <Compile Include="Assets\Framework\UtilTool\UITools.cs" />
+    <Compile Include="Assets\LearnTest\RunFunction.cs" />
     <Compile Include="Assets\ProjectCode\GameEnum.cs" />
     <Compile Include="Assets\ProjectCode\TicTacToe.cs" />
     <Compile Include="Assets\ProjectCode\TicTacToeAI.cs" />

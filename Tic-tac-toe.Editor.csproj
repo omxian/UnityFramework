@@ -124,6 +124,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Framework\Editor\GenUITools.cs" />
+    <Compile Include="Assets\Framework\Editor\ISelectIcon.cs" />
+    <Compile Include="Assets\LearnTest\Editor\TestEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Framework\Editor\UITemplate\C#_UI_Template.txt" />
