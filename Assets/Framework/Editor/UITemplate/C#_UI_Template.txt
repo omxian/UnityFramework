@@ -1,0 +1,16 @@
+/* 
+	UI View Gen From GenUITools
+	Please Don't Modify!
+ */
+
+using UnityEngine;
+using UnityEngine.UI;
+
+public class {#class#} : MonoBehaviour
+{
+{#param#}
+	public void Awake()
+	{
+{#init#}
+	}
+}

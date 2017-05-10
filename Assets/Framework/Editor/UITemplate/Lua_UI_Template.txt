@@ -1,0 +1,17 @@
+--	UI View Gen From GenUITools
+--	Please Don't Modify!
+
+
+local {#class#} = class("{#class#}",IDispose);
+
+function {#class#}:ctor()
+	{#class#}.super.ctor(self)
+{#init#}
+end
+
+
+function {#class#}:Dispose()
+	{#class#}.super.Dispose(self)
+end
+
+return {#class#}

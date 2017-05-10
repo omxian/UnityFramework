@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine.UI;
+
+namespace Unity.Framework
+{
+    public static class ButtonExtentions
+    {
+        public static void AddClick(this Button button, Action click, string sfx = "default_Click_Sound")
+        {
+            button.onClick.AddListener(() => {
+                // Play Click Sound 
+                if (null != click)
+                {
+                    click();
+                }
+            });
+        }
+
+        public static void RemoveClick(this Button button)
+        {
+            button.onClick.RemoveAllListeners();
+        }
+
+        public static void SetActive(this Button button,bool isActive)
+        {
+            button.gameObject.SetActive(isActive);
+        }
+    }
+}
