@@ -11,17 +11,18 @@ using System.Text;
 /// </summary>
 public class TagType
 {
-    public static string Untagged = "Untagged";
-    public static string UI_CSharp = "UI_CSharp";
-    public static string UI_Lua = "UI_Lua";
-    public static string UI_Texture = "UI_Texture";
-    public static string UI_Sprite = "UI_Sprite";
-    public static string UI_Lable = "UI_Lable";
-    public static string UI_GameObject = "UI_GameObject";
-    public static string UI_Transform = "UI_Transform";
-    public static string UI_Toggle = "UI_Toggle";
-    public static string UI_Button = "UI_Button";
-    public static string UI_InputField = "UI_InputField";
+    public const string Untagged = "Untagged";
+    public const string UI_CSharp = "UI_CSharp";
+    public const string UI_Lua = "UI_Lua";
+    public const string UI_Texture = "UI_Texture";
+    public const string UI_Sprite = "UI_Sprite";
+    public const string UI_Lable = "UI_Lable";
+    public const string UI_GameObject = "UI_GameObject";
+    public const string UI_Transform = "UI_Transform";
+    public const string UI_Toggle = "UI_Toggle";
+    public const string UI_Button = "UI_Button";
+    public const string UI_InputField = "UI_InputField";
+    public const string UI_Slider = "UI_Slider";
 }
 
 /// <summary>
@@ -35,7 +36,7 @@ public abstract class ComponentInfo
     public abstract string GetButton();
     public abstract string GetToggle();
     public abstract string GetInputField();
-
+    public abstract string GetSlider();
     public string GetGameObject()
     {
         return "GameObject";
@@ -62,6 +63,11 @@ public class NGUIComponentInfo : ComponentInfo
     public override string GetLable()
     {
         return "UILabel";
+    }
+
+    public override string GetSlider()
+    {
+        throw new NotImplementedException();
     }
 
     public override string GetSprite()
@@ -95,6 +101,11 @@ public class UGUIComponentInfo : ComponentInfo
     public override string GetLable()
     {
         return "Text";
+    }
+
+    public override string GetSlider()
+    {
+        return "Slider";
     }
 
     public override string GetSprite()
@@ -293,6 +304,11 @@ public class CSharpUIBuilder : UIBuilder
                     param.Append(string.Format(paramTemplate, info.GetSprite(), name));
                     init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSprite()));
                 }
+                else if (tag == TagType.UI_Slider)
+                {
+                    param.Append(string.Format(paramTemplate, info.GetSlider(), name));
+                    init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSlider()));
+                }
                 else if (tag == TagType.UI_Texture)
                 {
                     param.Append(string.Format(paramTemplate, info.GetTexture(), name));
@@ -350,6 +366,13 @@ public class LuaUIBuilder : UIBuilder
             if (CheckTag(tag))
             {
                 CheckPrefabName(name);
+
+                switch (tag)
+                {
+                    case TagType.UI_Button:
+                        break;
+                }
+
                 if (tag == TagType.UI_Button)
                 {
                     init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetButton()));
@@ -365,6 +388,10 @@ public class LuaUIBuilder : UIBuilder
                 else if (tag == TagType.UI_Sprite)
                 {
                     init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSprite()));
+                }
+                else if (tag == TagType.UI_Slider)
+                {
+                    init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSlider()));
                 }
                 else if (tag == TagType.UI_Texture)
                 {
