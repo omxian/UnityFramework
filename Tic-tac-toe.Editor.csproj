@@ -123,6 +123,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Framework\Editor\EditorCreateLua.cs" />
     <Compile Include="Assets\Framework\Editor\GenUITools.cs" />
     <Compile Include="Assets\Framework\Editor\ISelectIcon.cs" />
     <Compile Include="Assets\LearnTest\Editor\TestEditor.cs" />
@@ -130,9 +131,8 @@
     <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Framework\Editor\UITemplate\C#_UI_Template.txt" />
-    <None Include="Assets\Framework\Editor\UITemplate\Lua_UI_Template.txt" />
-    <None Include="Assets\Framework\Editor\UITemplate\readme.txt" />
+    <None Include="Assets\Framework\Editor\Template\C#_UI_Template.txt" />
+    <None Include="Assets\Framework\Editor\Template\Lua_UI_Template.txt" />
     <None Include="Assets\LearnTest\PhotoToText\Text\bingbing.txt" />
     <None Include="Assets\LearnTest\PhotoToText\Text\chouxing.txt" />
     <None Include="Assets\LearnTest\PhotoToText\Text\fengzi.txt" />

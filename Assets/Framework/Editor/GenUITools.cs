@@ -259,7 +259,7 @@ public class CSharpUIBuilder : UIBuilder
     public CSharpUIBuilder(GameObject go) : base(go)
     {
         SetSavePath("Resources/Scripts/UI/View");
-        SetTemplatePath(Path.Combine(Application.dataPath, "Editor/UITemplate/C#_UI_Template.txt"));
+        SetTemplatePath(Path.Combine(Application.dataPath, "Editor/Template/C#_UI_Template.txt"));
         SetFileSuffix(".cs");
         SetComponentInfo(new UGUIComponentInfo());
     }
@@ -345,7 +345,7 @@ public class LuaUIBuilder : UIBuilder
     public LuaUIBuilder(GameObject go) : base(go)
     {
         SetSavePath("LuaScripts/Logic/UIView");
-        SetTemplatePath(Path.Combine(Application.dataPath, "Editor/UITemplate/Lua_UI_Template.txt"));
+        SetTemplatePath(Path.Combine(Application.dataPath, "Editor/Template/Lua_UI_Template.txt"));
         SetFileSuffix(".lua");
         SetComponentInfo(new UGUIComponentInfo());
     }
