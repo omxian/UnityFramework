@@ -18,6 +18,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
                 lock (lockObj)
                 {
                     GameObject go = new GameObject();
+                    go.name = typeof(T).Name;
                     DontDestroyOnLoad(go);
                     instance = (T)go.AddComponent(typeof(T));
                 }
