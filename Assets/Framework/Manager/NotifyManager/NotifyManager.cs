@@ -99,11 +99,23 @@ namespace Framework.Notify
     /// <summary>
     /// 可使用对象池优化
     /// </summary>
-    public class Notify
+    public class Notify : IPoolable
     {
         public string NotifyString;
         public NotifyArg arg;
         public Action<NotifyArg> callback;
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            NotifyString = "";
+            arg = null;
+            callback = null;
+        }
     }
 
     //消息体
