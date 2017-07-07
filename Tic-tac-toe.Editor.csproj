@@ -123,24 +123,31 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Framework\Editor\ABRedundancyChecker\ABRedundancyChecker.cs" />
+    <Compile Include="Assets\Framework\Editor\ABRedundancyChecker\CheckComponent.cs" />
+    <Compile Include="Assets\Framework\Editor\AssetBundlePacker.cs" />
     <Compile Include="Assets\Framework\Editor\EditorCreateLua.cs" />
-    <Compile Include="Assets\Framework\Editor\GenUITools.cs" />
     <Compile Include="Assets\Framework\Editor\ISelectIcon.cs" />
-    <Compile Include="Assets\LearnTest\Editor\TestEditor.cs" />
-    <Compile Include="Assets\LearnTest\Editor\TestHandles.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\CSharpUIBuilder.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\ComponentInfo.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\LuaUIBuilder.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\NGUIComponentInfo.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\TagType.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\UGUIComponentInfo.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\UIBuilder.cs" />
+    <Compile Include="Assets\Framework\Editor\UICodeGenerater\UICodeGenerater.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Editor\ArtistFont.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Editor\BMFontReader.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Editor\EditorHelper.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Editor\EditorUtils.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Editor\FontMakerWizard.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Document\FrameworkFolder.txt" />
+    <None Include="Assets\ExternalAsset\Shader\modelOutline.Shader" />
     <None Include="Assets\Framework\Editor\Template\C#_UI_Template.txt" />
     <None Include="Assets\Framework\Editor\Template\Lua_UI_Template.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\bingbing.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\chouxing.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\fengzi.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\meinv.txt" />
-    <None Include="Assets\LearnTest\ShaderLearn\ff1.shader" />
-    <None Include="Assets\LearnTest\ShaderLearn\ff2.shader" />
-    <None Include="Assets\LearnTest\ShaderLearn\sf.shader" />
-    <None Include="Assets\LearnTest\ShaderLearn\vf.shader" />
     <None Include="Assets\StreamingAssets\build_info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

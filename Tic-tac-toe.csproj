@@ -75,19 +75,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Framework\Core\Command\ICommand.cs" />
-    <Compile Include="Assets\Framework\Core\GameLaunch.cs" />
-    <Compile Include="Assets\Framework\Core\Singleton\MonoSingleton.cs" />
-    <Compile Include="Assets\Framework\Core\Singleton\Singleton.cs" />
+    <Compile Include="Assets\Framework\Command\ICommand.cs" />
+    <Compile Include="Assets\Framework\GameLaunch.cs" />
     <Compile Include="Assets\Framework\Manager\NetworkManager.cs" />
-    <Compile Include="Assets\Framework\Manager\NotifyManager\NotifyArg.cs" />
     <Compile Include="Assets\Framework\Manager\NotifyManager\NotifyId.cs" />
     <Compile Include="Assets\Framework\Manager\NotifyManager\NotifyManager.cs" />
     <Compile Include="Assets\Framework\Manager\ObjectPool\IPoolable.cs" />
     <Compile Include="Assets\Framework\Manager\ObjectPool\ObjectPoolManager.cs" />
     <Compile Include="Assets\Framework\Manager\ResourceManager.cs" />
     <Compile Include="Assets\Framework\Manager\SceneManager.cs" />
+    <Compile Include="Assets\Framework\Singleton\MonoSingleton.cs" />
+    <Compile Include="Assets\Framework\Singleton\Singleton.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Font\BMFont.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Font\BMGlyph.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Font\BetterList.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\BMFontTool\Font\ByteReader.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\Unity-Logs-Viewer\Reporter\Reporter.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
+    <Compile Include="Assets\Framework\ThirdPartyCode\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
     <Compile Include="Assets\Framework\UIComponent\Empty4Raycast.cs" />
+    <Compile Include="Assets\Framework\UIComponent\Gradient.cs" />
     <Compile Include="Assets\Framework\UIComponent\UIDragable.cs" />
     <Compile Include="Assets\Framework\UIComponent\UIExtentions.cs" />
     <Compile Include="Assets\Framework\UIComponent\UISelectable.cs" />
@@ -96,32 +106,24 @@
     <Compile Include="Assets\Framework\UIFramework\View.cs" />
     <Compile Include="Assets\Framework\UtilTool\EasyWatch.cs" />
     <Compile Include="Assets\Framework\UtilTool\UITools.cs" />
-    <Compile Include="Assets\LearnTest\PhotoToText\PhotoToText.cs" />
+    <Compile Include="Assets\LearnTest\PocketRPG Trails\Scripts\Effects\WeaponTrail.cs" />
+    <Compile Include="Assets\LearnTest\PocketRPG Trails\Scripts\Entities\BladeMaster.cs" />
+    <Compile Include="Assets\LearnTest\PocketRPG Trails\Scripts\Utility\AnimationController.cs" />
     <Compile Include="Assets\LearnTest\RunFunction.cs" />
-    <Compile Include="Assets\ProjectCode\GameEnum.cs" />
-    <Compile Include="Assets\ProjectCode\TicTacToe.cs" />
-    <Compile Include="Assets\ProjectCode\TicTacToeAI.cs" />
-    <Compile Include="Assets\ProjectCode\UIBind.cs" />
-    <Compile Include="Assets\ProjectCode\WinCheck.cs" />
-    <Compile Include="Assets\ProjectCode\WinState.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
-    <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
+    <Compile Include="Assets\LearnTest\TestActive.cs" />
+    <Compile Include="Assets\Script\PhotoToText\PhotoToText.cs" />
+    <Compile Include="Assets\Script\TicTacToe\GameEnum.cs" />
+    <Compile Include="Assets\Script\TicTacToe\TicTacToe.cs" />
+    <Compile Include="Assets\Script\TicTacToe\TicTacToeAI.cs" />
+    <Compile Include="Assets\Script\TicTacToe\UIBind.cs" />
+    <Compile Include="Assets\Script\TicTacToe\WinCheck.cs" />
+    <Compile Include="Assets\Script\TicTacToe\WinState.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Document\FrameworkFolder.txt" />
+    <None Include="Assets\ExternalAsset\Shader\modelOutline.Shader" />
     <None Include="Assets\Framework\Editor\Template\C#_UI_Template.txt" />
     <None Include="Assets\Framework\Editor\Template\Lua_UI_Template.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\bingbing.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\chouxing.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\fengzi.txt" />
-    <None Include="Assets\LearnTest\PhotoToText\Text\meinv.txt" />
-    <None Include="Assets\LearnTest\ShaderLearn\ff1.shader" />
-    <None Include="Assets\LearnTest\ShaderLearn\ff2.shader" />
-    <None Include="Assets\LearnTest\ShaderLearn\sf.shader" />
-    <None Include="Assets\LearnTest\ShaderLearn\vf.shader" />
     <None Include="Assets\StreamingAssets\build_info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
