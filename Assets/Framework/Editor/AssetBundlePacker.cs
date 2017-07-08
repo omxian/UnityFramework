@@ -8,17 +8,18 @@ using System;
 //本类用于对资源打AssetBundle
 public static class AssetBundlePacker
 {
-    
+
+    private static string[] sceneLevel = new string[] {
+        "Assets/Script/TicTacToe/TicTacToe.unity",
+    };
 
     [MenuItem("Build/Build APK")]
     private static void BuildApk()
     {
-        List<string> sceneLevel = new List<string>();
-        sceneLevel.Add("Assets/Script/TicTacToe/TicTacToe.unity");
         //构建AssetBundle
         BuildAndroidAssetBundle();
         //构建APK
-        BuildPipeline.BuildPlayer(sceneLevel.ToArray(), Application.streamingAssetsPath, BuildTarget.Android, BuildOptions.None);
+        //BuildPipeline.BuildPlayer(sceneLevel, Application.dataPath + "/APK", BuildTarget.Android, BuildOptions.None);
     }
 
     [MenuItem("Build/Build Android AssetBundle")]
