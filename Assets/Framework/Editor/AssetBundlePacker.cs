@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System;
 
 //本类用于对资源打AssetBundle
 public static class AssetBundlePacker
 {
+    
+
     [MenuItem("Build/Build APK")]
     private static void BuildApk()
     {
+        List<string> sceneLevel = new List<string>();
+        sceneLevel.Add("Assets/Script/TicTacToe/TicTacToe.unity");
         //构建AssetBundle
         BuildAndroidAssetBundle();
         //构建APK
-        //BuildPipeline.BuildPlayer(GetScenePathsList().ToArray(), outPath, BuildTarget.Android, BuildOptions.None);
+        BuildPipeline.BuildPlayer(sceneLevel.ToArray(), Application.streamingAssetsPath, BuildTarget.Android, BuildOptions.None);
     }
 
     [MenuItem("Build/Build Android AssetBundle")]
