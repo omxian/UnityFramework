@@ -106,6 +106,7 @@
     <Compile Include="Assets\Framework\UIFramework\View.cs" />
     <Compile Include="Assets\Framework\UtilTool\EasyWatch.cs" />
     <Compile Include="Assets\Framework\UtilTool\UITools.cs" />
+    <Compile Include="Assets\Framework\UtilTool\Util.cs" />
     <Compile Include="Assets\LearnTest\PocketRPG Trails\Scripts\Effects\WeaponTrail.cs" />
     <Compile Include="Assets\LearnTest\PocketRPG Trails\Scripts\Entities\BladeMaster.cs" />
     <Compile Include="Assets\LearnTest\PocketRPG Trails\Scripts\Utility\AnimationController.cs" />

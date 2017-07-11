@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System;
+using Unity.Framework;
 
 //本类用于对资源打AssetBundle
 public static class AssetBundlePacker
@@ -16,10 +17,12 @@ public static class AssetBundlePacker
     [MenuItem("Build/Build APK")]
     private static void BuildApk()
     {
+        //切换平台
+        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
         //构建AssetBundle
         BuildAndroidAssetBundle();
         //构建APK
-        //BuildPipeline.BuildPlayer(sceneLevel, Application.dataPath + "/APK", BuildTarget.Android, BuildOptions.None);
+        BuildPipeline.BuildPlayer(sceneLevel, string.Format("../APK/{0}.apk", Util.GetUTCTimestamp()), BuildTarget.Android, BuildOptions.None);
     }
 
     [MenuItem("Build/Build Android AssetBundle")]
