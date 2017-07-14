@@ -2,7 +2,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace UI.Code.Generater
+namespace Unity.Framework.Editor
 {
     public class CSharpUIBuilder : UIBuilder
     {
@@ -23,7 +23,7 @@ namespace UI.Code.Generater
 
             StringBuilder init = new StringBuilder();
             StringBuilder param = new StringBuilder();
-            ComponentInfo info = GetComponentInfo();
+            BaseComponentInfo info = GetComponentInfo();
 
             foreach (Transform tran in GetChildrenTransform())
             {
@@ -36,39 +36,39 @@ namespace UI.Code.Generater
 
                     switch (tag)
                     {
-                        case TagType.UI_Button:
+                        case UITagType.UI_Button:
                             param.Append(string.Format(paramTemplate, info.GetButton(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetButton()));
                             break;
-                        case TagType.UI_GameObject:
+                        case UITagType.UI_GameObject:
                             param.Append(string.Format(paramTemplate, info.GetGameObject(), name));
                             init.Append(string.Format(gameObjectInitTemplate, name, GetHierarchy(tran)));
                             break;
-                        case TagType.UI_Lable:
+                        case UITagType.UI_Lable:
                             param.Append(string.Format(paramTemplate, info.GetLable(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetLable()));
                             break;
-                        case TagType.UI_Sprite:
+                        case UITagType.UI_Sprite:
                             param.Append(string.Format(paramTemplate, info.GetSprite(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSprite()));
                             break;
-                        case TagType.UI_Slider:
+                        case UITagType.UI_Slider:
                             param.Append(string.Format(paramTemplate, info.GetSlider(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSlider()));
                             break;
-                        case TagType.UI_Texture:
+                        case UITagType.UI_Texture:
                             param.Append(string.Format(paramTemplate, info.GetTexture(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetTexture()));
                             break;
-                        case TagType.UI_Toggle:
+                        case UITagType.UI_Toggle:
                             param.Append(string.Format(paramTemplate, info.GetToggle(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetToggle()));
                             break;
-                        case TagType.UI_Transform:
+                        case UITagType.UI_Transform:
                             param.Append(string.Format(paramTemplate, info.GetTransform(), name));
                             init.Append(string.Format(transformInitTemplate, name, GetHierarchy(tran)));
                             break;
-                        case TagType.UI_InputField:
+                        case UITagType.UI_InputField:
                             param.Append(string.Format(paramTemplate, info.GetInputField(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetInputField()));
                             break;

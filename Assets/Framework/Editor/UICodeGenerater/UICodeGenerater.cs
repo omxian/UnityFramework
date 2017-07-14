@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System;
 
-namespace UI.Code.Generater
+namespace Unity.Framework.Editor
 {
     public class UICodeGenerater
     {
@@ -57,11 +57,11 @@ namespace UI.Code.Generater
         private static UIBuilder BuildClassFactory(GameObject go)
         {
             string rootTag = go.tag;
-            if (rootTag == TagType.UI_Lua)
+            if (rootTag == UITagType.UI_Lua)
             {
                 return new LuaUIBuilder(go);
             }
-            else if (rootTag == TagType.UI_CSharp)
+            else if (rootTag == UITagType.UI_CSharp)
             {
                 return new CSharpUIBuilder(go);
             }

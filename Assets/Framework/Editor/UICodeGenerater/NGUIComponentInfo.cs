@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace UI.Code.Generater
+namespace Unity.Framework.Editor
 {
-    public class NGUIComponentInfo : ComponentInfo
+    public class NGUIComponentInfo : BaseComponentInfo
     {
         public override string GetButton()
         {

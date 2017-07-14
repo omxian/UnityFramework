@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-namespace UI.Code.Generater
+namespace Unity.Framework.Editor
 {
     public abstract class UIBuilder
     {
@@ -13,26 +13,26 @@ namespace UI.Code.Generater
         private Transform[] childrenTransform;
         private string fileSuffix;
         private GameObject rootGameObject = null;
-        private ComponentInfo componentInfo = null;
+        private BaseComponentInfo componentInfo = null;
         public UIBuilder(GameObject go)
         {
             rootGameObject = go;
             childrenTransform = go.GetComponentsInChildren<Transform>(true);
         }
 
-        protected void SetComponentInfo(ComponentInfo c)
+        protected void SetComponentInfo(BaseComponentInfo c)
         {
             componentInfo = c;
         }
 
-        protected ComponentInfo GetComponentInfo()
+        protected BaseComponentInfo GetComponentInfo()
         {
             return componentInfo;
         }
 
         protected bool CheckTag(string tag)
         {
-            return tag != string.Empty && tag != TagType.Untagged;
+            return tag != string.Empty && tag != UITagType.Untagged;
         }
 
         protected void CheckPrefabName(string name)

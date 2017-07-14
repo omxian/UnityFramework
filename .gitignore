@@ -43,9 +43,9 @@ Temporary Items
 .apdisk
 Temp
 Library
-.vs/Tic-tac-toe/v14/.suo
-Tic-tac-toe.csproj
+.vs*
+*.csproj
 LearnTest
-.vs/Tic-tac-toe/v14/.suo
-Tic-tac-toe.csproj
 StreamingAssets
+Test
+Test.meta

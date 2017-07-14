@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
-namespace UI.Code.Generater
+namespace Unity.Framework.Editor
 {
     public class LuaUIBuilder : UIBuilder
     {
@@ -18,7 +18,7 @@ namespace UI.Code.Generater
         public override void GenerateUI()
         {
             StringBuilder init = new StringBuilder();
-            ComponentInfo info = GetComponentInfo();
+            BaseComponentInfo info = GetComponentInfo();
             string gameObjectInitTemplate = "    o.{0} = go.transform:Find(\"{1}\").gameObject;\n";
             string transformInitTemplate = "    o.{0} = go.transform:Find(\"{1}\");\n";
             string componentInitTemplate = "    o.{0} = go.transform:Find(\"{1}\"):GetComponent(\"{2}\");\n";
@@ -34,31 +34,31 @@ namespace UI.Code.Generater
 
                     switch (tag)
                     {
-                        case TagType.UI_Button:
+                        case UITagType.UI_Button:
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetButton()));
                             break;
-                        case TagType.UI_GameObject:
+                        case UITagType.UI_GameObject:
                             init.Append(string.Format(gameObjectInitTemplate, name, GetHierarchy(tran)));
                             break;
-                        case TagType.UI_Lable:
+                        case UITagType.UI_Lable:
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetLable()));
                             break;
-                        case TagType.UI_Sprite:
+                        case UITagType.UI_Sprite:
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSprite()));
                             break;
-                        case TagType.UI_Slider:
+                        case UITagType.UI_Slider:
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetSlider()));
                             break;
-                        case TagType.UI_Texture:
+                        case UITagType.UI_Texture:
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetTexture()));
                             break;
-                        case TagType.UI_Toggle:
+                        case UITagType.UI_Toggle:
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetToggle()));
                             break;
-                        case TagType.UI_Transform:
+                        case UITagType.UI_Transform:
                             init.Append(string.Format(transformInitTemplate, name, GetHierarchy(tran)));
                             break;
-                        case TagType.UI_InputField:
+                        case UITagType.UI_InputField:
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetInputField()));
                             break;
                     }

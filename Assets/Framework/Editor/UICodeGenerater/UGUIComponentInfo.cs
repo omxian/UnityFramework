@@ -1,6 +1,6 @@
-﻿namespace UI.Code.Generater
+﻿namespace Unity.Framework.Editor
 {
-    public class UGUIComponentInfo : ComponentInfo
+    public class UGUIComponentInfo : BaseComponentInfo
     {
         public override string GetButton()
         {
