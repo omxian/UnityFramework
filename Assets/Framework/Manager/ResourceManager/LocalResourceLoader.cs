@@ -27,7 +27,7 @@ public class LocalResourceLoader : BaseLoader
     /// 使用资源类别和资源名称加载资源
     /// folder参数用来加载UI/Sprite等有文件目录的资源
     /// </summary>
-    public T Load<T>(ResourceType resType, string resName,string folder = "") where T : Object
+    public override T Load<T>(ResourceType resType, string resName,string folder = "")
     {
         string path = string.Format(resourcePath, ResPath.ResourcePath[resType], Path.Combine(folder,resName));
         string[] resSuffix = ResourceSuffix[resType];
@@ -48,7 +48,7 @@ public class LocalResourceLoader : BaseLoader
     /// <typeparam name="T"></typeparam>
     /// <param name="fullPath"></param>
     /// <returns></returns>
-    public T Load<T>(string fullPath) where T : Object
+    public override T Load<T>(string fullPath)
     {
         return LoadAsset<T>(fullPath);
     }
