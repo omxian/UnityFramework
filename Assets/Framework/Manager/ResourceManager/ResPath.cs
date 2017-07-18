@@ -18,28 +18,34 @@ public enum ResourceType
 
 public static class ResPath {
 
+    //本地资源加载路径
+    public static string resourcePath = "Assets/ExternalAsset/";
+    //AssetBundle本地加载路径
+    public static string streamingAssetsPath = "Assets/StreamingAssets/";
+    //AssetBundle真机加载路径
+
+
     public static Dictionary<ResourceType, string> ResourcePath = new Dictionary<ResourceType, string>()
     {
-        {ResourceType.Texture,"Texture" },
-        {ResourceType.Sound,"Sound" },
-        {ResourceType.UI_Prefab,"UI/Prefab" },
-        {ResourceType.UI_Sprite,"UI/Sprite" },
-        {ResourceType.Prefab,"Prefab" },
+        {ResourceType.Texture,"Texture/" },
+        {ResourceType.Sound,"Sound/" },
+        {ResourceType.UI_Prefab,"UI/Prefab/" },
+        {ResourceType.UI_Sprite,"UI/Sprite/" },
+        {ResourceType.Prefab,"Prefab/" },
     };
-    
+
     /// <summary>
     /// 获得资源的加载路径
     /// </summary>
     public static string GetResPath(bool isAssetBundle,string path, string name)
     {
-        string fullPath = Path.Combine(path, name);
         if (isAssetBundle)
         {
-            return PathToAssetBundleName(fullPath);
+            return Path.Combine(path, PathToAssetBundleName(name));
         }
         else
         {
-            return fullPath;
+            return Path.Combine(path, name);
         }
     }
 
@@ -49,7 +55,7 @@ public static class ResPath {
     private static string PathToAssetBundleName(string path)
     {
         path = path.ToLower();
-        path = path.Replace("//", "_");
+        path = path.Replace('/', '_');
         path += ".ab";
         return path;
     }

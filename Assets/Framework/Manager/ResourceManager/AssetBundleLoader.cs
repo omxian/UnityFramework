@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 /// <summary>
@@ -8,15 +9,42 @@ using UnityEngine;
 /// </summary>
 public class AssetBundleLoader : BaseLoader
 {
-    public override T Load<T>(string fullPath)
+    public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
-        throw new NotImplementedException();
+        string path = ResPath.GetResPath(true, ResPath.streamingAssetsPath, ResPath.ResourcePath[resType] + folder);
+        
+        AssetBundle ab = AssetBundle.LoadFromFile(path);
+        return ab.LoadAsset<T>(resName);
+
+        //Application.persistentDataPath
+        //AssetBundleRequest request = ab.LoadAssetAsync<T>(resName);
+        //request.priority = 1;
+        //request.isDone
+        //request.asset
     }
 
-    public override T Load<T>(ResourceType resType, string resName, string folder = "")
-    {
-        throw new NotImplementedException();
-    }
+    //TODO: 
+    /*
+     * AssetBundle管理
+     * 粒度大小 
+     */
 
-    //AssetBundleLoader 可能需要一些异步方法 LoadAsyn
+    /*
+     *依赖关系处理
+     */
+
+    /*
+     * 异步加载
+     * AssetBundleRequest 载AssetBundle包内资源请求
+     * AssetBundleCreateRequest 载AssetBundle请求
+     */
+
+    /*
+     * 分帧加载
+     */
+
+    /*
+     * 优先级加载
+     * AssetBundleRequest.priority/AssetBundleCreateRequest.priority可以设置不用自己处理（需要测试）
+     */
 }

@@ -8,9 +8,6 @@ using UnityEngine;
 /// </summary>
 public class LocalResourceLoader : BaseLoader
 {
-    //加载路径
-    private static string resourcePath = "Assets/ExternalAsset/{0}/{1}";
-
     /// <summary>
     /// 资源，匹配的后缀
     /// </summary>
@@ -27,9 +24,9 @@ public class LocalResourceLoader : BaseLoader
     /// 使用资源类别和资源名称加载资源
     /// folder参数用来加载UI/Sprite等有文件目录的资源
     /// </summary>
-    public override T Load<T>(ResourceType resType, string resName,string folder = "")
+    public override T LoadAsset<T>(ResourceType resType, string resName,string folder = "")
     {
-        string path = string.Format(resourcePath, ResPath.ResourcePath[resType], Path.Combine(folder,resName));
+        string path = ResPath.GetResPath(false, ResPath.resourcePath + ResPath.ResourcePath[resType], Path.Combine(folder,resName));
         string[] resSuffix = ResourceSuffix[resType];
         for (int i = 0; i < resSuffix.Length; i++)
         {
@@ -41,18 +38,7 @@ public class LocalResourceLoader : BaseLoader
         }
         return null;
     }
-
-    /// <summary>
-    /// 使用完整路径加载
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="fullPath"></param>
-    /// <returns></returns>
-    public override T Load<T>(string fullPath)
-    {
-        return LoadAsset<T>(fullPath);
-    }
-
+    
     /// <summary>
     /// 具体加载方法
     /// </summary>
