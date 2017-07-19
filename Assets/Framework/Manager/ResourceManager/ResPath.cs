@@ -59,4 +59,28 @@ public static class ResPath {
         path += ".ab";
         return path;
     }
+
+    public static string GetBundleSourceFile(string path, bool forWWW = true)
+    {
+        string filePath = null;
+#if UNITY_EDITOR
+        if (forWWW)
+            filePath = string.Format("file://{0}/StreamingAssets/{2}", Application.dataPath, path);
+        else
+            filePath = string.Format("{0}/StreamingAssets/{2}", Application.dataPath, path);
+#elif UNITY_ANDROID
+            if (forWWW)
+                filePath = string.Format("jar:file://{0}!/assets/{2}", Application.dataPath, path);
+            else
+                filePath = string.Format("{0}!assets/{2}", Application.dataPath, path);
+#elif UNITY_IOS
+            if (forWWW)
+                filePath = string.Format("file://{0}/Raw/{2}", Application.dataPath, path);
+            else
+                filePath = string.Format("{0}/Raw/{2}", Application.dataPath, path);
+#else
+            throw new System.NotImplementedException();
+#endif
+        return filePath;
+    }
 }
