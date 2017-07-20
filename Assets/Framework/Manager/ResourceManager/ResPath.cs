@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public enum ResourceType
 {
-    Manifest,//AssetBundle依赖文件
+    Manifest,//AssetBundle依文件
     Texture, //大图
     Sound, //音效
     UI_Prefab, //UI预制
@@ -23,12 +23,14 @@ public static class ResPath {
     public static string resourcePath = "Assets/ExternalAsset/";
     //AssetBundle本地加载路径
     public static string streamingAssetsPath = "Assets/StreamingAssets/";
-    //AssetBundle真机加载路径
-
+    //临时manifest名称（Unity自动生成的与打包路径相关的名称）
+    public static string tempManifestName = "temp";
+    //AssetBundle打包临时路径
+    public static string tempPath = string.Format("{0}/{1}/", Application.dataPath, tempManifestName);
 
     public static Dictionary<ResourceType, string> ResourcePath = new Dictionary<ResourceType, string>()
     {
-        {ResourceType.Manifest,"Manifest"},
+        {ResourceType.Manifest,"manifest.ab"},
         {ResourceType.Texture,"Texture/" },
         {ResourceType.Sound,"Sound/" },
         {ResourceType.UI_Prefab,"UI/Prefab/" },
@@ -60,29 +62,5 @@ public static class ResPath {
         path = path.Replace('/', '_');
         path += ".ab";
         return path;
-    }
-
-    public static string GetBundleSourceFile(string path, bool forWWW = true)
-    {
-        string filePath = null;
-#if UNITY_EDITOR
-        if (forWWW)
-            filePath = string.Format("file://{0}/StreamingAssets/{2}", Application.dataPath, path);
-        else
-            filePath = string.Format("{0}/StreamingAssets/{2}", Application.dataPath, path);
-#elif UNITY_ANDROID
-            if (forWWW)
-                filePath = string.Format("jar:file://{0}!/assets/{2}", Application.dataPath, path);
-            else
-                filePath = string.Format("{0}!assets/{2}", Application.dataPath, path);
-#elif UNITY_IOS
-            if (forWWW)
-                filePath = string.Format("file://{0}/Raw/{2}", Application.dataPath, path);
-            else
-                filePath = string.Format("{0}/Raw/{2}", Application.dataPath, path);
-#else
-            throw new System.NotImplementedException();
-#endif
-        return filePath;
     }
 }

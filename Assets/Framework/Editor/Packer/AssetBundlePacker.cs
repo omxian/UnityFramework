@@ -33,18 +33,53 @@ namespace Unity.Framework.Editor
             //clear AssetBundle name
             ClearAssetBundleName();
             //set AssetBundle name
-            SetAssetBundleName(ResoucesPath);
+            SetAssetBundleName(ResPath.resourcePath);
             //set sprite packing tag
             new SpritePacker().SetSprite();
             //清理目录
             ClearDirectory();
-            //开始打包
-            AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(Application.streamingAssetsPath, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+            //开始打包到临时文件夹
+            BuildPipeline.BuildAssetBundles(ResPath.tempPath, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+            //重命名依赖文件
+            RenameTempManifest();
+            //拷贝到StreamingAssets
+            CopyToStreamingAssets();
+            //删除临时文件夹
+            DeleteTempDirectory();
             //刷新Editor
             AssetDatabase.Refresh();
         }
 
-        private static string ResoucesPath = "Assets/ExternalAsset/";
+        /// <summary>
+        /// 重命名依赖文件
+        /// </summary>
+        private static void RenameTempManifest()
+        {
+            File.Move(ResPath.tempPath + ResPath.tempManifestName, ResPath.tempPath +  ResPath.ResourcePath[ResourceType.Manifest]);
+        }
+
+        /// <summary>
+        /// 将临时文件夹中的文件拷贝到StreamingAssets
+        /// </summary>
+        private static void CopyToStreamingAssets()
+        {
+            string[] assetBundleFiles = Directory.GetFiles(ResPath.tempPath);
+
+            foreach (string file in assetBundleFiles)
+            {
+                if (file.IndexOf(".meta") == -1 && file.IndexOf(".manifest") == -1)
+                {
+                    File.Copy(file, Path.Combine(Application.streamingAssetsPath, Path.GetFileName(file)));
+                }
+            }
+        }
+
+        //删除临时文件夹
+        private static void DeleteTempDirectory()
+        {
+            Directory.Delete(ResPath.tempPath, true);
+        }
+        
         private static void SetAssetBundleName(string path)
         {
             //如有文件夹，继续往里找
@@ -61,8 +96,7 @@ namespace Unity.Framework.Editor
                     continue;
                 }
 
-                string resourceName = path.Substring(ResoucesPath.Length);
-                //resourceName = resourceName.Substring(0,resourceName.LastIndexOf('.'));
+                string resourceName = path.Substring(ResPath.resourcePath.Length);
                 resourceName = resourceName.ToLower();
                 resourceName = resourceName.Replace('\\', '_');
                 resourceName += ".ab";
@@ -84,8 +118,17 @@ namespace Unity.Framework.Editor
 
         private static void ClearDirectory()
         {
-            Directory.Delete(Application.streamingAssetsPath, true);
+            if (Directory.Exists(Application.streamingAssetsPath))
+            {
+                Directory.Delete(Application.streamingAssetsPath, true);
+            }
             Directory.CreateDirectory(Application.streamingAssetsPath);
+
+            if (Directory.Exists(ResPath.tempPath))
+            {
+                Directory.Delete(ResPath.tempPath, true);
+            }
+            Directory.CreateDirectory(ResPath.tempPath);
         }
     }
 }

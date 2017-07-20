@@ -26,8 +26,8 @@ public class AssetBundleResourceLoader : BaseLoader
 
     public AssetBundleManifest LoadAssetBundleManifest()
     {
-        string path = ResPath.GetResPath(true, ResPath.streamingAssetsPath, ResPath.ResourcePath[resType] + folder);
-
+        AssetBundle ab = AssetBundle.LoadFromFile(ResPath.streamingAssetsPath + ResPath.ResourcePath[ResourceType.Manifest]);
+        return ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
     }
 
 

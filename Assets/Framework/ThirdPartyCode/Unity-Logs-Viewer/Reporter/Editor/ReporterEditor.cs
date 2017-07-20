@@ -56,36 +56,6 @@ public class ReporterEditor : Editor
 		reporter.images.even_logImage        = (Texture2D)AssetDatabase.LoadAssetAtPath(Path.Combine(reporterPath, "Images/even_log.png"), typeof(Texture2D));
 		reporter.images.odd_logImage         = (Texture2D)AssetDatabase.LoadAssetAtPath(Path.Combine(reporterPath, "Images/odd_log.png"), typeof(Texture2D));
 		reporter.images.selectedImage        = (Texture2D)AssetDatabase.LoadAssetAtPath(Path.Combine(reporterPath, "Images/selected.png"), typeof(Texture2D));
-
 		reporter.images.reporterScrollerSkin = (GUISkin)AssetDatabase.LoadAssetAtPath(Path.Combine(reporterPath, "Images/reporterScrollerSkin.guiskin"), typeof(GUISkin));
-	}
-}
-
-public class ReporterModificationProcessor : UnityEditor.AssetModificationProcessor
-{
-	[InitializeOnLoad]
-	public class BuildInfo
-	{
-		static BuildInfo()
-		{
-			EditorApplication.update += Update;
-		}
-
-		static bool isCompiling = true;
-		static void Update()
-		{
-			if (!EditorApplication.isCompiling && isCompiling) {
-				//Debug.Log("Finish Compile");
-				if (!Directory.Exists(Application.dataPath + "/StreamingAssets")) {
-					Directory.CreateDirectory(Application.dataPath + "/StreamingAssets");
-				}
-				string info_path = Application.dataPath + "/StreamingAssets/build_info.txt";
-				StreamWriter build_info = new StreamWriter(info_path);
-				build_info.Write("Build from " + SystemInfo.deviceName + " at " + System.DateTime.Now.ToString());
-				build_info.Close();
-			}
-
-			isCompiling = EditorApplication.isCompiling;
-		}
 	}
 }
