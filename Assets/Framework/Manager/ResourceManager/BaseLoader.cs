@@ -7,4 +7,5 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseLoader {
     public abstract T LoadAsset<T>(ResourceType resType, string resName, string folder = "") where T : Object;
+    public abstract void UnLoadAsset(ResourceType resType, string resName, string folder = "");
 }

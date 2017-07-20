@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
 /// <summary>
-/// 加载AssetBundle的loader
+/// 对外暴露加载资源接口
+/// 对AssetBundleLoader进行管理
 /// </summary>
-public class AssetBundleLoader : BaseLoader
+public class AssetBundleResourceLoader : BaseLoader
 {
     public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
@@ -21,6 +21,19 @@ public class AssetBundleLoader : BaseLoader
         //request.priority = 1;
         //request.isDone
         //request.asset
+        //Application.backgroundLoadingPriority
+    }
+
+    public AssetBundleManifest LoadAssetBundleManifest()
+    {
+        string path = ResPath.GetResPath(true, ResPath.streamingAssetsPath, ResPath.ResourcePath[resType] + folder);
+
+    }
+
+
+    public override void UnLoadAsset(ResourceType resType, string resName, string folder = "")
+    {
+        throw new NotImplementedException();
     }
 
     //TODO: 

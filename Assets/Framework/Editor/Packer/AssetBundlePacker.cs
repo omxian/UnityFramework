@@ -39,7 +39,7 @@ namespace Unity.Framework.Editor
             //清理目录
             ClearDirectory();
             //开始打包
-            BuildPipeline.BuildAssetBundles(Application.streamingAssetsPath, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+            AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(Application.streamingAssetsPath, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
             //刷新Editor
             AssetDatabase.Refresh();
         }

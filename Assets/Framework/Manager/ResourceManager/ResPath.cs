@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public enum ResourceType
 {
+    Manifest,//AssetBundle依赖文件
     Texture, //大图
     Sound, //音效
     UI_Prefab, //UI预制
@@ -27,6 +28,7 @@ public static class ResPath {
 
     public static Dictionary<ResourceType, string> ResourcePath = new Dictionary<ResourceType, string>()
     {
+        {ResourceType.Manifest,"Manifest"},
         {ResourceType.Texture,"Texture/" },
         {ResourceType.Sound,"Sound/" },
         {ResourceType.UI_Prefab,"UI/Prefab/" },

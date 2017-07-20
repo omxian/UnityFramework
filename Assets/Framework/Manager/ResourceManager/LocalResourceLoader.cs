@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -38,13 +38,18 @@ public class LocalResourceLoader : BaseLoader
         }
         return null;
     }
-    
+
+    public override void UnLoadAsset(ResourceType resType, string resName, string folder = "")
+    {
+        Resources.UnloadUnusedAssets();
+    }
+
     /// <summary>
     /// 具体加载方法
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    private T LoadAsset<T>(string path)  where T : Object
+    private T LoadAsset<T>(string path)  where T : UnityEngine.Object
     {
 #if UNITY_EDITOR
         return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
