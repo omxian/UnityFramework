@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public enum ResourceType
 {
-    Manifest,//AssetBundle依文件
+    Manifest,//AssetBundle依赖文件
     Texture, //大图
     Sound, //音效
     UI_Prefab, //UI预制
@@ -17,8 +17,8 @@ public enum ResourceType
 }
 
 
-public static class ResPath {
-
+public static class AssetPath
+{
     //本地资源加载路径
     public static string resourcePath = "Assets/ExternalAsset/";
     //AssetBundle本地加载路径
@@ -37,6 +37,12 @@ public static class ResPath {
         {ResourceType.UI_Sprite,"UI/Sprite/" },
         {ResourceType.Prefab,"Prefab/" },
     };
+
+    public static string GetAssetBundleSavePath(string abName)
+    {
+        //if(File.Exists())
+        return "";
+    }
 
     /// <summary>
     /// 获得资源的加载路径

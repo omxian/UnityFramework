@@ -7,33 +7,91 @@ using UnityEngine;
 /// 对外暴露加载资源接口
 /// 对AssetBundleLoader进行管理
 /// </summary>
-public class AssetBundleResourceLoader : BaseLoader
+public class AssetBundleResourceLoader : BaseLoader,IUpdate
 {
+    private Dictionary<string, AssetBundleHandler> handlerDictionary = new Dictionary<string, AssetBundleHandler>();
+    private AssetBundleManifest _manifest;
+    private AssetBundleManifest manifest
+    {
+        get
+        {
+            if (_manifest == null)
+            {
+                AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.streamingAssetsPath + AssetPath.ResourcePath[ResourceType.Manifest]);
+                _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            }
+            return _manifest;
+        }
+    }
+    
     public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
-        string path = ResPath.GetResPath(true, ResPath.streamingAssetsPath, ResPath.ResourcePath[resType] + folder);
-        
-        AssetBundle ab = AssetBundle.LoadFromFile(path);
-        return ab.LoadAsset<T>(resName);
+        string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
 
-        //Application.persistentDataPath
-        //AssetBundleRequest request = ab.LoadAssetAsync<T>(resName);
-        //request.priority = 1;
-        //request.isDone
-        //request.asset
-        //Application.backgroundLoadingPriority
+        if (!handlerDictionary.ContainsKey(path))
+        {
+            LoadDependAssetBundle(path);
+
+            AssetBundleHandler handler = ObjectPoolManager.Instance.Get<AssetBundleHandler>();
+            handler.Init(AssetBundle.LoadFromFile(path));
+            handler.IncreaseReference();
+            handlerDictionary.Add(path, handler);
+        }
+
+        return handlerDictionary[path].LoadAsset<T>(resName);
     }
 
-    public AssetBundleManifest LoadAssetBundleManifest()
+    private void LoadDependAssetBundle(string targetAssetBundle)
     {
-        AssetBundle ab = AssetBundle.LoadFromFile(ResPath.streamingAssetsPath + ResPath.ResourcePath[ResourceType.Manifest]);
-        return ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+        string[] depends = manifest.GetAllDependencies(targetAssetBundle);
+        for (int i = 0; i < depends.Length; i++)
+        {
+            string target = depends[i];
+            LoadDependAssetBundle(target);
+
+            if (!handlerDictionary.ContainsKey(target))
+            {
+                AssetBundleHandler handler = ObjectPoolManager.Instance.Get<AssetBundleHandler>();
+                handler.Init(AssetBundle.LoadFromFile(target));
+                handler.IncreaseReference();
+                handlerDictionary.Add(target, handler);
+            }
+        }
     }
 
-
-    public override void UnLoadAsset(ResourceType resType, string resName, string folder = "")
+    private void UnloadDependAssetBundle(string targetAssetBundle)
     {
-        throw new NotImplementedException();
+        string[] depends = manifest.GetAllDependencies(targetAssetBundle);
+        for (int i = 0; i < depends.Length; i++)
+        {
+            string target = depends[i];
+            UnloadDependAssetBundle(target);
+
+            if (handlerDictionary.ContainsKey(target))
+            {
+                AssetBundleHandler handler = handlerDictionary[target];
+                handler.DecreaseReference();
+                if (handler.UnloadAble)
+                {
+                    handler.UnloadAssetBundle(true);
+                    handlerDictionary.Remove(target);
+                    ObjectPoolManager.Instance.Return<AssetBundleHandler>(handler);
+                }
+            }
+        }
+    }
+
+    public override void UnLoadAsset(string assetPath)
+    {
+        AssetBundleHandler handler = handlerDictionary[assetPath];
+        handler.DecreaseReference();
+        if (handler.UnloadAble)
+        {
+            handler.UnloadAssetBundle(true);
+            handlerDictionary.Remove(assetPath);
+            ObjectPoolManager.Instance.Return<AssetBundleHandler>(handler);
+        }
+        UnloadDependAssetBundle(assetPath);
     }
 
     //TODO: 

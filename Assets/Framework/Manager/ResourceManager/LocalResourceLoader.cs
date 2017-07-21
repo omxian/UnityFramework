@@ -26,7 +26,7 @@ public class LocalResourceLoader : BaseLoader
     /// </summary>
     public override T LoadAsset<T>(ResourceType resType, string resName,string folder = "")
     {
-        string path = ResPath.GetResPath(false, ResPath.resourcePath + ResPath.ResourcePath[resType], Path.Combine(folder,resName));
+        string path = AssetPath.GetResPath(false, AssetPath.resourcePath + AssetPath.ResourcePath[resType], Path.Combine(folder,resName));
         string[] resSuffix = ResourceSuffix[resType];
         for (int i = 0; i < resSuffix.Length; i++)
         {
@@ -39,7 +39,7 @@ public class LocalResourceLoader : BaseLoader
         return null;
     }
 
-    public override void UnLoadAsset(ResourceType resType, string resName, string folder = "")
+    public override void UnLoadAsset(string assetPath = "")
     {
         Resources.UnloadUnusedAssets();
     }

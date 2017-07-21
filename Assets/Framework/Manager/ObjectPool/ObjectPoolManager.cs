@@ -24,7 +24,7 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
     public void Return<T>(object obj) where T : IPoolable
     {
         Type type = typeof(T);
-        if (poolObjectDict.ContainsKey(type) && poolObjectDict.Count < poolSizeDict[type])
+        if (!poolObjectDict.ContainsKey(type) && poolObjectDict.Count < poolSizeDict[type])
         {
             ((IPoolable)obj).Reset();
             poolObjectDict[type].Enqueue(obj);
@@ -52,6 +52,7 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
         }
         else
         {
+            //如果有需求此步骤可以做优化，改为自己根据type来new,减少性能消耗
             return (T)Activator.CreateInstance(type);
         }
     }

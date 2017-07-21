@@ -33,13 +33,13 @@ namespace Unity.Framework.Editor
             //clear AssetBundle name
             ClearAssetBundleName();
             //set AssetBundle name
-            SetAssetBundleName(ResPath.resourcePath);
+            SetAssetBundleName(AssetPath.resourcePath);
             //set sprite packing tag
             new SpritePacker().SetSprite();
             //清理目录
             ClearDirectory();
             //开始打包到临时文件夹
-            BuildPipeline.BuildAssetBundles(ResPath.tempPath, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+            BuildPipeline.BuildAssetBundles(AssetPath.tempPath, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
             //重命名依赖文件
             RenameTempManifest();
             //拷贝到StreamingAssets
@@ -55,7 +55,7 @@ namespace Unity.Framework.Editor
         /// </summary>
         private static void RenameTempManifest()
         {
-            File.Move(ResPath.tempPath + ResPath.tempManifestName, ResPath.tempPath +  ResPath.ResourcePath[ResourceType.Manifest]);
+            File.Move(AssetPath.tempPath + AssetPath.tempManifestName, AssetPath.tempPath +  AssetPath.ResourcePath[ResourceType.Manifest]);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Unity.Framework.Editor
         /// </summary>
         private static void CopyToStreamingAssets()
         {
-            string[] assetBundleFiles = Directory.GetFiles(ResPath.tempPath);
+            string[] assetBundleFiles = Directory.GetFiles(AssetPath.tempPath);
 
             foreach (string file in assetBundleFiles)
             {
@@ -77,7 +77,7 @@ namespace Unity.Framework.Editor
         //删除临时文件夹
         private static void DeleteTempDirectory()
         {
-            Directory.Delete(ResPath.tempPath, true);
+            Directory.Delete(AssetPath.tempPath, true);
         }
         
         private static void SetAssetBundleName(string path)
@@ -96,7 +96,7 @@ namespace Unity.Framework.Editor
                     continue;
                 }
 
-                string resourceName = path.Substring(ResPath.resourcePath.Length);
+                string resourceName = path.Substring(AssetPath.resourcePath.Length);
                 resourceName = resourceName.ToLower();
                 resourceName = resourceName.Replace('\\', '_');
                 resourceName += ".ab";
@@ -124,11 +124,11 @@ namespace Unity.Framework.Editor
             }
             Directory.CreateDirectory(Application.streamingAssetsPath);
 
-            if (Directory.Exists(ResPath.tempPath))
+            if (Directory.Exists(AssetPath.tempPath))
             {
-                Directory.Delete(ResPath.tempPath, true);
+                Directory.Delete(AssetPath.tempPath, true);
             }
-            Directory.CreateDirectory(ResPath.tempPath);
+            Directory.CreateDirectory(AssetPath.tempPath);
         }
     }
 }

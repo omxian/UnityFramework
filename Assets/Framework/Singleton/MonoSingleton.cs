@@ -33,4 +33,12 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         Init();
     }
+
+    /// <summary>
+    /// Update
+    /// </summary>
+    void Update()
+    {
+        
+    }
 }
