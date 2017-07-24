@@ -7,9 +7,10 @@ using UnityEngine;
 /// 对外暴露加载资源接口
 /// 对AssetBundleLoader进行管理
 /// </summary>
-public class AssetBundleResourceLoader : BaseLoader,IUpdate
+public class AssetBundleResourceLoader : BaseLoader
 {
     private Dictionary<string, AssetBundleHandler> handlerDictionary = new Dictionary<string, AssetBundleHandler>();
+    //private List<AssetBundleHandler> 
     private AssetBundleManifest _manifest;
     private AssetBundleManifest manifest
     {
@@ -27,18 +28,38 @@ public class AssetBundleResourceLoader : BaseLoader,IUpdate
     public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
         string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        LoadHandler(path);
+        return handlerDictionary[path].LoadAsset<T>(resName);
+    }
 
+    public override AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "")
+    {
+        string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        LoadHandler(path);
+        return handlerDictionary[path].LoadAssetAsync<T>(resName);
+    }
+
+    private void LoadHandler(string path)
+    {
         if (!handlerDictionary.ContainsKey(path))
         {
             LoadDependAssetBundle(path);
-
             AssetBundleHandler handler = ObjectPoolManager.Instance.Get<AssetBundleHandler>();
             handler.Init(AssetBundle.LoadFromFile(path));
             handler.IncreaseReference();
             handlerDictionary.Add(path, handler);
         }
+    }
 
-        return handlerDictionary[path].LoadAsset<T>(resName);
+    private void TryUnloadHandler(string path,AssetBundleHandler handler)
+    {
+        handler.DecreaseReference();
+        if (handler.UnloadAble)
+        {
+            handler.UnloadAssetBundle(true);
+            handlerDictionary.Remove(path);
+            ObjectPoolManager.Instance.Return<AssetBundleHandler>(handler);
+        }
     }
 
     private void LoadDependAssetBundle(string targetAssetBundle)
@@ -47,36 +68,28 @@ public class AssetBundleResourceLoader : BaseLoader,IUpdate
         for (int i = 0; i < depends.Length; i++)
         {
             string target = depends[i];
+
             LoadDependAssetBundle(target);
 
             if (!handlerDictionary.ContainsKey(target))
             {
-                AssetBundleHandler handler = ObjectPoolManager.Instance.Get<AssetBundleHandler>();
-                handler.Init(AssetBundle.LoadFromFile(target));
-                handler.IncreaseReference();
-                handlerDictionary.Add(target, handler);
+                LoadHandler(target);
             }
         }
     }
 
-    private void UnloadDependAssetBundle(string targetAssetBundle)
+    private void TryUnloadDependAssetBundle(string targetAssetBundle)
     {
         string[] depends = manifest.GetAllDependencies(targetAssetBundle);
         for (int i = 0; i < depends.Length; i++)
         {
             string target = depends[i];
-            UnloadDependAssetBundle(target);
+            TryUnloadDependAssetBundle(target);
 
             if (handlerDictionary.ContainsKey(target))
             {
                 AssetBundleHandler handler = handlerDictionary[target];
-                handler.DecreaseReference();
-                if (handler.UnloadAble)
-                {
-                    handler.UnloadAssetBundle(true);
-                    handlerDictionary.Remove(target);
-                    ObjectPoolManager.Instance.Return<AssetBundleHandler>(handler);
-                }
+                TryUnloadHandler(target, handler);
             }
         }
     }
@@ -85,37 +98,7 @@ public class AssetBundleResourceLoader : BaseLoader,IUpdate
     {
         AssetBundleHandler handler = handlerDictionary[assetPath];
         handler.DecreaseReference();
-        if (handler.UnloadAble)
-        {
-            handler.UnloadAssetBundle(true);
-            handlerDictionary.Remove(assetPath);
-            ObjectPoolManager.Instance.Return<AssetBundleHandler>(handler);
-        }
-        UnloadDependAssetBundle(assetPath);
+        TryUnloadHandler(assetPath, handler);
+        TryUnloadDependAssetBundle(assetPath);
     }
-
-    //TODO: 
-    /*
-     * AssetBundle管理
-     * 粒度大小 
-     */
-
-    /*
-     *依赖关系处理
-     */
-
-    /*
-     * 异步加载
-     * AssetBundleRequest 载AssetBundle包内资源请求
-     * AssetBundleCreateRequest 载AssetBundle请求
-     */
-
-    /*
-     * 分帧加载
-     */
-
-    /*
-     * 优先级加载
-     * AssetBundleRequest.priority/AssetBundleCreateRequest.priority可以设置不用自己处理（需要测试）
-     */
 }

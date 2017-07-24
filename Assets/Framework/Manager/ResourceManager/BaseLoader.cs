@@ -7,5 +7,6 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseLoader {
     public abstract T LoadAsset<T>(ResourceType resType, string resName, string folder = "") where T : Object;
+    public abstract AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : Object;
     public abstract void UnLoadAsset(string assetPath="");
 }

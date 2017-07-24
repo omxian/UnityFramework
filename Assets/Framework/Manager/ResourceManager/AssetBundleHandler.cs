@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class AssetBundleHandler : IPoolable, IUpdate
+/// <summary>
+/// 管理AssetBundle的引用
+/// </summary>
+public class AssetBundleHandler : IPoolable
 {
     private AssetBundle assetbundle;
-    private List<AssetBundleRequestHandler> loadRequestList;
+    //private List<AssetBundleRequestHandler> loadRequestList;
     private int referenceNumer = 0;
 
     /// <summary>
@@ -17,6 +20,25 @@ public class AssetBundleHandler : IPoolable, IUpdate
     {
         referenceNumer++;
     }
+
+    /// <summary>
+    /// avoid foreach gc
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    //public AssetBundleRequestHandler FindRequestHandler(string name)
+    //{
+    //    AssetBundleRequestHandler request = null;
+    //    for (int i = 0; i < loadRequestList.Count; i++)
+    //    {
+    //        if (loadRequestList[i].NameMatch(name))
+    //        {
+    //            request = loadRequestList[i];
+    //            break;
+    //        }
+    //    }
+    //    return request;
+    //}
 
     /// <summary>
     /// 减少引用，仅当资源卸载，或者被引用对象卸载时调用
@@ -42,11 +64,27 @@ public class AssetBundleHandler : IPoolable, IUpdate
         return assetbundle.LoadAsset<T>(resName);
     }
 
-    public void LoadAssetAsync(string resName, Type type, AssetBundleRequestCallBack callback)
+    public AssetBundleRequest LoadAssetAsync<T>(string resName)where T: UnityEngine.Object
     {
-        AssetBundleRequestHandler handler = ObjectPoolManager.Instance.Get<AssetBundleRequestHandler>();
-
+        return assetbundle.LoadAssetAsync<T>(resName);
     }
+
+    ///异步的资源加载管理起来过于复杂，考虑放到加载处自行处理
+    //public void LoadAssetAsync(string resName, Type type, AssetBundleRequestCallBack callback)
+    //{
+    //    AssetBundleRequestHandler handler = FindRequestHandler(resName);
+
+    //    if (handler != null)
+    //    {
+    //        handler.AddCallback(callback);
+    //    }
+    //    else
+    //    {
+    //        handler = ObjectPoolManager.Instance.Get<AssetBundleRequestHandler>();
+    //        handler.Init(resName,assetbundle.LoadAssetAsync(resName, type) , callback);
+    //        loadRequestList.Add(handler);
+    //    }
+    //}
 
     /// <summary>
     /// 是否可被卸载
@@ -70,7 +108,7 @@ public class AssetBundleHandler : IPoolable, IUpdate
 
     public void Reset()
     {
-        loadRequestList.Clear();
+        //loadRequestList.Clear();
         assetbundle = null;
         referenceNumer = 0;
     }
@@ -79,4 +117,12 @@ public class AssetBundleHandler : IPoolable, IUpdate
     {
         Reset();
     }
+
+    //public void Update()
+    //{
+    //    for (int i = 0; i < loadRequestList.Count; i++)
+    //    {
+    //        loadRequestList[i].Update();
+    //    }
+    //}
 }
