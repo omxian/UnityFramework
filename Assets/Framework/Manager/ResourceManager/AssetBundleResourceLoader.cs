@@ -32,7 +32,7 @@ public class AssetBundleResourceLoader : BaseLoader
         return handlerDictionary[path].LoadAsset<T>(resName);
     }
 
-    public override AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "")
+    public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
         string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         LoadHandler(path);
