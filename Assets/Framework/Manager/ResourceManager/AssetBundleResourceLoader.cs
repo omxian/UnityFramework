@@ -58,7 +58,6 @@ public class AssetBundleResourceLoader : BaseLoader
         {
             handler.UnloadAssetBundle(true);
             handlerDictionary.Remove(path);
-            ObjectPoolManager.Instance.Return<AssetBundleHandler>(handler);
         }
     }
 

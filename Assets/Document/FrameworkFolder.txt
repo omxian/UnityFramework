@@ -1,13 +1,14 @@
 ArtResources 美术资源
-Documents 项目文档
-ExternalAssets 程序直接使用美术资源（含有美术资源文件夹的引用）
-	Prefabs 预设
+Document 项目文档
+ExternalAsset 程序直接使用美术资源（含有美术资源文件夹的引用）
+	Prefab 预设
 	UI UI相关
-		Prefabs UI预设
+		Prefab UI预设
 		Sprite UI图集
 	Texture 大图
 	Sound 音效
 	Font 字体
+		BMFont 位图字
 	Shader 着色器
 Framework 框架代码
 	BehaviorTree 行为树（暂无）
@@ -15,11 +16,16 @@ Framework 框架代码
 	Editor 框架编辑器
 		Template 模板
 		UICodeGenerater UI代码生成
+		Packer 处理打包相关
+		ABRedundancyChecker AssetBundle依赖检查工具
 	FSM 有限状态机（暂无）
+	Interface 自定义的接口
 	Localization 本地化功能（暂无）
 	Manager 放置框架的管理器
 		NotifyManager 消息管理器，实现消息机制
 		ObjectPool 对象池
+		FloatTextManger 飘字（暂时没有完成，需移到其他位置，属于功能模块）
+		ResourceManager 处理资源加载、管理相关
 	Singleton 单例
 	ThirdPartyCode 第三方代码
 		BMFontTool 生成位图字
@@ -30,3 +36,4 @@ Framework 框架代码
 	Resources Unity资源文件夹，放置不变的东西（暂无）
 	Script 脚本
 	Test 测试
+	LearnTest 学习
