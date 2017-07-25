@@ -24,19 +24,30 @@ public class AssetBundleResourceLoader : BaseLoader
             return _manifest;
         }
     }
-    
+
+    //这部分的path需要写成接口，判断当前平台等等
     public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
         string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        LoadHandler(path);
         return handlerDictionary[path].LoadAsset<T>(resName);
     }
 
     public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
         string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        LoadHandler(path);
         return handlerDictionary[path].LoadAssetAsync<T>(resName);
+    }
+
+    /// <summary>
+    /// 目前依赖处理: 
+    /// 系统进入时定义依赖于哪些ab包
+    /// 上层进入时 基类 调用LoadHandler增加引用（同时load AssetBundle）
+    /// 离开时 基类 调用UnLoadAsset 减少引用
+    /// </summary>
+    public void LoadHandler(ResourceType resType, string resName, string folder = "")
+    {
+        string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        LoadHandler(path);
     }
 
     private void LoadHandler(string path)
@@ -48,6 +59,10 @@ public class AssetBundleResourceLoader : BaseLoader
             handler.Init(AssetBundle.LoadFromFile(path));
             handler.IncreaseReference();
             handlerDictionary.Add(path, handler);
+        }
+        else
+        {
+            handlerDictionary[path].IncreaseReference();
         }
     }
 
@@ -69,11 +84,7 @@ public class AssetBundleResourceLoader : BaseLoader
             string target = depends[i];
 
             LoadDependAssetBundle(target);
-
-            if (!handlerDictionary.ContainsKey(target))
-            {
-                LoadHandler(target);
-            }
+            LoadHandler(target);
         }
     }
 
