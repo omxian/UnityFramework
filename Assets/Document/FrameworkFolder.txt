@@ -1,5 +1,6 @@
 ArtResources 美术资源
 Document 项目文档
+Editor 放置测试用例
 ExternalAsset 程序直接使用美术资源（含有美术资源文件夹的引用）
 	Prefab 预设
 	UI UI相关

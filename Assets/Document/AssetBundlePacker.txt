@@ -1,0 +1,9 @@
+AssetBundle打包规则
+
+目前打包从ExternalAsset目录开始打，以文件夹为单位。
+如:ExternalAsset/Blood 底下的所有prefab都会打成一个AssetBundle包。
+
+图集tag在打包时自动设置。
+图集压缩质量/大小目前未设置。
+
+代码见Framework/Editor/Packer/*
