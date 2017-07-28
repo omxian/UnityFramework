@@ -45,18 +45,30 @@ namespace Unity.Framework.Editor
         {
             if (null != go)
             {
-                UIBuilder builder = BuildClassFactory(go);
-
-                if (builder != null)
-                {
-                    builder.GenerateUI();
-                }
+                BuildViewClass(BuildClassFactory(go));
             }
         }
 
-        private static UIBuilder BuildClassFactory(GameObject go)
+        /// <summary>
+        /// 可用于UI_Item Class的生成
+        /// </summary>
+        public static void BuildViewClass(UIBuilder builder)
         {
-            string rootTag = go.tag;
+            if (builder != null)
+            {
+                builder.GenerateUI();
+            }
+        }
+
+        /// <summary>
+        /// 可用于UI_Item Class的生成
+        /// </summary>
+        /// <param name="go">生成的根GameObject</param>
+        /// <param name="tag">需要生成的种类</param>
+        /// <returns></returns>
+        public static UIBuilder BuildClassFactory(GameObject go, string tag)
+        {
+            string rootTag = tag;
             if (rootTag == UITagType.UI_Lua)
             {
                 return new LuaUIBuilder(go);
@@ -69,6 +81,11 @@ namespace Unity.Framework.Editor
             {
                 throw new Exception("Please Define Prefab Tag !");
             }
+        }
+
+        private static UIBuilder BuildClassFactory(GameObject go)
+        {
+            return BuildClassFactory(go, go.tag);
         }
     }
 }

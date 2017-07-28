@@ -9,7 +9,7 @@ namespace Unity.Framework.Editor
         public CSharpUIBuilder(GameObject go) : base(go)
         {
             SetSavePath("Resources/Scripts/UI/View");
-            SetTemplatePath(Path.Combine(Application.dataPath, "Editor/Template/C#_UI_Template.txt"));
+            SetTemplatePath(Path.Combine(Application.dataPath, "Framework/Editor/Template/C#_UI_Template.txt"));
             SetFileSuffix(".cs");
             SetComponentInfo(new UGUIComponentInfo());
         }
@@ -32,6 +32,11 @@ namespace Unity.Framework.Editor
 
                 if (CheckTag(tag))
                 {
+                    if (CheckNeedToSkip(skipParentTransform, tran))
+                    {
+                        continue;
+                    }
+
                     CheckPrefabName(name);
 
                     switch (tag)
@@ -72,15 +77,41 @@ namespace Unity.Framework.Editor
                             param.Append(string.Format(paramTemplate, info.GetInputField(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetInputField()));
                             break;
+                        case UITagType.UI_Item_Template:
+                            string[] nameInfo = ParseItemName(tag, name);
+                            if (tran.gameObject == GetRootGameObject())
+                            {
+                                renameFile = ParseItemName(tag, name)[0];
+                                continue;
+                            }
+
+                            string className = GetClassName(nameInfo[0]);
+                            string arrayName = nameInfo[0] + "Array";
+
+                            //定义Array
+                            param.Append(string.Format("public {0}[] {1} = new {0}[{2}];\n", className, arrayName, nameInfo[2]));
+                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\n", arrayName, nameInfo[1], className, GetHierarchy(tran)));
+
+                            //将transform加入跳过列表
+                            skipParentTransform.Add(tran);
+                            //开始生成
+                            UICodeGenerater.BuildViewClass(UICodeGenerater.BuildClassFactory(tran.gameObject, UITagType.UI_CSharp));
+                            break;
+                        case UITagType.UI_Item:
+                            string[] itemNameInfo = ParseItemName(tag, name);
+                            string itemClassName = GetClassName(itemNameInfo[0]);
+                            string itemArrayName = itemNameInfo[0] + "Array";
+                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\n", itemArrayName, itemNameInfo[1], itemClassName, GetHierarchy(tran)));
+                            break;
                     }
                 }
             }
 
             content = ReadTemplateString();
-            content = content.Replace("{#class#}", GetClassName());
+            content = content.Replace("{#class#}", GetClassName(renameFile));
             content = content.Replace("{#param#}", param.ToString());
             content = content.Replace("{#init#}", init.ToString());
-            SaveFile();
+            SaveFile(renameFile);
         }
     }
 }

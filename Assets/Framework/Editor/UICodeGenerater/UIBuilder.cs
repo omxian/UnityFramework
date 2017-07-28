@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -14,6 +15,16 @@ namespace Unity.Framework.Editor
         private string fileSuffix;
         private GameObject rootGameObject = null;
         private BaseComponentInfo componentInfo = null;
+
+        /// <summary>
+        /// 重新命名类名,为空即不需要重命名
+        /// </summary>
+        protected string renameFile = ""; 
+        /// <summary>
+        /// 需要跳过的父节点
+        /// </summary>
+        protected List<Transform> skipParentTransform = new List<Transform>();
+
         public UIBuilder(GameObject go)
         {
             rootGameObject = go;
@@ -77,23 +88,28 @@ namespace Unity.Framework.Editor
         {
             return templatePath;
         }
-        protected virtual string GetClassName()
+        protected virtual string GetClassName(string name = "")
         {
+            if (name != "")
+            {
+                return name + "View";
+            }
             if (rootGameObject != null)
             {
                 return rootGameObject.name + "View";
             }
             return "";
         }
+
         protected string GetResultContent()
         {
             return content;
         }
         public abstract void GenerateUI();
-        protected void SaveFile()
+        protected void SaveFile(string className = "")
         {
             string genPath = Path.Combine(Application.dataPath, GetSavePath());
-            string fileName = Path.Combine(genPath, GetClassName() + fileSuffix);
+            string fileName = Path.Combine(genPath, GetClassName(className) + fileSuffix);
 
             if (!Directory.Exists(genPath))
             {
@@ -132,6 +148,68 @@ namespace Unity.Framework.Editor
 
             path = path.Substring(path.IndexOf("/") + 1);
             return path;
+        }
+
+        /// <summary>
+        /// 检查Transform是否需要跳过
+        /// </summary>
+        /// <param name="skipParentList"></param>
+        /// <param name="checkTarget"></param>
+        /// <returns></returns>
+        protected bool CheckNeedToSkip(List<Transform> skipParentList, Transform checkTarget)
+        {
+            foreach (Transform skipTran in skipParentList)
+            {
+                if (checkTarget.IsChildOf(skipTran))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 解析名称
+        /// 0: 名称 1: 所在索引 2: 总数量(UI_Item_Template)
+        /// </summary>
+        /// <param name="tagType"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected string[] ParseItemName(string tagType, string name)
+        {
+            string[] info = null;
+            if (tagType == UITagType.UI_Item_Template)
+            {
+                info = new string[3];
+
+                int numberStartIndex = name.LastIndexOf('_');
+                int currentIndex = name.LastIndexOf('_', numberStartIndex - 1);
+                int nameIndex = name.LastIndexOf('_', currentIndex - 1);
+
+                string count = name.Substring(numberStartIndex + 1);
+                string index = name.Substring(currentIndex + 1, numberStartIndex - currentIndex - 1);
+                string realName = name.Substring(0, name.Length - name.Substring(currentIndex).Length);
+
+                info[0] = realName;
+                info[1] = index;
+                info[2] = count;
+            }
+            else if (tagType == UITagType.UI_Item)
+            {
+                info = new string[2];
+
+                int currentIndex = name.LastIndexOf('_');
+                int nameIndex = name.LastIndexOf('_', currentIndex - 1);
+
+                string index = name.Substring(currentIndex + 1);
+                string realName = name.Substring(0, name.Length - name.Substring(currentIndex).Length);
+
+                info[0] = realName;
+                info[1] = index;
+
+                return info;
+            }
+            return info;
         }
     }
 }

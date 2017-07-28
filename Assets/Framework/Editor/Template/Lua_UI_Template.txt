@@ -1,6 +1,7 @@
 --	UI View Gen From GenUITools
 --	Please Don't Modify!
 
+{#require#}
 
 local {#class#} = class("{#class#}",IDispose);
 
