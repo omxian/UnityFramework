@@ -6,7 +6,7 @@ using System;
 /// 一种是游戏对象对象池
 /// 当前先实现普通对象池
 /// </summary>
-public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
+public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
     //默认池大小
     private const int POOLSIZE = 20;

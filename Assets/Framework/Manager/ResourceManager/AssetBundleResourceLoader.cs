@@ -10,7 +10,7 @@ using UnityEngine;
 public class AssetBundleResourceLoader : BaseLoader
 {
     private Dictionary<string, AssetBundleHandler> handlerDictionary = new Dictionary<string, AssetBundleHandler>();
-    //private List<AssetBundleHandler> 
+    
     private AssetBundleManifest _manifest;
     private AssetBundleManifest manifest
     {
@@ -18,23 +18,24 @@ public class AssetBundleResourceLoader : BaseLoader
         {
             if (_manifest == null)
             {
-                AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.streamingAssetsPath + AssetPath.ResourcePath[ResourceType.Manifest]);
+                AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[ResourceType.Manifest]));
                 _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             }
             return _manifest;
         }
     }
-
-    //这部分的path需要写成接口，判断当前平台等等
+    
     public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
         string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        LoadHandler(path);
         return handlerDictionary[path].LoadAsset<T>(resName);
     }
 
     public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
         string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        LoadHandler(path);
         return handlerDictionary[path].LoadAssetAsync<T>(resName);
     }
 

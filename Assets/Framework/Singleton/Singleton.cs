@@ -9,15 +9,18 @@ public class Singleton<T>
 {
     private static T instance;
     private static object lockObj = new object();
-    public static T Instance()
+    public static T Instance
     {
-        if (null == instance)
+        get
         {
-            lock (lockObj)
+            if (null == instance)
             {
-                instance = Activator.CreateInstance<T>();
+                lock (lockObj)
+                {
+                    instance = Activator.CreateInstance<T>();
+                }
             }
+            return instance;
         }
-        return instance;
     }
 }
