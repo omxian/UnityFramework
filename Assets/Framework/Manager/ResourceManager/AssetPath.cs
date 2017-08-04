@@ -16,7 +16,6 @@ public enum ResourceType
     Prefab, //普通预制
 }
 
-
 public static class AssetPath
 {
     //本地资源加载路径
@@ -37,12 +36,6 @@ public static class AssetPath
         {ResourceType.UI_Sprite,"UI/Sprite/" },
         {ResourceType.Prefab,"Prefab/" },
     };
-
-    public static string GetAssetBundleSavePath(string abName)
-    {
-        //if(File.Exists())
-        return "";
-    }
 
     /// <summary>
     /// 获得资源的加载路径
