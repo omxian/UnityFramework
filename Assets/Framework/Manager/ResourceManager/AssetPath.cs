@@ -18,10 +18,30 @@ public enum ResourceType
 
 public static class AssetPath
 {
-    //本地资源加载路径
+    public static string abSuffix = ".ab";
+    //本地资源加载路径;
     public static string resourcePath = "Assets/ExternalAsset/";
     //AssetBundle本地加载路径
-    public static string streamingAssetsPath = "Assets/StreamingAssets/";
+    public static string StreamingAssetsPath
+    {
+        get
+        {
+            return Application.streamingAssetsPath;
+
+//#if UNITY_EDITOR
+//            return "Assets/StreamingAssets/";
+//#endif
+
+//#if UNITY_ANDROID
+            
+//#endif
+
+//#if UNITY_IOS
+//            return "";
+//#endif
+
+        }
+    }
     //临时manifest名称（Unity自动生成的与打包路径相关的名称）
     public static string tempManifestName = "temp";
     //AssetBundle打包临时路径
@@ -29,7 +49,7 @@ public static class AssetPath
 
     public static Dictionary<ResourceType, string> ResourcePath = new Dictionary<ResourceType, string>()
     {
-        {ResourceType.Manifest,"manifest.ab"},
+        {ResourceType.Manifest,"manifest"},
         {ResourceType.Texture,"Texture/" },
         {ResourceType.Sound,"Sound/" },
         {ResourceType.UI_Prefab,"UI/Prefab/" },
@@ -59,7 +79,7 @@ public static class AssetPath
     {
         path = path.ToLower();
         path = path.Replace('/', '_');
-        path += ".ab";
+        path += abSuffix;
         return path;
     }
 }

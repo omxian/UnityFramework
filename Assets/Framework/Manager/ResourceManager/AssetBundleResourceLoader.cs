@@ -18,7 +18,7 @@ public class AssetBundleResourceLoader : BaseLoader
         {
             if (_manifest == null)
             {
-                AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[ResourceType.Manifest]));
+                AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[ResourceType.Manifest]));
                 _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             }
             return _manifest;
@@ -27,14 +27,14 @@ public class AssetBundleResourceLoader : BaseLoader
     
     public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
-        string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         LoadHandler(path);
         return handlerDictionary[path].LoadAsset<T>(resName);
     }
 
     public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
-        string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         LoadHandler(path);
         return handlerDictionary[path].LoadAssetAsync<T>(resName);
     }
@@ -47,7 +47,7 @@ public class AssetBundleResourceLoader : BaseLoader
     /// </summary>
     public void LoadHandler(ResourceType resType, string resName, string folder = "")
     {
-        string path = AssetPath.GetResPath(true, AssetPath.streamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         LoadHandler(path);
     }
 

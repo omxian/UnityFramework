@@ -55,7 +55,7 @@ namespace Unity.Framework.Editor
         /// </summary>
         private static void RenameTempManifest()
         {
-            File.Move(AssetPath.tempPath + AssetPath.tempManifestName, AssetPath.tempPath +  AssetPath.ResourcePath[ResourceType.Manifest]);
+            File.Move(AssetPath.tempPath + AssetPath.tempManifestName, AssetPath.tempPath +  AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Unity.Framework.Editor
                 string resourceName = path.Substring(AssetPath.resourcePath.Length);
                 resourceName = resourceName.ToLower();
                 resourceName = resourceName.Replace('\\', '_');
-                resourceName += ".ab";
+                resourceName += AssetPath.abSuffix;
                 AssetImporter importer = AssetImporter.GetAtPath(file);
                 importer.assetBundleName = resourceName;
                 importer.assetBundleVariant = null;
