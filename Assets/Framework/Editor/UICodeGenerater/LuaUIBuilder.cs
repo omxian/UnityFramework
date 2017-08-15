@@ -20,9 +20,9 @@ namespace Unity.Framework.Editor
             StringBuilder init = new StringBuilder();
             StringBuilder requireInfo = new StringBuilder();
             BaseComponentInfo info = GetComponentInfo();
-            string gameObjectInitTemplate = "    o.{0} = go.transform:Find(\"{1}\").gameObject;\n";
-            string transformInitTemplate = "    o.{0} = go.transform:Find(\"{1}\");\n";
-            string componentInitTemplate = "    o.{0} = go.transform:Find(\"{1}\"):GetComponent(\"{2}\");\n";
+            string gameObjectInitTemplate = "    o.{0} = go.transform:Find(\"{1}\").gameObject;\r\n";
+            string transformInitTemplate = "    o.{0} = go.transform:Find(\"{1}\");\r\n";
+            string componentInitTemplate = "    o.{0} = go.transform:Find(\"{1}\"):GetComponent(\"{2}\");\r\n";
 
             foreach (Transform tran in GetChildrenTransform())
             {
@@ -79,9 +79,9 @@ namespace Unity.Framework.Editor
                             string tableName = nameInfo[0] + "Table";
 
                             //将定义放置最前
-                            string temp = string.Format("o.{0} = {1}; \n", tableName, "{}") + init.ToString();
+                            string temp = string.Format("o.{0} = {1}; \r\n", tableName, "{}") + init.ToString();
                             init = new StringBuilder(temp);
-                            init.Append(string.Format("o.{0}[{1}] = {2}:BindUI(go.transform:Find(\"{3}\").gameObject);\n", tableName, nameInfo[1], className, GetHierarchy(tran)));
+                            init.Append(string.Format("o.{0}[{1}] = {2}:BindUI(go.transform:Find(\"{3}\").gameObject);\r\n", tableName, nameInfo[1], className, GetHierarchy(tran)));
                             //添加依赖
                             requireInfo.Append(string.Format("require \"UIView.{0}\"", className));
                             //将transform加入跳过列表
@@ -94,7 +94,7 @@ namespace Unity.Framework.Editor
                             string itemClassName = GetClassName(itemNameInfo[0]);
                             string itemTableName = itemNameInfo[0] + "Table";
                             //命名方式 类名_当前第几个(base0);
-                            init.Append(string.Format("o.{0}[{1}] = {2}:BindUI(go.transform:Find(\"{3}\").gameObject);\n", itemTableName, itemNameInfo[1], itemClassName, GetHierarchy(tran)));
+                            init.Append(string.Format("o.{0}[{1}] = {2}:BindUI(go.transform:Find(\"{3}\").gameObject);\r\n", itemTableName, itemNameInfo[1], itemClassName, GetHierarchy(tran)));
                             break;
                     }
                 }

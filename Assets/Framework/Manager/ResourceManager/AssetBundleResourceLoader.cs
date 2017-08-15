@@ -10,7 +10,7 @@ using UnityEngine;
 public class AssetBundleResourceLoader : BaseLoader
 {
     private Dictionary<string, AssetBundleHandler> handlerDictionary = new Dictionary<string, AssetBundleHandler>();
-    
+
     private AssetBundleManifest _manifest;
     private AssetBundleManifest manifest
     {
@@ -24,7 +24,7 @@ public class AssetBundleResourceLoader : BaseLoader
             return _manifest;
         }
     }
-    
+
     public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
     {
         string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
@@ -32,7 +32,7 @@ public class AssetBundleResourceLoader : BaseLoader
         return handlerDictionary[path].LoadAsset<T>(resName);
     }
 
-    public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
+    public override AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "")
     {
         string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         LoadHandler(path);
@@ -45,12 +45,6 @@ public class AssetBundleResourceLoader : BaseLoader
     /// 上层进入时 基类 调用LoadHandler增加引用（同时load AssetBundle）
     /// 离开时 基类 调用UnLoadAsset 减少引用
     /// </summary>
-    public void LoadHandler(ResourceType resType, string resName, string folder = "")
-    {
-        string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        LoadHandler(path);
-    }
-
     private void LoadHandler(string path)
     {
         if (!handlerDictionary.ContainsKey(path))
@@ -67,7 +61,7 @@ public class AssetBundleResourceLoader : BaseLoader
         }
     }
 
-    private void TryUnloadHandler(string path,AssetBundleHandler handler)
+    private void TryUnloadHandler(string path, AssetBundleHandler handler)
     {
         handler.DecreaseReference();
         if (handler.UnloadAble)

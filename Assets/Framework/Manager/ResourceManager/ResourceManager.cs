@@ -17,7 +17,7 @@ public enum ResourceLoadMode
 public class ResourceManager : MonoSingleton<ResourceManager>
 {
     private ResourceLoadMode loadMode = ResourceLoadMode.None;
-    private BaseLoader loader;
+    private BaseLoader loader; 
 
     private ResourceManager()
     {
@@ -47,5 +47,12 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         {
             throw new Exception("load Mode Not Define!");
         }
+    }
+
+    //TODO
+    public void Load()
+    {
+        loader.UnLoadAsset();
+        //loader.LoadAsset<>
     }
 }

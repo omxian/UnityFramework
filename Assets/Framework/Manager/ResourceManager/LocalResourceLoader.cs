@@ -39,6 +39,15 @@ public class LocalResourceLoader : BaseLoader
         return null;
     }
 
+    //可以考虑对AssetBundleRequest增加一层封装如 AssetBundleRequestHandler
+    //其中里面有asset属性，对其进行直接赋值
+    //AssetBundle就走加载
+    public override AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "")
+    {
+        AssetBundleRequest request = new AssetBundleRequest();
+        return request;
+    }
+
     public override void UnLoadAsset(string assetPath = "")
     {
         Resources.UnloadUnusedAssets();

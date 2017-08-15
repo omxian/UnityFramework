@@ -50,7 +50,7 @@ namespace Unity.Framework.Editor
         private void StartCheck()
         {
             GetFileListFromFolderPath(_FilesList, abPath);
-            byte[] fileBytes = new byte[] { };
+            //byte[] fileBytes = new byte[] { };
             int startIndex = 0;
             Component[] _ResultArr = new Component[] { };
 
@@ -59,7 +59,7 @@ namespace Unity.Framework.Editor
                 string file = _FilesList[startIndex];
 
                 bool isCancel = EditorUtility.DisplayCancelableProgressBar("文件检测中", file, (float)startIndex / (float)_FilesList.Count);
-                fileBytes = File.ReadAllBytes(_FilesList[startIndex]);
+                //fileBytes = File.ReadAllBytes(_FilesList[startIndex]);
                 GameObject obj = AssetDatabase.LoadAssetAtPath(file, typeof(GameObject)) as GameObject;
                 try
                 {
@@ -74,7 +74,7 @@ namespace Unity.Framework.Editor
                 }
                 catch (Exception e)
                 {
-
+                    Debug.LogError(e.ToString());
                 }
 
                 startIndex++;

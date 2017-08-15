@@ -184,7 +184,6 @@ namespace Unity.Framework.Editor
 
                 int numberStartIndex = name.LastIndexOf('_');
                 int currentIndex = name.LastIndexOf('_', numberStartIndex - 1);
-                int nameIndex = name.LastIndexOf('_', currentIndex - 1);
 
                 string count = name.Substring(numberStartIndex + 1);
                 string index = name.Substring(currentIndex + 1, numberStartIndex - currentIndex - 1);
@@ -199,7 +198,6 @@ namespace Unity.Framework.Editor
                 info = new string[2];
 
                 int currentIndex = name.LastIndexOf('_');
-                int nameIndex = name.LastIndexOf('_', currentIndex - 1);
 
                 string index = name.Substring(currentIndex + 1);
                 string realName = name.Substring(0, name.Length - name.Substring(currentIndex).Length);

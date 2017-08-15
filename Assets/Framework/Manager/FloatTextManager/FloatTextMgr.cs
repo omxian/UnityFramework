@@ -36,33 +36,33 @@ public class FloatTextMgr : MonoSingleton<FloatTextMgr>
 {
     //Float3DText名称
     //对应FloatTextType枚举值
-    private string[] FloatText3DPath = {
-        "",
-        "AttackDamageText",
-        "AttackCritDamageText",
-        "TreatText",
-        "TreatCritText",
-        "HurtDamageText",
-        "HurtCritDamageText",
-        "ExpText",
-        "AttackMissText",
-        "DodgeText"
-    };
+    //private string[] FloatText3DPath = {
+    //    "",
+    //    "AttackDamageText",
+    //    "AttackCritDamageText",
+    //    "TreatText",
+    //    "TreatCritText",
+    //    "HurtDamageText",
+    //    "HurtCritDamageText",
+    //    "ExpText",
+    //    "AttackMissText",
+    //    "DodgeText"
+    //};
 
     //Float2DText名称
     //对应FloatTextType枚举值
-    private string[] FloatText2DPath = {
-        "",
-        "AttackDamage2DText",
-        "AttackCritDamage2DText",
-        "Treat2DText",
-        "TreatCrit2DText",
-        "HurtDamage2DText",
-        "HurtCritDamage2DText",
-        "Exp2DText",
-        "AttackMiss2DText",
-        "Dodge2DText"
-    };
+    //private string[] FloatText2DPath = { 
+    //    "",
+    //    "AttackDamage2DText",
+    //    "AttackCritDamage2DText",
+    //    "Treat2DText",
+    //    "TreatCrit2DText",
+    //    "HurtDamage2DText",
+    //    "HurtCritDamage2DText",
+    //    "Exp2DText",
+    //    "AttackMiss2DText",
+    //    "Dodge2DText"
+    //};
 
     private string GetDisplayByFloatTextType(FloatTextType type, string value = "")
     {
@@ -109,7 +109,7 @@ public class FloatTextMgr : MonoSingleton<FloatTextMgr>
     //根据类型转换
     public void SetFloatText(/*HitResultMacro type, RoleBase role,*/ string value = "")
     {
-        FloatTextType floatTextType = ConvertType();
+        //FloatTextType floatTextType = ConvertType();
 
         bool is2D = true;
         if (is2D)

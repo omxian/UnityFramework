@@ -64,7 +64,7 @@ namespace Unity.Framework.Editor
                 {
                     AssetBundle ab = AssetBundle.LoadFromMemory(fileBytes);
                     string[] abFilePathArr = _FilesList[startIndex].Split('/');
-                    string abFile = File.ReadAllText(_FilesList[startIndex]);
+                    //string abFile = File.ReadAllText(_FilesList[startIndex]);
                     CheckABInfo(ab, abFilePathArr[abFilePathArr.Length - 1]);
                     ab.Unload(true);
                 }
@@ -96,7 +96,7 @@ namespace Unity.Framework.Editor
             string[] names = ab.GetAllAssetNames();
             string[] dependencies = AssetDatabase.GetDependencies(names);
             string[] allDepen = dependencies.Length > 0 ? dependencies : names;
-            Dictionary<string, UnityEngine.Object> assetMap = new Dictionary<string, UnityEngine.Object>();
+            //Dictionary<string, UnityEngine.Object> assetMap = new Dictionary<string, UnityEngine.Object>();
             for (int i = 0; i < allDepen.Length; ++i)
             {
                 UnityEngine.Object obj = ab.LoadAsset(allDepen[i]);

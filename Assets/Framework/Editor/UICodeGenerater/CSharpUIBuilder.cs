@@ -16,10 +16,10 @@ namespace Unity.Framework.Editor
 
         public override void GenerateUI()
         {
-            string gameObjectInitTemplate = "{0} = transform.Find(\"{1}\").gameObject;\n";
-            string transformInitTemplate = "{0} = transform.Find(\"{1}\");\n";
-            string componentInitTemplate = "{0} = transform.Find(\"{1}\").GetComponent<{2}>();\n";
-            string paramTemplate = "public {0} {1};\n";
+            string gameObjectInitTemplate = "{0} = transform.Find(\"{1}\").gameObject;\r\n";
+            string transformInitTemplate = "{0} = transform.Find(\"{1}\");\r\n";
+            string componentInitTemplate = "{0} = transform.Find(\"{1}\").GetComponent<{2}>();\r\n";
+            string paramTemplate = "public {0} {1};\r\n";
 
             StringBuilder init = new StringBuilder();
             StringBuilder param = new StringBuilder();
@@ -89,8 +89,8 @@ namespace Unity.Framework.Editor
                             string arrayName = nameInfo[0] + "Array";
 
                             //定义Array
-                            param.Append(string.Format("public {0}[] {1} = new {0}[{2}];\n", className, arrayName, nameInfo[2]));
-                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\n", arrayName, nameInfo[1], className, GetHierarchy(tran)));
+                            param.Append(string.Format("public {0}[] {1} = new {0}[{2}];\r\n", className, arrayName, nameInfo[2]));
+                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\r\n", arrayName, nameInfo[1], className, GetHierarchy(tran)));
 
                             //将transform加入跳过列表
                             skipParentTransform.Add(tran);
@@ -101,7 +101,7 @@ namespace Unity.Framework.Editor
                             string[] itemNameInfo = ParseItemName(tag, name);
                             string itemClassName = GetClassName(itemNameInfo[0]);
                             string itemArrayName = itemNameInfo[0] + "Array";
-                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\n", itemArrayName, itemNameInfo[1], itemClassName, GetHierarchy(tran)));
+                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\r\n", itemArrayName, itemNameInfo[1], itemClassName, GetHierarchy(tran)));
                             break;
                     }
                 }
