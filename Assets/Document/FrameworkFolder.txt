@@ -10,7 +10,7 @@ ExternalAsset 程序直接使用美术资源（含有美术资源文件夹的引
 	Sound 音效
 	Font 字体
 		BMFont 位图字
-	Shader 着色器
+	Shader 着色器(用于可能的预热)
 Framework 框架代码
 	BehaviorTree 行为树（暂无）
 	Command 使用Command模式的框架代码（暂无）
@@ -31,6 +31,7 @@ Framework 框架代码
 	ThirdPartyCode 第三方代码
 		BMFontTool 生成位图字
 		Unity-Logs-Viewer 运行时看Log
+		DOTween 补间动画工具
 	UIComponent 放置UI组件
 	UIFramework UI框架（暂无）
 	UtilTool 公用方法
