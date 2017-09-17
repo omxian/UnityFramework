@@ -15,7 +15,7 @@ namespace Unity.Framework.Editor
         private static void BuildApk()
         {
             //切换平台
-            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
+            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android ,BuildTarget.Android);
             //构建AssetBundle
             BuildAndroidAssetBundle();
             //构建APK

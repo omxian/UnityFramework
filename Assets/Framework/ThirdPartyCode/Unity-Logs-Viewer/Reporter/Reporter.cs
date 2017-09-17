@@ -182,10 +182,10 @@ public class Reporter : MonoBehaviour
 	bool showFpsButton = true;
 	bool showSearchText = true;
 
-	string buildDate;
-	string logDate;
-	float logsMemUsage;
-	float graphMemUsage;
+	string buildDate = "";
+	string logDate = "";
+	float logsMemUsage = 0f;
+	float graphMemUsage = 0f;
 	public float TotalMemUsage
 	{
 		get
@@ -587,23 +587,23 @@ public class Reporter : MonoBehaviour
 		selectedLog = null;
 	}
 
-	Rect screenRect;
-	Rect toolBarRect;
-	Rect logsRect;
-	Rect stackRect;
-	Rect graphRect;
-	Rect graphMinRect;
-	Rect graphMaxRect;
-	Rect buttomRect;
-	Vector2 stackRectTopLeft;
-	Rect detailRect;
+    Rect screenRect = new Rect();
+	Rect toolBarRect = new Rect();
+	Rect logsRect = new Rect();
+	Rect stackRect = new Rect();
+	Rect graphRect = new Rect();
+	Rect graphMinRect = new Rect();
+	Rect graphMaxRect = new Rect();
+	Rect buttomRect = new Rect();
+	Vector2 stackRectTopLeft = Vector2.zero;
+	Rect detailRect = new Rect();
 
-	Vector2 scrollPosition;
-	Vector2 scrollPosition2;
-	Vector2 toolbarScrollPosition;
+	Vector2 scrollPosition = Vector2.zero;
+    Vector2 scrollPosition2 = Vector2.zero;
+    Vector2 toolbarScrollPosition = Vector2.zero;
 
-	//int 	selectedIndex = -1;
-	Log selectedLog;
+    //int 	selectedIndex = -1;
+    Log selectedLog;
 
 	float toolbarOldDrag = 0;
 	float oldDrag;
@@ -680,7 +680,7 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	Rect countRect;
+	Rect countRect = new Rect() ;
 	Rect timeRect;
 	Rect timeLabelRect;
 	Rect sceneRect;
@@ -1932,7 +1932,7 @@ public class Reporter : MonoBehaviour
 		}
 
 		try {
-			gameObject.SendMessage("OnLog", log);
+			gameObject.SendMessage("OnLog", log); 
 		}
 		catch (System.Exception e) {
 			Debug.LogException(e);
@@ -1946,21 +1946,6 @@ public class Reporter : MonoBehaviour
 		lock (threadedLogs) {
 			threadedLogs.Add(log);
 		}
-	}
-
-	//new scene is loaded
-	void OnLevelWasLoaded()
-	{
-		if (clearOnNewSceneLoaded)
-			clear();
-
-#if UNITY_CHANGE3
-		currentScene = SceneManager.GetActiveScene().name ;
-		Debug.Log( "Scene " + SceneManager.GetActiveScene().name + " is loaded");
-#else
-		currentScene = Application.loadedLevelName;
-		Debug.Log("Scene " + Application.loadedLevelName + " is loaded");
-#endif
 	}
 
 	//save user config
