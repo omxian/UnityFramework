@@ -3,6 +3,7 @@ guid: 2af0c714c9899bf44b84d2c8e6a19f56
 timeCreated: 1479383332
 licenseType: Free
 NativeFormatImporter:
+  mainObjectFileID: -1
   userData: 
   assetBundleName: prefab_tictactoe.ab
   assetBundleVariant: 
