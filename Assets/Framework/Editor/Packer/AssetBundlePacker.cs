@@ -19,7 +19,7 @@ namespace Unity.Framework.Editor
             //构建AssetBundle
             BuildAndroidAssetBundle();
             //构建APK
-            BuildPipeline.BuildPlayer(sceneLevel, string.Format("../APK/{0}.apk", Util.GetUTCTimestamp()), BuildTarget.Android, BuildOptions.None);
+            BuildPipeline.BuildPlayer(sceneLevel, string.Format("APK/{0}.apk", Util.GetCurrentDate()), BuildTarget.Android, BuildOptions.None);
         }
 
         [MenuItem("Build/Build Android AssetBundle")]

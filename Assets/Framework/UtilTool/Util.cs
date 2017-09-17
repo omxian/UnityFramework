@@ -13,6 +13,16 @@ namespace Unity.Framework
             return (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
 
+        public static string GetCurrentDate()
+        {
+            return 
+                DateTime.Now.Year.ToString() +
+                DateTime.Now.Month.ToString() +
+                DateTime.Now.Day.ToString() + "_" +
+                DateTime.Now.Hour.ToString() +
+                DateTime.Now.Minute.ToString();
+        }
+
         /// <summary>
         /// Unity中的x方向为height/length, y方向为width
         /// 推导链接:http://jingyan.baidu.com/article/2c8c281dfbf3dd0009252a7b.html
