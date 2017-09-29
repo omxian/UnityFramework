@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: another_gray
+  m_Name: gray
   m_Shader: {fileID: 4800000, guid: eecffd80d53dc184ca37e298fefa6c73, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
