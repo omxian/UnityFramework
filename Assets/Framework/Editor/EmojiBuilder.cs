@@ -50,7 +50,7 @@ public class EmojiBuilder  {
 	}
 	private const int EmojiSize = 32;//the size of emoji.
 
-	[MenuItem("EmojiText/Build Emoji")]
+	[MenuItem("Tools/EmojiText/Build Emoji")]
 	public static void BuildEmoji()
 	{
 		List<char> keylist = new List<char> ();
