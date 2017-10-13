@@ -41,14 +41,14 @@ namespace Unity.Framework.Editor
         [MenuItem("Tools/Search Component")]
         public static void Launch()
         {
-            CheckComponent checker = new CheckComponent();
-            checker.StartCheck();
+            new CheckComponentWindow().Show();
         }
 
         #region CheckComponent
 
-        private void StartCheck()
+        public void StartCheck(Type searchType)
         {
+            componentType = searchType;
             GetFileListFromFolderPath(_FilesList, abPath);
             //byte[] fileBytes = new byte[] { };
             int startIndex = 0;
