@@ -23,10 +23,6 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     {
         //从框架开始处取得当前加载的模式
         loadMode = ResourceLoadMode.Local;
-    }
-
-    public override void Init()
-    {
         InitLoader();
     }
 

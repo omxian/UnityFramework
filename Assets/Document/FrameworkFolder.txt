@@ -13,20 +13,22 @@ ExternalAsset 程序直接使用美术资源（含有美术资源文件夹的引
 	Shader 着色器(用于可能的预热)
 Framework 框架代码
 	BehaviorTree 行为树（暂无）
-	Command 使用Command模式的框架代码（暂无）
+	FSM 有限状态机（暂无）
 	Editor 框架编辑器
 		Template 模板
 		UICodeGenerater UI代码生成
 		Packer 处理打包相关
 		ABRedundancyChecker AssetBundle依赖检查工具
-	FSM 有限状态机（暂无）
 	Interface 自定义的接口
-	Localization 本地化功能（暂无）
+	Localization 本地化功能（TODO）
 	Manager 放置框架的管理器
 		NotifyManager 消息管理器，实现消息机制
 		ObjectPool 对象池
-		GameObjectPool 游戏对象对象池（暂无）
+		GameObjectPool 游戏对象对象池（TODO）
 		ResourceManager 处理资源加载、管理相关
+		StageManager 处理场景相关
+		NetworkManager 处理网络相关 (TODO)
+		AudioManager 处理音效相关(TODO)
 	Singleton 单例
 	ThirdPartyCode 第三方代码
 		BMFontTool 生成位图字
@@ -36,7 +38,7 @@ Framework 框架代码
 	UIFramework UI框架（暂无）
 	UtilTool 公用方法
 Resources Unity资源文件夹，放置不变的东西
-Solution 各种问题的解决方案
-	...其他方案
+Script 项目具体脚本与框架分离
 	FloatTextManger 飘字（有基本代码，但是需要等到框架完成才能接入）
-	Test/LearnTest/Debugger 测试,学习的地方，会被忽略
+Solution 各种问题的解决方案
+Test/LearnTest/Debugger 测试,学习的地方，会被忽略

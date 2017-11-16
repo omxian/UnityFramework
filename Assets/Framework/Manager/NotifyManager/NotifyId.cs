@@ -2,6 +2,6 @@
 {
     public class NotifyIds
     {
-        public const string Framework_Start = "Framework_Start";
+        public const string FRAMEWORK_STARTUP = "FRAMEWORK_STARTUP";
     }
 }

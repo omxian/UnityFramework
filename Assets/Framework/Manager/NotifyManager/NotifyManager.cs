@@ -24,40 +24,34 @@ namespace Framework.Notify
 
         public void AddNotify(string notify, Action<NotifyArg> callback)
         {
-            //以后从对象池中取
-            Notify item = new Notify();
+            Notify item = ObjectPoolManager.Instance.Get<Notify>();
             item.NotifyString = notify;
             item.callback = callback;
-
             addQueue.Enqueue(item);
         }
 
-        public void DeleteNofify(string notify, Action<NotifyArg> callback)
+        public void DeleteNotify(string notify, Action<NotifyArg> callback)
         {
-            //以后从对象池中取
-            Notify item = new Notify();
+            Notify item = ObjectPoolManager.Instance.Get<Notify>();
             item.NotifyString = notify;
             item.callback = callback;
-
             deleteQueue.Enqueue(item);
         }
 
-        public void TriggerNofify(string notify, NotifyArg arg = null)
+        public void TriggerNotify(string notify, NotifyArg arg = null)
         {
-            //以后从对象池中取
-            Notify item = new Notify();
+            Notify item = ObjectPoolManager.Instance.Get<Notify>();
             item.NotifyString = notify;
             item.arg = arg;
-
             triggerQueue.Enqueue(item);
         }
 
-        void Update()
+        protected override void OnUpdate()
         {
             Notify item;
             if (addQueue.Count > 0)
             {
-                item = triggerQueue.Dequeue();
+                item = addQueue.Dequeue();
                 if (notifyCenter.ContainsKey(item.NotifyString))
                 {
                     notifyCenter[item.NotifyString].Add(item.callback);
@@ -68,6 +62,7 @@ namespace Framework.Notify
                     notifyList.Add(item.callback);
                     notifyCenter.Add(item.NotifyString, notifyList);
                 }
+                ObjectPoolManager.Instance.Return<Notify>(item);
             }
 
             if (triggerQueue.Count > 0)
@@ -80,6 +75,7 @@ namespace Framework.Notify
                         notifyCenter[item.NotifyString][i](item.arg);
                     }
                 }
+                ObjectPoolManager.Instance.Return<Notify>(item);
             }
 
             if (deleteQueue.Count > 0)
@@ -92,13 +88,11 @@ namespace Framework.Notify
                         notifyCenter[item.NotifyString].Remove(item.callback);
                     }
                 }
+                ObjectPoolManager.Instance.Return<Notify>(item);
             }
         }
     }
 
-    /// <summary>
-    /// 可使用对象池优化
-    /// </summary>
     public class Notify : IPoolable
     {
         public string NotifyString;
@@ -125,5 +119,4 @@ namespace Framework.Notify
         //触发后调用的函数委托
         //函数参数
     }
-
 }

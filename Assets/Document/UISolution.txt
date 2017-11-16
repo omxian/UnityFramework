@@ -1,0 +1,7 @@
+UI目前可以使用两种方案来组织：
+1.以Scene为单位，如Home,Equip就会分为两个Scene。
+对于这种方案，在Scene中的Canvas挂启动脚本，即继承StageComponent的Stage组件，通过场景切换来控制。
+这种方案的优点是：切换场景释放所有资源，代码逻辑比较清晰。
+可能存在的问题是：热更新？
+2.一个或者两个Scene，平时是一个场景 ，进入战斗另一个场景。
+对于这种方案，则需要自己挂StageComponent到某处，同时卸载之前的StageComponent。

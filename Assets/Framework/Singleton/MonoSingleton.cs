@@ -4,7 +4,7 @@
 /// Mono单例继承此类，继承的类需要将其构造函数设为私有
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T> 
 {
     private static T instance;
     private static object lockObj = new object();
@@ -17,28 +17,18 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
             {
                 lock (lockObj)
                 {
-                    GameObject go = new GameObject();
-                    go.name = typeof(T).Name;
-                    DontDestroyOnLoad(go);
-                    instance = (T)go.AddComponent(typeof(T));
+                    instance = (T)GameLaunch.frameworkGo.AddComponent(typeof(T));
                 }
             }
             return instance;
         }
     }
 
-    public virtual void Init(){}
+    public virtual void StartUp(){}
 
-    void Start()
+    protected virtual void OnUpdate() {}
+    private void Update()
     {
-        Init();
-    }
-
-    /// <summary>
-    /// Update
-    /// </summary>
-    void Update()
-    {
-        
+        OnUpdate();
     }
 }
