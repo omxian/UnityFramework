@@ -2,17 +2,29 @@
 using System;
 using UnityEngine;
 
+public enum DisplayType
+{
+    Normal,
+    Pop,
+    Fade
+}
+
 /// <summary>
 /// 具体的UI组件
 /// </summary>
-public class UIComponent :  BaseComponent
+public abstract class ViewComponent :  BaseComponent
 {
     //UI绑定结束后调用
-    public Action<UIComponent> OnUIBindEnd = null;
+    public Action<ViewComponent> OnUIBindEnd = null;
     //UI关闭前调用
-    public Action<UIComponent> OnUICloseBefore = null;
+    public Action<ViewComponent> OnUICloseBefore = null;
+
+    private ViewInfo info = null;
+
     public override void Init()
     {
+        info = UIInfo.viewInfoDict[GetType()];
+
         BindUI();
 
         if (OnUIBindEnd != null)
@@ -26,17 +38,41 @@ public class UIComponent :  BaseComponent
     /// </summary>
     public virtual void BindUI()
     {
+        
+    }
 
+    public virtual void OnShow()
+    {
+        Enable = true;
+        if (info.showType == DisplayType.Pop)
+        {
+            PopIn();
+        }
+        else if (info.showType == DisplayType.Fade)
+        {
+            FadeIn();
+        }
     }
 
     public virtual void OnClose()
     {
-        if(OnUICloseBefore != null)
+        if (info.showType == DisplayType.Pop)
+        {
+            PopOut();
+        }
+        else if (info.hideType == DisplayType.Fade)
+        {
+            FadeOut();
+        }
+        if (OnUICloseBefore != null)
         {
             OnUICloseBefore(this);
         }
     }
 
+    /// <summary>
+    /// 与表现无关，显示和关闭UI
+    /// </summary>
     private bool _enable = true;
     public bool Enable
     {
@@ -62,10 +98,16 @@ public class UIComponent :  BaseComponent
         }
     }
 
+    /// <summary>
+    /// Enable = true时调用
+    /// </summary>
     public virtual void OnEnable()
     {
     }
 
+    /// <summary>
+    /// Enable = false时调用
+    /// </summary>
     public virtual void OnDisable()
     {
     }
@@ -76,61 +118,74 @@ public class UIComponent :  BaseComponent
     }
 
     #region UI Show/Hide Effect
-    public virtual void PopUp()
+    public void PopIn()
     {
         transform.localScale = Vector3.zero;
         Tweener tweener = transform.DOScale(Vector3.one, 0.2f);
         tweener.SetDelay(0.05f);
         tweener.SetUpdate(true);
         tweener.SetEase(Ease.OutBack);
-        tweener.OnComplete(OnPopUpEnd);
+        tweener.OnComplete(OnPopInEnd);
     }
 
-    public virtual void OnPopUpEnd()
+    public void PopOut()
     {
+        Tweener tweener = transform.DOScale(Vector3.zero, 0.2f);
+        tweener.SetDelay(0.05f);
+        tweener.SetUpdate(true);
+        tweener.SetEase(Ease.OutBack);
+        tweener.OnComplete(OnPopOutEnd);
+    }
+
+    public virtual void OnPopInEnd(){}
+    public virtual void OnPopOutEnd()
+    {
+        Enable = false;
+        transform.localScale = Vector3.one;
     }
 
     private bool isFade = false;
     private Tweener fadeTweener = null;
     private CanvasGroup fadeCanvas = null;
-    private Action fadeCallback = null;
-    public void FadeOut(Action callback = null, float duration = 0.3f)
+    public float fadeOutDuration = 0.3f;
+    public float fadeInDuration = 0.3f;
+    private void FadeOut()
     {
         ClearFade();
-        fadeCallback = callback;
         fadeCanvas = GetComponent<CanvasGroup>();
         if (fadeCanvas == null)
         {
             fadeCanvas = gameObject.AddComponent<CanvasGroup>();
         }
         fadeCanvas.alpha = 1;
-        fadeTweener = fadeCanvas.DOFade(0, duration);
-        fadeTweener.OnComplete(OnFadeComplete);
+        fadeTweener = fadeCanvas.DOFade(0, fadeOutDuration);
+        fadeTweener.OnComplete(OnFadeOutComplete);
         isFade = true;
     }
 
-    public void FadeIn(Action callback = null, float duration = 0.3f)
+    public void FadeIn()
     {
         ClearFade();
-        fadeCallback = callback;
         fadeCanvas = GetComponent<CanvasGroup>();
         if (fadeCanvas == null)
         {
             fadeCanvas = gameObject.AddComponent<CanvasGroup>();
         }
         fadeCanvas.alpha = 0;
-        fadeTweener = fadeCanvas.DOFade(1, duration);
-        fadeTweener.OnComplete(OnFadeComplete);
+        fadeTweener = fadeCanvas.DOFade(1, fadeInDuration);
+        fadeTweener.OnComplete(OnFadeInComplete);
         isFade = true;
     }
-    private void OnFadeComplete()
+    public virtual void OnFadeOutComplete()
     {
-        if (fadeCallback != null)
-        {
-            fadeCallback();
-        }
-        Destroy(fadeCanvas);
-        fadeCanvas = null;
+        Enable = false;
+        fadeCanvas.alpha = 1;
+        isFade = false;
+    }
+
+    public virtual void OnFadeInComplete()
+    {
+        Enable = true;
         isFade = false;
     }
 
@@ -139,14 +194,6 @@ public class UIComponent :  BaseComponent
         if (isFade)
         {
             fadeTweener.Kill();
-            if (fadeCallback != null)
-            {
-                fadeCallback();
-            }
-            if (fadeCanvas != null)
-            {
-                fadeCanvas.alpha = 1;
-            }
             isFade = false;
         }
     }

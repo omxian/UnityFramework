@@ -15,8 +15,19 @@ public class StageComponent : BaseComponent
 
     }
 
-    public void ShowUI()
+    public T CreateUI<T>(Transform parent = null) where T : ViewComponent
     {
-        //load
+        Type uiType = typeof(T);
+        ViewInfo viewInfo;
+        if(UIInfo.viewInfoDict.TryGetValue(uiType, out viewInfo))
+        {
+            GameObject go = ResourceManager.Instance.LoadUI(viewInfo.resName, viewInfo.resFolder);
+            return go.AddComponent<T>();
+        }
+        else
+        {
+            Debug.LogError("View Not Define in UIInfo.viewInfo!");
+        }
+        return null;
     }
 }

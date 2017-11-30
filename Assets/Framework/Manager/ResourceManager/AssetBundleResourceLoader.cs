@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 对外暴露加载资源接口
 /// 对AssetBundleLoader进行管理
+/// TODO： 需要检查依赖是否正确
 /// </summary>
 public class AssetBundleResourceLoader : BaseLoader
 {
@@ -102,7 +103,6 @@ public class AssetBundleResourceLoader : BaseLoader
     public override void UnLoadAsset(string assetPath)
     {
         AssetBundleHandler handler = handlerDictionary[assetPath];
-        handler.DecreaseReference();
         TryUnloadHandler(assetPath, handler);
         TryUnloadDependAssetBundle(assetPath);
     }

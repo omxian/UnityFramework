@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestStage : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class TestStage : StageComponent
+{
+    public override void Init()
+    {
+        base.Init();
+        CreateUI<TestView>();
+    }
 }

@@ -13,7 +13,8 @@ public class GameLaunch : MonoBehaviour {
         CreateFrameworkGo();
 
         StageManager.Instance.StartUp();
-        
+        ResourceManager.Instance.StartUp();
+
         NotifyManager.Instance.TriggerNotify(NotifyIds.FRAMEWORK_STARTUP);
     }
 

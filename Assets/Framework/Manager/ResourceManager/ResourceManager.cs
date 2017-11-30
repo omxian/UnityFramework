@@ -46,9 +46,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     }
 
     //TODO
-    public void Load()
+    public GameObject LoadUI(string resName, string folder = "")
     {
-        loader.UnLoadAsset();
-        //loader.LoadAsset<>
+        return Instantiate(loader.LoadAsset<GameObject>(ResourceType.UI_Prefab, resName, folder));
     }
 }
