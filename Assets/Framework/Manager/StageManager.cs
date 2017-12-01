@@ -14,16 +14,17 @@ public class StageManager : MonoSingleton<StageManager>
 {
     private StageManager()
     {
-        
+
     }
 
     public override void StartUp()
     {
         NotifyManager.Instance.AddNotify(NotifyIds.FRAMEWORK_STARTUP, FrameworkStartUp);
     }
-    
+
     private void FrameworkStartUp(NotifyArg args)
     {
+        //启动场景
         SceneManager.LoadScene("Main");
     }
 }

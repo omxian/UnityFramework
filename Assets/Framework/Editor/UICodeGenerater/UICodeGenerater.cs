@@ -33,7 +33,7 @@ namespace Unity.Framework.Editor
                                 GameObject obj = (GameObject)AssetDatabase.LoadAssetAtPath(path, typeof(GameObject));
                                 BuildViewClass(obj);
                             }
-                        }
+                        } 
                     }
                 }
             }

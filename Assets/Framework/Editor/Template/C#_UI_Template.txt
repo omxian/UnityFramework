@@ -5,11 +5,12 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
-public class {#class#} : MonoBehaviour
+public class {#class#} : ViewComponent
 {
 {#param#}
-	public void Awake()
+	public override void BindUI()
 	{
 {#init#}
 	}

@@ -9,7 +9,7 @@ public class ViewInfo
     public string resFolder;
     public DisplayType showType;
     public DisplayType hideType;
-    public ViewInfo(string resName,string resFolder = "", DisplayType showType = DisplayType.Normal, DisplayType hideType = DisplayType.Normal)
+    public ViewInfo(string resName, string resFolder = "", DisplayType showType = DisplayType.Normal, DisplayType hideType = DisplayType.Normal)
     {
         this.resName = resName;
         this.resFolder = resFolder;

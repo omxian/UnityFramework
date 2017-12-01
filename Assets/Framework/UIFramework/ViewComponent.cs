@@ -9,28 +9,29 @@ public enum DisplayType
     Fade
 }
 
+
 /// <summary>
 /// 具体的UI组件
 /// </summary>
-public abstract class ViewComponent :  BaseComponent
+public abstract class ViewComponent : BaseComponent
 {
     //UI绑定结束后调用
-    public Action<ViewComponent> OnUIBindEnd = null;
+    //public Action<ViewComponent> OnUIBindEnd = null;
     //UI关闭前调用
     public Action<ViewComponent> OnUICloseBefore = null;
 
     private ViewInfo info = null;
 
-    public override void Init()
+    protected override void Init()
     {
         info = UIInfo.viewInfoDict[GetType()];
 
         BindUI();
 
-        if (OnUIBindEnd != null)
-        {
-            OnUIBindEnd(this);
-        }
+        //if (OnUIBindEnd != null)
+        //{
+        //    OnUIBindEnd(this);
+        //}
     }
 
     /// <summary>
@@ -38,7 +39,12 @@ public abstract class ViewComponent :  BaseComponent
     /// </summary>
     public virtual void BindUI()
     {
-        
+
+    }
+
+    public static void DefaultAction()
+    {
+        Debug.Log("Action Not Defined !!");
     }
 
     public virtual void OnShow()
@@ -137,7 +143,7 @@ public abstract class ViewComponent :  BaseComponent
         tweener.OnComplete(OnPopOutEnd);
     }
 
-    public virtual void OnPopInEnd(){}
+    public virtual void OnPopInEnd() { }
     public virtual void OnPopOutEnd()
     {
         Enable = false;

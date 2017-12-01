@@ -8,14 +8,23 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class BaseComponent : MonoBehaviour
 {
-    private void Awake(){}
-    public abstract void Init();
+    private void Awake() { }
+
+    /// <summary>
+    /// 初始化,刚加载时自动调用(Start)
+    /// </summary>
+    protected virtual void Init() { }
+
+    /// <summary>
+    /// 清理资源,退出时手动调用
+    /// </summary>
+    public virtual void Clear() { }
     private void Start()
     {
         Init();
     }
 
-    public virtual void OnUpdate() {}
+    public virtual void OnUpdate() { }
     private void Update()
     {
         OnUpdate();
@@ -25,7 +34,7 @@ public abstract class BaseComponent : MonoBehaviour
     protected Dictionary<string, Action<NotifyArg>> addNotifyCache = new Dictionary<string, Action<NotifyArg>>();
     public void AddNotify(string notify, Action<NotifyArg> callback)
     {
-        if(addNotifyCache.ContainsKey(notify))
+        if (addNotifyCache.ContainsKey(notify))
         {
             DeleteNotify(notify, addNotifyCache[notify]);
         }

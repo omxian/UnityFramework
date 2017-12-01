@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class TestStage : StageComponent
 {
-    public override void Init()
+    protected override void Init()
     {
-        base.Init();
-        CreateUI<TestView>();
+        CreateUI<TestView>(OnShowTestView);
     }
+
+    public void OnShowTestView(TestView view)
+    {
+        view.OnTTTClickAction = OnTTTClick;
+    }
+
+    public void OnTTTClick() { Debug.Log("F..."); }
 }

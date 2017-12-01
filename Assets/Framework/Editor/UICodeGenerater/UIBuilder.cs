@@ -19,9 +19,9 @@ namespace Unity.Framework.Editor
         /// <summary>
         /// 重新命名类名,为空即不需要重命名
         /// </summary>
-        protected string renameFile = ""; 
+        protected string renameFile = "";
         /// <summary>
-        /// 需要跳过的父节点
+        /// 需要跳过的父节点，用来处理UI_Item_Template类型
         /// </summary>
         protected List<Transform> skipParentTransform = new List<Transform>();
 

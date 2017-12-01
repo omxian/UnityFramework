@@ -42,8 +42,11 @@ namespace Unity.Framework.Editor
                     switch (tag)
                     {
                         case UITagType.UI_Button:
+                            string actionName = "On" + name + "Action";
+                            param.Append(string.Format(paramTemplate, "UnityAction", actionName + " = DefaultAction"));
                             param.Append(string.Format(paramTemplate, info.GetButton(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetButton()));
+                            init.Append(string.Format("{0}.onClick.AddListener({1});\n", name, actionName));
                             break;
                         case UITagType.UI_GameObject:
                             param.Append(string.Format(paramTemplate, info.GetGameObject(), name));
