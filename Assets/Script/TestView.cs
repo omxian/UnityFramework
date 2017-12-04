@@ -10,15 +10,8 @@ using UnityEngine.UI;
 /// </summary>
 public class TestView : TestUIView
 {
-    //这部分的按钮绑定计划用生成工具生成
-    public UnityAction OnTTTClickAction = DefaultAction;
-    public UnityAction OnOnMLClickAction = DefaultAction;
     protected override void Init()
     {
-        //Slider x;
-        //x.onValueChanged = 
         base.Init();
-        tttBtn.onClick.AddListener(OnTTTClickAction);
-        mlBtn.onClick.AddListener(OnOnMLClickAction);
     }
 }

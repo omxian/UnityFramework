@@ -52,6 +52,10 @@ namespace Unity.Framework.Editor
             {
                 throw new Exception(name + " Contains Space! Please Check!");
             }
+            else if(name.Length == 0)
+            {
+                throw new Exception("Name is not defined! Please Check!");
+            }
         }
 
         protected Transform[] GetChildrenTransform()

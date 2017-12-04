@@ -23,6 +23,9 @@ public class StageInfo
     //ab依赖
 }
 
+/// <summary>
+/// 此类用于UI/Stage的定义
+/// </summary>
 public static class UIInfo
 {
     public static Dictionary<Type, ViewInfo> viewInfoDict = new Dictionary<Type, ViewInfo>

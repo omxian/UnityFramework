@@ -42,7 +42,16 @@ namespace Unity.Framework.Editor
                     switch (tag)
                     {
                         case UITagType.UI_Button:
-                            string actionName = "On" + name + "Action";
+                            string actionName = name;
+                            if(actionName.Length > 1)
+                            {
+                                actionName = "On" + name[0].ToString().ToUpper() + name.Substring(1, name.Length - 1) + "Action";
+                            }
+                            else
+                            {
+                                actionName = "On" + name[0].ToString().ToUpper() + "Action";
+                            }
+                            
                             param.Append(string.Format(paramTemplate, "UnityAction", actionName + " = DefaultAction"));
                             param.Append(string.Format(paramTemplate, info.GetButton(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetButton()));

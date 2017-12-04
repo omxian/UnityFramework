@@ -11,7 +11,7 @@ public class TestStage : StageComponent
 
     public void OnShowTestView(TestView view)
     {
-        view.OnTTTClickAction = OnTTTClick;
+        view.OnTttBtnAction = OnTTTClick;
     }
 
     public void OnTTTClick() { Debug.Log("F..."); }
