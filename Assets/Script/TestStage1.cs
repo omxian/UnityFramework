@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Framework.Notify;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestStage : StageComponent
+public class TestStage1 : StageComponent
 {
     TestView view;
     protected override void Init()
@@ -25,8 +26,8 @@ public class TestStage : StageComponent
 
     public void OnTTTClick()
     {
-        Debug.Log("click");
-        StageManager.Instance.LoadStage<TestStage1>(); 
+        Debug.Log("Clear All");
+        StageManager.Instance.LoadStage<TestStage>(true);
     }
 
     public override void Clear()

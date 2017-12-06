@@ -111,12 +111,4 @@ namespace Framework.Notify
             callback = null;
         }
     }
-
-    //消息体
-    public class NotifyArg
-    {
-        //侦听的String 
-        //触发后调用的函数委托
-        //函数参数
-    }
 }

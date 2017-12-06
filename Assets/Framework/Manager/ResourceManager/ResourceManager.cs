@@ -44,8 +44,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             throw new Exception("load Mode Not Define!");
         }
     }
-
-    //TODO
+    
     public GameObject LoadUI(string resName, string folder = "")
     {
         return Instantiate(loader.LoadAsset<GameObject>(ResourceType.UI_Prefab, resName, folder));

@@ -35,5 +35,6 @@ public static class UIInfo
 
     public static Dictionary<Type, StageInfo> stageInfoDict = new Dictionary<Type, StageInfo> {
         {typeof(TestStage), new StageInfo() },
+        {typeof(TestStage1), new StageInfo() },
     };
 }

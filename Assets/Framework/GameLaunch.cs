@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Framework.Notify;
+using UnityEngine.UI;
 
 /// <summary>
 /// 游戏启动代码
@@ -10,27 +11,12 @@ using Framework.Notify;
 /// </summary>
 public class GameLaunch : MonoBehaviour
 {
-    public static GameObject frameworkGo = null;
     void Start()
     {
-        CreateFrameworkGo();
-
+        FrameworkRoot.CreateFrameworkRoot();
         StageManager.Instance.StartUp();
         ResourceManager.Instance.StartUp();
         NotifyManager.Instance.TriggerNotify(NotifyIds.FRAMEWORK_STARTUP);
-    }
-
-    /// <summary>
-    /// 创建框架节点,所有管理器都会挂载在此节点
-    /// </summary>
-    private void CreateFrameworkGo()
-    {
-        if (frameworkGo == null)
-        {
-            frameworkGo = new GameObject();
-            frameworkGo.name = "Framework";
-            DontDestroyOnLoad(frameworkGo);
-        }
     }
 }
 

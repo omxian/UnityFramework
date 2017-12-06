@@ -17,7 +17,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
             {
                 lock (lockObj)
                 {
-                    instance = (T)GameLaunch.frameworkGo.AddComponent(typeof(T));
+                    instance = (T)FrameworkRoot.system.gameObject.AddComponent(typeof(T));
                 }
             }
             return instance;
