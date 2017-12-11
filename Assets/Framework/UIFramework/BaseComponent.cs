@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class BaseComponent : MonoBehaviour
 {
-    private void Awake() { }
+    private void Awake() {  }
 
     /// <summary>
     /// 初始化,刚加载时自动调用(Start)

@@ -11,6 +11,7 @@ public class StageComponent : BaseComponent
 {
     protected override void Init()
     {
+        ResourceManager.Instance.StageLoadAB(this);
         StageManager.Instance.EnterStage(this);
     }
 
@@ -32,7 +33,10 @@ public class StageComponent : BaseComponent
                 parent = FrameworkRoot.ui;
             }
             go.transform.SetParent(parent, false);
-            onViewShowed(go.AddComponent<T>());
+            T view = go.AddComponent<T>();
+            view.SetViewInfo(viewInfo);
+            view.OnShow();
+            onViewShowed(view);
         }
         else
         {
@@ -49,13 +53,15 @@ public class StageComponent : BaseComponent
     }
 
     /// <summary>
-    /// 离开Stage时调用
+    /// 离开Stage时自动调用
+    /// 清理UI资源，清理StageAB依赖，清理消息侦听，销毁挂载的GO
     /// </summary>
     public override void Clear()
     {
+        //子类:清理UI资源等
         //清理Stage AB依赖
-        //清理UI资源等
-        //清理侦听
+        ResourceManager.Instance.StageUnLoadAB(this);
+        //清理消息侦听
         ClearAllNotify();
         //清理挂Stage的GO
         Destroy(gameObject);

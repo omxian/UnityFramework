@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 加载本地资源的loader
 /// </summary>
-public class LocalResourceLoader : BaseLoader
+public class LocalResourceLoader
 {
     /// <summary>
     /// 资源，匹配的后缀
@@ -24,7 +24,7 @@ public class LocalResourceLoader : BaseLoader
     /// 使用资源类别和资源名称加载资源
     /// folder参数用来加载UI/Sprite等有文件目录的资源
     /// </summary>
-    public override T LoadAsset<T>(ResourceType resType, string resName,string folder = "")
+    public T LoadAsset<T>(ResourceType resType, string resName,string folder = "") where T : UnityEngine.Object
     {
         string path = AssetPath.GetResPath(false, AssetPath.resourcePath + AssetPath.ResourcePath[resType], Path.Combine(folder,resName));
         string[] resSuffix = ResourceSuffix[resType];
@@ -42,13 +42,13 @@ public class LocalResourceLoader : BaseLoader
     //可以考虑对AssetBundleRequest增加一层封装如 AssetBundleRequestHandler
     //其中里面有asset属性，对其进行直接赋值
     //AssetBundle就走加载
-    public override AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "")
+    public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "")
     {
         AssetBundleRequest request = new AssetBundleRequest();
         return request;
     }
 
-    public override void UnLoadAsset(string assetPath = "")
+    public void UnLoadAsset()
     {
         Resources.UnloadUnusedAssets();
     }

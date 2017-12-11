@@ -18,6 +18,7 @@ public class AssetBundleHandler : IPoolable
     public void IncreaseReference()
     {
         referenceNumer++;
+        Debug.Log(assetbundle.name + " Increase Reference: " + referenceNumer);
     }
     
     /// <summary>
@@ -26,6 +27,7 @@ public class AssetBundleHandler : IPoolable
     public void DecreaseReference()
     {
         referenceNumer--;
+        Debug.Log(assetbundle.name + " Decrease Reference: " + referenceNumer);
     }
 
     /// <summary>

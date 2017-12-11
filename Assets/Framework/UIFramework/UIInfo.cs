@@ -20,7 +20,12 @@ public class ViewInfo
 
 public class StageInfo
 {
-    //ab依赖
+    //ab依赖相关
+    public string[] abName;
+    public StageInfo(string[] abName = null)
+    {
+        this.abName = abName;
+    }
 }
 
 /// <summary>
@@ -30,11 +35,10 @@ public static class UIInfo
 {
     public static Dictionary<Type, ViewInfo> viewInfoDict = new Dictionary<Type, ViewInfo>
     {
-        {typeof(TestView), new ViewInfo("testUI","test", DisplayType.Pop, DisplayType.Pop) }
+        {typeof(TestView), new ViewInfo("TestLoadStageUI","test", DisplayType.Pop, DisplayType.Pop) }
     };
 
     public static Dictionary<Type, StageInfo> stageInfoDict = new Dictionary<Type, StageInfo> {
-        {typeof(TestStage), new StageInfo() },
-        {typeof(TestStage1), new StageInfo() },
+        {typeof(TestStage), new StageInfo(new string[] {"UI/Prefab/test"})},
     };
 }

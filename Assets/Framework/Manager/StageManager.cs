@@ -40,6 +40,27 @@ public class StageManager : MonoSingleton<StageManager>
         }
         currentActiveStage.Clear();
     }
+
+    public void LoadStage<T>(bool clearOtherStage = false) where T : StageComponent
+    {
+        Type type = typeof(T);
+        StageInfo stageInfo;
+        if (UIInfo.stageInfoDict.TryGetValue(type, out stageInfo))
+        {
+            if (clearOtherStage)
+            {
+                LeaveAllStage();
+            }
+
+            GameObject go = new GameObject(type.Name);
+            go.AddComponent<T>();
+            go.transform.SetParent(FrameworkRoot.system.transform);
+        }
+        else
+        {
+            Debug.LogError("Stage Not Define in UIInfo!");
+        }
+    }
     #endregion
 
     private StageManager()
@@ -58,33 +79,11 @@ public class StageManager : MonoSingleton<StageManager>
         LoadStage<TestStage>();
         //ChangeScene(new SceneNotifyArg("Main"));
     }
-
-    public void LoadStage<T>(bool clearOtherStage = false) where T : StageComponent
-    {
-        Type type = typeof(T);
-        StageInfo stageInfo;
-        if(UIInfo.stageInfoDict.TryGetValue(type,out stageInfo))
-        {
-            if (clearOtherStage)
-            {
-                LeaveAllStage();
-            }
-
-            //加载ab,stageInfo
-
-            GameObject go = new GameObject(type.Name);
-            go.AddComponent<T>();
-            go.transform.SetParent(FrameworkRoot.system.transform);
-        }
-        else
-        {
-            Debug.LogError("Stage Not Define in UIInfo!");
-        }
-    }
-
+    #region Scene Operation
     private void ChangeScene(NotifyArg args)
     {
         LeaveAllStage();
         SceneManager.LoadSceneAsync((args as SceneNotifyArg).sceneName);
     }
+    #endregion
 }

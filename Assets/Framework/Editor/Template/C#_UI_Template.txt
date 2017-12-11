@@ -1,4 +1,4 @@
-﻿/* 
+/* 
 	UI View Gen From GenUITools
 	Please Don't Modify!
  */
@@ -6,12 +6,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 
 public class {#class#} : ViewComponent
 {
 {#param#}
-	public override void BindUI()
+	public override IEnumerator BindUI()
 	{
+		base.BindUI();
 {#init#}
+		yield return null;
 	}
+
+	public override void Clear()
+    {
+		base.Clear();
+{#clear#}
+		Destroy(gameObject);
+    }
 }

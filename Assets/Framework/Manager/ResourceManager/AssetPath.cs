@@ -72,6 +72,11 @@ public static class AssetPath
         }
     }
 
+    public static string GetABPath(string ab)
+    {
+        return Path.Combine(AssetPath.StreamingAssetsPath, PathToAssetBundleName(ab));
+    }
+
     /// <summary>
     /// 将Path 转换为AssetBundle名称
     /// </summary>

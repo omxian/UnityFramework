@@ -16,13 +16,14 @@ namespace Unity.Framework.Editor
 
         public override void GenerateUI()
         {
-            string gameObjectInitTemplate = "{0} = transform.Find(\"{1}\").gameObject;\r\n";
-            string transformInitTemplate = "{0} = transform.Find(\"{1}\");\r\n";
-            string componentInitTemplate = "{0} = transform.Find(\"{1}\").GetComponent<{2}>();\r\n";
-            string paramTemplate = "public {0} {1};\r\n";
+            string gameObjectInitTemplate = "       {0} = transform.Find(\"{1}\").gameObject;\r\n";
+            string transformInitTemplate = "        {0} = transform.Find(\"{1}\");\r\n";
+            string componentInitTemplate = "        {0} = transform.Find(\"{1}\").GetComponent<{2}>();\r\n";
+            string paramTemplate = "    public {0} {1};\r\n";
 
             StringBuilder init = new StringBuilder();
             StringBuilder param = new StringBuilder();
+            StringBuilder clear = new StringBuilder();
             BaseComponentInfo info = GetComponentInfo();
 
             foreach (Transform tran in GetChildrenTransform())
@@ -55,7 +56,8 @@ namespace Unity.Framework.Editor
                             param.Append(string.Format(paramTemplate, "UnityAction", actionName + " = DefaultAction"));
                             param.Append(string.Format(paramTemplate, info.GetButton(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetButton()));
-                            init.Append(string.Format("{0}.onClick.AddListener({1});\n", name, actionName));
+                            init.Append(string.Format ("        {0}.onClick.AddListener({1});\r\n", name, actionName));
+                            clear.Append(string.Format("        {0}.onClick.RemoveAllListeners();\r\n", name));
                             break;
                         case UITagType.UI_GameObject:
                             param.Append(string.Format(paramTemplate, info.GetGameObject(), name));
@@ -101,8 +103,8 @@ namespace Unity.Framework.Editor
                             string arrayName = nameInfo[0] + "Array";
 
                             //定义Array
-                            param.Append(string.Format("public {0}[] {1} = new {0}[{2}];\r\n", className, arrayName, nameInfo[2]));
-                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\r\n", arrayName, nameInfo[1], className, GetHierarchy(tran)));
+                            param.Append(string.Format("    public {0}[] {1} = new {0}[{2}];\r\n", className, arrayName, nameInfo[2]));
+                            init.Append(string.Format("        {0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\r\n", arrayName, nameInfo[1], className, GetHierarchy(tran)));
 
                             //将transform加入跳过列表
                             skipParentTransform.Add(tran);
@@ -113,7 +115,7 @@ namespace Unity.Framework.Editor
                             string[] itemNameInfo = ParseItemName(tag, name);
                             string itemClassName = GetClassName(itemNameInfo[0]);
                             string itemArrayName = itemNameInfo[0] + "Array";
-                            init.Append(string.Format("{0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\r\n", itemArrayName, itemNameInfo[1], itemClassName, GetHierarchy(tran)));
+                            init.Append(string.Format("        {0}[{1}] = transform.Find(\"{3}\").gameObject.AddComponent<{2}>();\r\n", itemArrayName, itemNameInfo[1], itemClassName, GetHierarchy(tran)));
                             break;
                     }
                 }
@@ -123,6 +125,7 @@ namespace Unity.Framework.Editor
             content = content.Replace("{#class#}", GetClassName(renameFile));
             content = content.Replace("{#param#}", param.ToString());
             content = content.Replace("{#init#}", init.ToString());
+            content = content.Replace("{#clear#}", clear.ToString());
             SaveFile(renameFile);
         }
     }

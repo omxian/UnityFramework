@@ -8,7 +8,7 @@ using UnityEngine;
 /// 对AssetBundleLoader进行管理
 /// TODO： 需要检查依赖是否正确
 /// </summary>
-public class AssetBundleResourceLoader : BaseLoader
+public class AssetBundleResourceLoader
 {
     private Dictionary<string, AssetBundleHandler> handlerDictionary = new Dictionary<string, AssetBundleHandler>();
 
@@ -26,17 +26,22 @@ public class AssetBundleResourceLoader : BaseLoader
         }
     }
 
-    public override T LoadAsset<T>(ResourceType resType, string resName, string folder = "")
+    /// <summary>
+    /// 同步加载资源
+    /// </summary>
+    public T LoadAsset<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
         string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        LoadHandler(path);
         return handlerDictionary[path].LoadAsset<T>(resName);
     }
 
-    public override AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "")
+    /// <summary>
+    /// 异步加载资源
+    /// </summary>
+    /// <returns>返回AssetBundleRequest自行处理</returns>
+    public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
         string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        LoadHandler(path);
         return handlerDictionary[path].LoadAssetAsync<T>(resName);
     }
 
@@ -100,10 +105,42 @@ public class AssetBundleResourceLoader : BaseLoader
         }
     }
 
-    public override void UnLoadAsset(string assetPath)
+    public void UnLoadAsset(ResourceType resType, string resName, string folder = "")
+    {
+        string assetPath = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
+        UnLoadAsset(assetPath);
+    }
+
+    private void UnLoadAsset(string assetPath)
     {
         AssetBundleHandler handler = handlerDictionary[assetPath];
         TryUnloadHandler(assetPath, handler);
         TryUnloadDependAssetBundle(assetPath);
     }
+
+    #region Stage相关
+    public void StageLoadAB(string[] ab)
+    {
+        if(ab != null && ab.Length != 0)
+        {
+            foreach(string assetName in ab)
+            {
+                string path = AssetPath.GetABPath(assetName);
+                LoadHandler(path);
+            }
+        }
+    }
+
+    public void StageUnLoadAB(string[] ab)
+    {
+        if (ab != null && ab.Length != 0)
+        {
+            foreach (string assetName in ab)
+            {
+                string path = AssetPath.GetABPath(assetName);
+                UnLoadAsset(path);
+            }
+        }
+    }
+    #endregion
 }

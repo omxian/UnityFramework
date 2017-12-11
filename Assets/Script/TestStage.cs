@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 处理具体逻辑
+/// </summary>
 public class TestStage : StageComponent
 {
     TestView view;
@@ -14,26 +17,25 @@ public class TestStage : StageComponent
     public void OnShowedTestView(TestView view)
     {
         this.view = view;
-        view.OnTttBtnAction = OnTTTClick;
-        view.OnBAction = OnBClick;
+        view.OnLoadAnotherBtnAction = OnLoadAnotherClick;
+        view.OnClearAllLoadBtnAction = OnClearAllLoadClick;
+        view.OnClearCurrentBtnAction = LeaveStage;
     }
 
-    public void OnBClick()
+    public void OnClearAllLoadClick()
     {
         TriggerNotify(NotifyIds.FRAMEWORK_CHANGE_SCENE, new SceneNotifyArg("Main"));
     }
 
-    public void OnTTTClick()
+    public void OnLoadAnotherClick()
     {
         Debug.Log("click");
-        StageManager.Instance.LoadStage<TestStage1>(); 
+        StageManager.Instance.LoadStage<TestStage>(); 
     }
 
     public override void Clear()
     {
-        //清理UI资源
         view.Clear();
-        Destroy(view.gameObject);
         base.Clear();
     }
 }

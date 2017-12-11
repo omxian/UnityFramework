@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum DisplayType
@@ -9,14 +10,11 @@ public enum DisplayType
     Fade
 }
 
-
 /// <summary>
 /// 具体的UI组件
 /// </summary>
 public abstract class ViewComponent : BaseComponent
 {
-    //UI绑定结束后调用
-    //public Action<ViewComponent> OnUIBindEnd = null;
     //UI关闭前调用
     public Action<ViewComponent> OnUICloseBefore = null;
 
@@ -24,22 +22,20 @@ public abstract class ViewComponent : BaseComponent
 
     protected override void Init()
     {
-        info = UIInfo.viewInfoDict[GetType()];
+        StartCoroutine(BindUI());
+    }
 
-        BindUI();
-
-        //if (OnUIBindEnd != null)
-        //{
-        //    OnUIBindEnd(this);
-        //}
+    public void SetViewInfo(ViewInfo info)
+    {
+        this.info = info;
     }
 
     /// <summary>
     /// 组件绑定初始化
     /// </summary>
-    public virtual void BindUI()
+    public virtual IEnumerator BindUI()
     {
-
+        yield return new WaitForEndOfFrame();
     }
 
     public static void DefaultAction()
