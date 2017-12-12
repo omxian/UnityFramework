@@ -7,25 +7,29 @@ namespace Unity.Framework.Editor
     //本类用于对资源打AssetBundle
     public class AssetBundlePacker
     {
-        private static string[] sceneLevel = new string[] {
-            "Assets/Script/TicTacToe/TicTacToe.unity",
-        };
-
         [MenuItem("Build/Build APK")]
         private static void BuildApk()
         {
             //切换平台
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android ,BuildTarget.Android);
+            //清理目录
+            ClearDirectory();
             //构建AssetBundle
             BuildAndroidAssetBundle();
             //构建APK
-            BuildPipeline.BuildPlayer(sceneLevel, string.Format("APK/{0}.apk", Util.GetCurrentDate()), BuildTarget.Android, BuildOptions.None);
+            BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, string.Format("APK/{0}.apk", Util.GetCurrentDate()), BuildTarget.Android, BuildOptions.None);
         }
 
         [MenuItem("Build/Build Android AssetBundle")]
         private static void BuildAndroidAssetBundle()
         {
             BuildAssetBundle(BuildTarget.Android);
+        }
+
+        [MenuItem("Build/Clear Android AssetBundle")]
+        private static void ClearAssetBundle()
+        {
+            ClearDirectory();
         }
 
         private static void BuildAssetBundle(BuildTarget targetPlatform)
@@ -36,16 +40,14 @@ namespace Unity.Framework.Editor
             SetAssetBundleName(AssetPath.resourcePath);
             //set sprite packing tag
             new SpritePacker().SetSprite();
-            //清理目录
-            ClearDirectory();
             //开始打包到临时文件夹
-            BuildPipeline.BuildAssetBundles(AssetPath.tempPath, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.Android);
+            BuildPipeline.BuildAssetBundles(AssetPath.tempPath, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.Android);
             //重命名依赖文件
             RenameTempManifest();
+            //清理StremingAssets目录
+            ClearStremingAssets();
             //拷贝到StreamingAssets
             CopyToStreamingAssets();
-            //删除临时文件夹
-            DeleteTempDirectory();
             //刷新Editor
             AssetDatabase.Refresh();
         }
@@ -55,7 +57,13 @@ namespace Unity.Framework.Editor
         /// </summary>
         private static void RenameTempManifest()
         {
-            File.Move(AssetPath.tempPath + AssetPath.tempManifestName, AssetPath.tempPath +  AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix);
+            string targetFile = AssetPath.tempPath + AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix;
+            if(File.Exists(targetFile))
+            {
+                File.Delete(targetFile);
+            }
+
+            File.Move(AssetPath.tempPath + AssetPath.tempManifestName, targetFile);
         }
 
         /// <summary>
@@ -77,7 +85,10 @@ namespace Unity.Framework.Editor
         //删除临时文件夹
         private static void DeleteTempDirectory()
         {
-            Directory.Delete(AssetPath.tempPath, true);
+            if(Directory.Exists(AssetPath.tempPath))
+            {
+                Directory.Delete(AssetPath.tempPath, true);
+            }
         }
         
         private static void SetAssetBundleName(string path)
@@ -118,12 +129,21 @@ namespace Unity.Framework.Editor
 
         private static void ClearDirectory()
         {
+            ClearStremingAssets();
+            ClearTemp();
+        }
+
+        private static void ClearStremingAssets()
+        {
             if (Directory.Exists(Application.streamingAssetsPath))
             {
                 Directory.Delete(Application.streamingAssetsPath, true);
             }
             Directory.CreateDirectory(Application.streamingAssetsPath);
+        }
 
+        private static void ClearTemp()
+        {
             if (Directory.Exists(AssetPath.tempPath))
             {
                 Directory.Delete(AssetPath.tempPath, true);
