@@ -1,33 +1,44 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Unity.Framework;
-
-public partial class TicTacToe : MonoBehaviour
+using Game.TTT;
+using UnityEngine;
+public class TTTStage : StageComponent
 {
+    private TTTView view;
     private List<UISelectable> clickAbleList;
     private Player currentPlayer;
-    private PlayMode currentPlayMode;
+    private Game.TTT.PlayMode currentPlayMode;
     private WinState playerOneWinState;
     private WinState playerTwoWinState;
-    private Object playerOneGo;
-    private Object playerTwoGo;
+    private GameObject playerOneGo;
+    private GameObject playerTwoGo;
     private TicTacToeAI singlePlayerAI;
     private Player[] gameState;
     private bool aiTurn = false;
     private bool gameover;
 
-    void Start ()
+    protected override void Init()
     {
+        base.Init();
+        CreateView<TTTView>(OnTTTShowed);
+    }
+
+    private void OnTTTShowed(TTTView view)
+    {
+        this.view = view;
+
         clickAbleList = new List<UISelectable>();
         currentPlayer = Player.Player1;
 
-        InitUI();
         InitGameArea();
 
         // Init Button
-        onePlayerButton.AddClick(EnterOnePlayerMode);
-        twoPlayerButton.AddClick(EnterTwoPlayerMode);
-        backButton.AddClick(OnBackClick);
+        view.OnePlayerButton.AddClick(EnterOnePlayerMode);
+        view.TwoPlayerButton.AddClick(EnterTwoPlayerMode);
+        view.BackButton.AddClick(OnBackClick);
         // Init GamePanel
         InitGamePanel();
     }
@@ -84,7 +95,7 @@ public partial class TicTacToe : MonoBehaviour
     {
         for (int i = 0; i < 9; i++)
         {
-            Transform gameArea = gameBG.Find("GameArea" + i.ToString());
+            Transform gameArea = view.GameBG.Find("GameArea" + i.ToString());
             UISelectable gameAreaComponent = gameArea.GetComponent<UISelectable>();
             clickAbleList.Add(gameAreaComponent);
         }
@@ -127,20 +138,20 @@ public partial class TicTacToe : MonoBehaviour
             {
                 //当前玩家胜利，停止游戏
                 gameover = true;
-                winText.text = currentPlayer.ToString() + " Win!";
+                view.WinText.text = currentPlayer.ToString() + " Win!";
                 ShowEndUI();
             }
             else // 切换玩家，继续游戏
             {
                 if (CheckGameOver())
                 {
-                    winText.text = "No Winer";
+                    view.WinText.text = "No Winer";
                     ShowEndUI();
                 }
                 else
                 {
                     SwitchPlayer();
-                    if (currentPlayMode == PlayMode.OnePlayerMode && aiTurn == false)
+                    if (currentPlayMode == Game.TTT.PlayMode.OnePlayerMode && aiTurn == false)
                     {
                         aiTurn = true;
                         OnGameAreaClick(singlePlayerAI.NextStep(gameState));
@@ -161,7 +172,7 @@ public partial class TicTacToe : MonoBehaviour
         {
             if (gameState[i] == Player.None)
             {
-                gameover =  false;
+                gameover = false;
                 return gameover;
             }
         }
@@ -172,8 +183,8 @@ public partial class TicTacToe : MonoBehaviour
     //缓存UI游戏对象
     private void InitGameAreaObject()
     {
-        playerOneGo = Resources.Load("PlayerOneSelect");
-        playerTwoGo = Resources.Load("PlayerTwoSelect");
+        playerOneGo = ResourceManager.Instance.LoadPrefab("PlayerOneSelect", "TicTacToe");
+        playerTwoGo = ResourceManager.Instance.LoadPrefab("PlayerTwoSelect", "TicTacToe");
     }
 
     //返回当前玩家的游戏对象
@@ -197,24 +208,24 @@ public partial class TicTacToe : MonoBehaviour
 
     public void EnterOnePlayerMode()
     {
-        StartGame(PlayMode.OnePlayerMode);
+        StartGame(Game.TTT.PlayMode.OnePlayerMode);
     }
 
     public void EnterTwoPlayerMode()
     {
-        StartGame(PlayMode.TwoPlayerMode);
+        StartGame(Game.TTT.PlayMode.TwoPlayerMode);
     }
 
     public void HideEndUI()
     {
-        winText.text = "";
-        backButton.SetActive(false);
+        view.WinText.text = "";
+        view.BackButton.SetActive(false);
     }
 
     public void ShowEndUI()
     {
-        winText.gameObject.SetActive(true);
-        backButton.SetActive(true);
+        view.WinText.gameObject.SetActive(true);
+        view.BackButton.SetActive(true);
     }
 
     //返回按钮点击
@@ -222,20 +233,20 @@ public partial class TicTacToe : MonoBehaviour
     {
         ClearGameArea();
         InitGamePanel();
-        startPanel.gameObject.SetActive(true);
-        gamePanel.gameObject.SetActive(false);
+        view.StartPanel.gameObject.SetActive(true);
+        view.GamePanel.gameObject.SetActive(false);
         HideEndUI();
     }
 
     //开始游戏
-    public void StartGame(PlayMode mode)
+    public void StartGame(Game.TTT.PlayMode mode)
     {
         currentPlayMode = mode;
-        startPanel.gameObject.SetActive(false);
-        gamePanel.gameObject.SetActive(true);
-        if (mode == PlayMode.OnePlayerMode)
+        view.StartPanel.gameObject.SetActive(false);
+        view.GamePanel.gameObject.SetActive(true);
+        if (mode == Game.TTT.PlayMode.OnePlayerMode)
         {
-            aiTurn = !offensiveToggle.isOn;
+            aiTurn = !view.OffensiveToggle.isOn;
             if (aiTurn)
             {
                 singlePlayerAI = new TicTacToeAI(Player.Player1);
@@ -259,5 +270,5 @@ public partial class TicTacToe : MonoBehaviour
         {
             currentPlayer = Player.Player1;
         }
-    } 
+    }
 }

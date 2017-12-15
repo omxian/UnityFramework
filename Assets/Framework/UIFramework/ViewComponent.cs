@@ -17,12 +17,22 @@ public abstract class ViewComponent : BaseComponent
 {
     //UI关闭前调用
     public Action<ViewComponent> OnUICloseBefore = null;
-
+    public Action<ViewComponent> OnViewShowed = null;
     private ViewInfo info = null;
 
     protected override void Init()
     {
-        StartCoroutine(BindUI());
+        //info = UIInfo.viewInfoDict[GetType()];
+        StartCoroutine(InitCoroutine());
+    }
+
+    private IEnumerator InitCoroutine()
+    {
+        yield return BindUI();
+        if (OnViewShowed != null)
+        {
+            OnViewShowed(this);
+        }
     }
 
     public void SetViewInfo(ViewInfo info)

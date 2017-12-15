@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Game.TTT;
 public class TicTacToeAI
 {
     private Player currentPlayer = Player.None;

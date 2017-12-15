@@ -76,7 +76,7 @@ public class StageManager : MonoSingleton<StageManager>
 
     private void FrameworkStartUp(NotifyArg args)
     {
-        LoadStage<TestStage>();
+        LoadStage<HomeStage>();
         //ChangeScene(new SceneNotifyArg("Main"));
     }
     #region Scene Operation

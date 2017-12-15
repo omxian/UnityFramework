@@ -50,8 +50,22 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             throw new Exception("load Mode Not Define!");
         }
     }
-    
-    public GameObject LoadUI(string resName, string folder = "")
+
+    //加载ExternalAsset/Prefab目录下的资源
+    public GameObject LoadPrefab(string resName, string folder = "")
+    {
+        if (loadMode == ResourceLoadMode.Local)
+        {
+            return Instantiate(localLoader.LoadAsset<GameObject>(ResourceType.Prefab, resName, folder));
+        }
+        else
+        {
+            return Instantiate(abLoader.LoadAsset<GameObject>(ResourceType.Prefab, resName, folder));
+        }
+    }
+
+    //加载ExternalAsset/UI/Prefab目录下的资源
+    public GameObject LoadUIPrefab(string resName, string folder = "")
     {
         if (loadMode == ResourceLoadMode.Local)
         {

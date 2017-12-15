@@ -9,6 +9,9 @@ using UnityEngine;
 /// </summary>
 public class StageComponent : BaseComponent
 {
+    /// <summary>
+    /// 初始化，UI的创建必须在基类执行完AssetBundle加载后进行
+    /// </summary>
     protected override void Init()
     {
         ResourceManager.Instance.StageLoadAB(this);
@@ -27,16 +30,19 @@ public class StageComponent : BaseComponent
         ViewInfo viewInfo;
         if (UIInfo.viewInfoDict.TryGetValue(uiType, out viewInfo))
         {
-            GameObject go = ResourceManager.Instance.LoadUI(viewInfo.resName, viewInfo.resFolder);
+            GameObject go = ResourceManager.Instance.LoadUIPrefab(viewInfo.resName, viewInfo.resFolder);
             if(parent == null)
             {
                 parent = FrameworkRoot.ui;
             }
             go.transform.SetParent(parent, false);
             T view = go.AddComponent<T>();
+            view.OnViewShowed = (x => 
+            { 
+                onViewShowed((T)x);
+            });
             view.SetViewInfo(viewInfo);
             view.OnShow();
-            onViewShowed(view);
         }
         else
         {

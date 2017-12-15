@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using Game.TTT;
 /// <summary>
 /// 在这个类中，不考虑棋盘情况，只考虑占据了什么位置,以及胜负。
 /// </summary>

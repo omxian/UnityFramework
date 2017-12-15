@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Game.TTT;
 public abstract class WinCheck
 {
     protected Player[] currentGameState;

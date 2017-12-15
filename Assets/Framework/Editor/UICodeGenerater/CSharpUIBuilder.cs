@@ -16,7 +16,7 @@ namespace Unity.Framework.Editor
 
         public override void GenerateUI()
         {
-            string gameObjectInitTemplate = "       {0} = transform.Find(\"{1}\").gameObject;\r\n";
+            string gameObjectInitTemplate = "        {0} = transform.Find(\"{1}\").gameObject;\r\n";
             string transformInitTemplate = "        {0} = transform.Find(\"{1}\");\r\n";
             string componentInitTemplate = "        {0} = transform.Find(\"{1}\").GetComponent<{2}>();\r\n";
             string paramTemplate = "    public {0} {1};\r\n";
@@ -56,7 +56,7 @@ namespace Unity.Framework.Editor
                             param.Append(string.Format(paramTemplate, "UnityAction", actionName + " = DefaultAction"));
                             param.Append(string.Format(paramTemplate, info.GetButton(), name));
                             init.Append(string.Format(componentInitTemplate, name, GetHierarchy(tran), info.GetButton()));
-                            init.Append(string.Format ("        {0}.onClick.AddListener({1});\r\n", name, actionName));
+                            init.Append(string.Format ("        {0}.onClick.AddListener(()=>{{ {1}();}});\r\n", name, actionName));
                             clear.Append(string.Format("        {0}.onClick.RemoveAllListeners();\r\n", name));
                             break;
                         case UITagType.UI_GameObject:

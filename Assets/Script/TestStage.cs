@@ -11,10 +11,10 @@ public class TestStage : StageComponent
     protected override void Init()
     {
         base.Init();
-        CreateView<TestView>(OnShowedTestView);
+        CreateView<TestView>(OnTestViewShowed);
     }
 
-    public void OnShowedTestView(TestView view)
+    public void OnTestViewShowed(TestView view)
     {
         this.view = view;
         view.OnLoadAnotherBtnAction = OnLoadAnotherClick;

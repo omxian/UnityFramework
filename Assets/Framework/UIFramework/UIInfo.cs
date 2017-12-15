@@ -33,12 +33,19 @@ public class StageInfo
 /// </summary>
 public static class UIInfo
 {
+    /// <summary>
+    /// 创建哪一个View就使用哪一个View作为Key值
+    /// </summary>
     public static Dictionary<Type, ViewInfo> viewInfoDict = new Dictionary<Type, ViewInfo>
     {
+        {typeof(TTTView), new ViewInfo("TTT","TicTacToe", DisplayType.Fade, DisplayType.Fade) },
+        {typeof(HomeView), new ViewInfo("Home","Home", DisplayType.Fade, DisplayType.Fade) },
         {typeof(TestView), new ViewInfo("TestLoadStageUI","test", DisplayType.Pop, DisplayType.Pop) }
     };
 
     public static Dictionary<Type, StageInfo> stageInfoDict = new Dictionary<Type, StageInfo> {
         {typeof(TestStage), new StageInfo(new string[] {"UI/Prefab/test"})},
+        {typeof(HomeStage), new StageInfo(new string[] {"UI/Prefab/Home"})},
+        {typeof(TTTStage), new StageInfo(new string[] {"UI/Prefab/TicTacToe", "Prefab/TicTacToe"})},
     };
 }
