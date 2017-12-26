@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Test/TestScene.unity
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scene/Main.unity
-    guid: 00000000000000000000000000000000
-  - enabled: 1
     path: Assets/Slash.unity
-    guid: 00000000000000000000000000000000
+    guid: ca1cc6778d1f3f148b2050dc333b3c37
+  - enabled: 1
+    path: Assets/Scene/Main.unity
+    guid: 4cd0e25c98b082544a3585c9db192db9

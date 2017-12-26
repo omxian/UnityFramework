@@ -22,5 +22,11 @@ public class HomeStage: StageComponent
     {
         StageManager.Instance.LoadStage<TTTStage>(true);
     }
+
+    public override void Clear()
+    {
+        home.Clear();
+        base.Clear();
+    }
 }
 

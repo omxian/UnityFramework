@@ -6,7 +6,6 @@ using System;
 //资源加载方式
 public enum ResourceLoadMode
 {
-    None,
     AssetBundle,
     Local,
 }
@@ -17,15 +16,17 @@ public enum ResourceLoadMode
 /// </summary>
 public class ResourceManager : MonoSingleton<ResourceManager>
 {
-    private ResourceLoadMode loadMode = ResourceLoadMode.None;
+    private ResourceLoadMode loadMode;
     private LocalResourceLoader localLoader;
     private AssetBundleResourceLoader abLoader;
     private ResourceManager()
     {
-        //从框架开始处取得当前加载的模式
-        //TODO: 开始Inspector中勾选
-#if !UNITY_EDITOR
-        loadMode = ResourceLoadMode.Local;
+    }
+
+    public void SetResourceLoadMode(ResourceLoadMode mode)
+    {
+#if UNITY_EDITOR
+        loadMode = mode;
 #else
         loadMode = ResourceLoadMode.AssetBundle;
 #endif
@@ -44,10 +45,6 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         else if (loadMode == ResourceLoadMode.AssetBundle)
         {
             abLoader = new AssetBundleResourceLoader();
-        }
-        else
-        {
-            throw new Exception("load Mode Not Define!");
         }
     }
 

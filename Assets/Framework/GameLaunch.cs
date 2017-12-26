@@ -11,11 +11,14 @@ using UnityEngine.UI;
 /// </summary>
 public class GameLaunch : MonoBehaviour
 {
+    [SerializeField]
+    private ResourceLoadMode resLoadMode = ResourceLoadMode.Local;
     void Start()
     {
         FrameworkRoot.CreateFrameworkRoot();
         StageManager.Instance.StartUp();
         ResourceManager.Instance.StartUp();
+        ResourceManager.Instance.SetResourceLoadMode(resLoadMode);
         NotifyManager.Instance.TriggerNotify(NotifyIds.FRAMEWORK_STARTUP);
     }
 }
