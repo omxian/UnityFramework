@@ -10,7 +10,7 @@ public enum ResourceType
 {
     Manifest,//AssetBundle依赖文件
     Texture, //大图
-    Sound, //音效
+    Audio, //音效
     UI_Prefab, //UI预制
     UI_Sprite, //UI精灵图
     Prefab, //普通预制
@@ -21,40 +21,58 @@ public static class AssetPath
     public static string abSuffix = ".ab";
     //本地资源加载路径;
     public static string resourcePath = "Assets/ExternalAsset/";
+    
+    public static string PersistentDataPath
+    {
+        get
+        {
+            string path = string.Empty;
+            if(Application.isMobilePlatform)
+            {
+                path = Application.persistentDataPath;
+            }
+            else
+            {
+                path = Application.streamingAssetsPath;
+            }
+            return path;
+        }
+    }
+
     //AssetBundle本地加载路径
     public static string StreamingAssetsPath
     {
         get
         {
-            return Application.streamingAssetsPath;
-
-//#if UNITY_EDITOR
-//            return "Assets/StreamingAssets/";
-//#endif
-
-//#if UNITY_ANDROID
-            
-//#endif
-
-//#if UNITY_IOS
-//            return "";
-//#endif
-
+            string path = string.Empty;
+            switch (Application.platform)
+            {
+                case RuntimePlatform.Android:
+                    path = "jar:file://" + Application.dataPath + "!/assets/";
+                    break;
+                case RuntimePlatform.IPhonePlayer:
+                    path = Application.dataPath + "/Raw/";
+                    break;
+                default:
+                    path = Application.streamingAssetsPath;
+                    break;
+            }
+            return path;
         }
     }
     //临时manifest名称（Unity自动生成的与打包路径相关的名称）
-    public static string tempManifestName = "abTemp";
+    public const string tempManifestName = "abTemp";
     //AssetBundle打包临时路径
     public static string tempPath = string.Format("./{0}/", tempManifestName);
 
     public static Dictionary<ResourceType, string> ResourcePath = new Dictionary<ResourceType, string>()
     {
         {ResourceType.Manifest,"manifest"},
-        {ResourceType.Texture,"Texture/" },
-        {ResourceType.Sound,"Sound/" },
-        {ResourceType.UI_Prefab,"UI/Prefab/" },
-        {ResourceType.UI_Sprite,"UI/Sprite/" },
-        {ResourceType.Prefab,"Prefab/" },
+        {ResourceType.Texture,"Texture" },
+        {ResourceType.Audio,"Audio" },
+        {ResourceType.UI_Prefab,"UI/Prefab" },
+        {ResourceType.UI_Sprite,"UI/Sprite" },
+        {ResourceType.Prefab,"Prefab" },
     };
 
     /// <summary>

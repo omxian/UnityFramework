@@ -21,11 +21,11 @@ public class TestLoadStageUIView : ViewComponent
 	{
 		base.BindUI();
         LoadAnotherBtn = transform.Find("LoadAnotherBtn").GetComponent<Button>();
-        LoadAnotherBtn.onClick.AddListener(OnLoadAnotherBtnAction);
+        LoadAnotherBtn.onClick.AddListener(()=>{ OnLoadAnotherBtnAction();});
         ClearAllLoadBtn = transform.Find("ClearAllLoadBtn").GetComponent<Button>();
-        ClearAllLoadBtn.onClick.AddListener(OnClearAllLoadBtnAction);
+        ClearAllLoadBtn.onClick.AddListener(()=>{ OnClearAllLoadBtnAction();});
         ClearCurrentBtn = transform.Find("ClearCurrentBtn").GetComponent<Button>();
-        ClearCurrentBtn.onClick.AddListener(OnClearCurrentBtnAction);
+        ClearCurrentBtn.onClick.AddListener(()=>{ OnClearCurrentBtnAction();});
 
 		yield return null;
 	}

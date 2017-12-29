@@ -29,16 +29,16 @@ public class TTTStage : StageComponent
     private void OnTTTShowed(TTTView view)
     {
         this.view = view;
+        // Init Button
+        view.OnOnePlayerButtonAction = EnterOnePlayerMode;
+        view.OnTwoPlayerButtonAction = EnterTwoPlayerMode;
+        view.OnBackButtonAction = OnBackClick;
 
         clickAbleList = new List<UISelectable>();
         currentPlayer = Player.Player1;
 
         InitGameArea();
 
-        // Init Button
-        view.OnePlayerButton.AddClick(EnterOnePlayerMode);
-        view.TwoPlayerButton.AddClick(EnterTwoPlayerMode);
-        view.BackButton.AddClick(OnBackClick);
         // Init GamePanel
         InitGamePanel();
     }

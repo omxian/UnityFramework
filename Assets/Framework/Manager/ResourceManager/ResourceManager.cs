@@ -12,7 +12,7 @@ public enum ResourceLoadMode
 
 /// <summary>
 /// 资源加载器，负责AssetBundle资源/Local资源的加载
-/// TODO: 重构成两个ResourceManager
+/// TODO: 重构成两个ResourceManager?
 /// </summary>
 public class ResourceManager : MonoSingleton<ResourceManager>
 {
@@ -71,6 +71,18 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         else
         {
             return Instantiate(abLoader.LoadAsset<GameObject>(ResourceType.UI_Prefab, resName, folder));
+        }
+    }
+
+    public AudioClip LoadAudioClip(string resName, string folder = "")
+    {
+        if (loadMode == ResourceLoadMode.Local)
+        {
+            return Instantiate(localLoader.LoadAsset<AudioClip>(ResourceType.Audio, resName, folder));
+        }
+        else
+        {
+            return Instantiate(abLoader.LoadAsset<AudioClip>(ResourceType.Audio, resName, folder));
         }
     }
 

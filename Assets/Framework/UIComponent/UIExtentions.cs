@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Unity.Framework
 {
     public static class ButtonExtentions
     {
-        public static void AddClick(this Button button, Action click, string sfx = "default_Click_Sound")
+        public static void AddClick(this Button button, Action click, string sfx = "")
         {
             button.onClick.AddListener(() => {
                 // Play Click Sound 

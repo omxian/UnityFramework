@@ -83,7 +83,7 @@ public class StageManager : MonoSingleton<StageManager>
     private void ChangeScene(NotifyArg args)
     {
         LeaveAllStage();
-        SceneManager.LoadSceneAsync((args as SceneNotifyArg).sceneName);
+        SceneManager.LoadSceneAsync((args as SceneNotifyArg).SceneName);
     }
     #endregion
 }

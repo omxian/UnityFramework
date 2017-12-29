@@ -7,7 +7,7 @@ ExternalAsset 程序直接使用美术资源（含有美术资源文件夹的引
 		Prefab UI预设
 		Sprite UI图集
 	Texture 大图
-	Sound 音效
+	Audio 音效
 	Font 字体
 		BMFont 位图字
 	Shader 着色器(用于可能的预热)

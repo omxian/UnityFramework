@@ -14,7 +14,7 @@ public class LocalResourceLoader
     public static Dictionary<ResourceType, string[]> ResourceSuffix = new Dictionary<ResourceType, string[]>()
     {
         {ResourceType.Texture,new string[] {".jpg",".png",".dds",".tga"} },
-        {ResourceType.Sound,new string[] {".ogg",".mp3",".wav"} },
+        {ResourceType.Audio,new string[] {".ogg",".mp3",".wav"} },
         {ResourceType.UI_Prefab,new string[] {".prefab"} },
         {ResourceType.UI_Sprite,new string[] {".png"} },
         {ResourceType.Prefab,new string[] {".prefab"} },

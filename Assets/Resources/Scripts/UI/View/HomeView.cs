@@ -18,7 +18,7 @@ public class HomeView : ViewComponent
 		base.BindUI();
         TicTacToeBtn = transform.Find("TicTacToeBtn").GetComponent<Button>();
         TicTacToeBtn.onClick.AddListener(()=>{ OnTicTacToeBtnAction();});
-
+        
 		yield return null;
 	}
 

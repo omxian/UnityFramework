@@ -16,10 +16,19 @@ public class GameLaunch : MonoBehaviour
     void Start()
     {
         FrameworkRoot.CreateFrameworkRoot();
-        StageManager.Instance.StartUp();
-        ResourceManager.Instance.StartUp();
+        StartUpManager();
         ResourceManager.Instance.SetResourceLoadMode(resLoadMode);
-        NotifyManager.Instance.TriggerNotify(NotifyIds.FRAMEWORK_STARTUP);
+        NotifyManager.Instance.TriggerNotify(NotifyIds.FRAMEWORK_CHECK_RESOURCE);
+        NotifyManager.Instance.TriggerNotify(NotifyIds.FRAMEWORK_STARTUP); 
+    }
+
+    private void StartUpManager()
+    {
+        NotifyManager.Instance.StartUp();
+        UpdateManager.Instance.StartUp();
+        StageManager.Instance.StartUp();
+        AudioManager.Instance.StartUp();
+        ResourceManager.Instance.StartUp();
     }
 }
 

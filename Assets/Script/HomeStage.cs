@@ -16,11 +16,13 @@ public class HomeStage: StageComponent
     {
         home = view;
         home.OnTicTacToeBtnAction = OnTTTClick;
+        TriggerNotify(NotifyIds.PLAY_AUDIO, new AudioNotifyArg(true,"BGM_0")); 
     }
 
     private void OnTTTClick()
     {
-        StageManager.Instance.LoadStage<TTTStage>(true);
+        TriggerNotify(NotifyIds.PLAY_AUDIO, new AudioNotifyArg(true, "BGM_0"));
+        //StageManager.Instance.LoadStage<TTTStage>(true);
     }
 
     public override void Clear()

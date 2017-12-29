@@ -31,6 +31,7 @@ public class AssetBundleResourceLoader
     /// </summary>
     public T LoadAsset<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
+        folder = folder.Length > 0 ? "/" + folder : folder;
         string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         return handlerDictionary[path].LoadAsset<T>(resName);
     }
@@ -41,6 +42,7 @@ public class AssetBundleResourceLoader
     /// <returns>返回AssetBundleRequest自行处理</returns>
     public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
+        folder = folder.Length > 0 ? "/" + folder : folder;
         string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         return handlerDictionary[path].LoadAssetAsync<T>(resName);
     }
@@ -107,6 +109,7 @@ public class AssetBundleResourceLoader
 
     public void UnLoadAsset(ResourceType resType, string resName, string folder = "")
     {
+        folder = folder.Length > 0 ? "/" + folder : folder;
         string assetPath = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
         UnLoadAsset(assetPath);
     }

@@ -10,7 +10,9 @@ public static class FrameworkRoot
     public static Transform system = null;
     //UI都会挂到此处
     public static Transform ui = null;
-
+    //音效
+    public static AudioSource bgmAudioSource = null;
+    public static AudioSource soundAudioSource = null;
     /// <summary>
     /// 创建所有框架相关的GameObject根节点
     /// </summary>
@@ -18,6 +20,8 @@ public static class FrameworkRoot
     {
         CreateFrameworkGo();
         CreateRootCanvas();
+        CreateAudioListener();
+        CreateAudioSource();
     }
 
     /// <summary>
@@ -33,6 +37,17 @@ public static class FrameworkRoot
             system = go.transform;
         }
     }
+
+    private static void CreateAudioSource()
+    {
+        bgmAudioSource = system.gameObject.AddComponent<AudioSource>();
+        soundAudioSource = system.gameObject.AddComponent<AudioSource>();
+    }
+    
+    private static void CreateAudioListener()
+    {
+        system.gameObject.AddComponent<AudioListener>();
+    } 
 
     private static void CreateRootCanvas()
     {
