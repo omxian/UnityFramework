@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SliderTest : MonoBehaviour {
+public class SliderTest : MonoBehaviour
+{
 
     public Slider slider;
     public Transform layout;
@@ -14,7 +15,7 @@ public class SliderTest : MonoBehaviour {
 
     public Button up;
     public Button down;
-
+    public Button refresh;
     public int limitCount = 36;
     public int bigBlind = 100;
     public int playerChip = 500;
@@ -23,45 +24,37 @@ public class SliderTest : MonoBehaviour {
     private List<GameObject> chipItemList = new List<GameObject>();
     private float maxVal;
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         slider.value = 0;
         chipItem.SetActive(false);
-        
-        for (int i=0; i< limitCount; i++)
+
+        for (int i = 0; i < limitCount; i++)
         {
             GameObject item = Instantiate(chipItem);
             item.transform.SetParent(layout, false);
             chipItemList.Add(item);
         }
 
-        slider.onValueChanged.AddListener((float val)=> {
-            bool isAllIn = false;
-            if (maxVal <= val)
-            {
-                val = maxVal;
-                isAllIn = true;
-            }
-            int count = CountChipItemNumber(val);
-            //ChipItem显示逻辑
-            SetChipItemNumber(count);
-            //SliderInfo高度
-            SetSliderInfoHeight(val);
-            //计算当前应该显示的数值
-            CountSliderValue(val, count, isAllIn, maxVal);
-            sliderInfoText.text = sliderValue.ToString();
+        slider.onValueChanged.AddListener((float val) => {
+            SliderChange(val);
         });
-
+        refresh.onClick.AddListener(() => {
+            sliderValue = addBase;
+            maxVal = GetMaxVal();
+            slider.value = 0;
+            SliderChange(0);
+        });
         up.onClick.AddListener(() => {
             slider.value = (float)GetValBySliderValue(sliderValue + bigBlind);
         });
         down.onClick.AddListener(() => {
-            if(sliderValue == addBase)
+            if (sliderValue == addBase)
             {
                 return;
             }
             double targetValue;
-            double rounding = addBase + (sliderValue - addBase) / bigBlind * bigBlind;
+            double rounding = addBase + (int)(sliderValue - addBase) / bigBlind * bigBlind;
             if (sliderValue > rounding)
             {
                 targetValue = rounding;
@@ -75,50 +68,75 @@ public class SliderTest : MonoBehaviour {
 
         sliderValue = addBase;
         maxVal = GetMaxVal();
-        slider.value = 0.0001f;
+        slider.value = 0;
+        SliderChange(0);
     }
+
+    private void SliderChange(float val)
+    {
+        bool isAllIn = false;
+        if (maxVal <= val)
+        {
+            val = maxVal;
+            isAllIn = true;
+        }
+        int count = CountChipItemNumber(val);
+        //ChipItem显示逻辑
+        SetChipItemNumber(count);
+        //SliderInfo高度
+        SetSliderInfoHeight(val);
+        //计算当前应该显示的数值
+        CountSliderValue(val, count, isAllIn, maxVal);
+        sliderInfoText.text = sliderValue.ToString();
+    }
+
 
     private double GetValBySliderValue(double sliderValue)
     {
-        if(maxVal == 1)
+        if (maxVal == 1)
         {
             return (sliderValue - addBase) / 1.0f / (playerChip - addBase);
         }
         else
         {
-            return (float)(1.0 / (limitCount-1)) * ((sliderValue - addBase) /1.0f / bigBlind) + (float)(1.0 / (limitCount));
+            return (float)(sliderValue - addBase) / bigBlind / (limitCount - 1) + (float)(1.0 / limitCount);
         }
     }
 
     private float GetMaxVal()
     {
-        int displayMax = (limitCount-1) * bigBlind;
-        if ((playerChip-addBase) >= displayMax)
+        float val = 0;
+        int displayMax = (limitCount - 1) * bigBlind;
+        if ((playerChip - addBase) >= displayMax)
         {
-            return 1;
+            val = 1;
         }
         else //第一个chip为addBase,其他等于一个大盲
         {
-            return (float) (1.0/(limitCount-1)) * ((playerChip - addBase) /1.0f / bigBlind) + (float)(1.0/(limitCount));
+            val = (float)(playerChip - addBase) / bigBlind / (limitCount - 1) + (float)(1.0 / (limitCount));
+            val = val > 1 ? 1 : val;
         }
+
+        Debug.Log("max value:" + val);
+        return val;
     }
 
     //sliderValue
-    private void CountSliderValue(float val, int uiCount, bool isAllIn ,float maxVal)
+    private void CountSliderValue(float val, int uiCount, bool isAllIn, float maxVal)
     {
-        if(isAllIn)
+        if (isAllIn)
         {
-            sliderValue = playerChip;   
+            sliderValue = playerChip;
         }
         else
         {
             if (maxVal == 1) //钱多模式
             {
-                sliderValue = addBase + Mathf.Floor((playerChip - addBase) * val /1.0f/ bigBlind + 0.5f) * bigBlind;
+                sliderValue = addBase + Mathf.Floor((playerChip - addBase) * val / 1.0f / bigBlind + 0.5f) * bigBlind;
             }
             else //钱少模式
             {
-                sliderValue = addBase + (uiCount-1) * bigBlind;
+                sliderValue = addBase + (uiCount - 1) * bigBlind;
             }
         }
     }
@@ -132,7 +150,7 @@ public class SliderTest : MonoBehaviour {
     private int CountChipItemNumber(float val)
     {
         int chipNum = Mathf.FloorToInt(val * limitCount);
-        if(chipNum < 1)
+        if (chipNum < 1)
         {
             return 1;
         }

@@ -74,7 +74,7 @@ public class AssetBundleResourceLoader
         handler.DecreaseReference();
         if (handler.UnloadAble)
         {
-            handler.UnloadAssetBundle(true);
+            handler.UnloadAssetBundle(false);
             handlerDictionary.Remove(path);
         }
     }

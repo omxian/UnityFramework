@@ -21,8 +21,7 @@ public class HomeStage: StageComponent
 
     private void OnTTTClick()
     {
-        TriggerNotify(NotifyIds.PLAY_AUDIO, new AudioNotifyArg(true, "BGM_0"));
-        //StageManager.Instance.LoadStage<TTTStage>(true);
+        StageManager.Instance.LoadStage<TTTStage>(true);
     }
 
     public override void Clear()

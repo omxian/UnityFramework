@@ -6,6 +6,7 @@ using Framework.Notify;
 /// <summary>
 /// 负责检查资源更新
 /// 负责首次打开时将包内资源移到包外
+/// 处理版本更新问题-大版本（应用市场）/小版本（美术资源/热更新）完成之后发送开始消息
 /// </summary>
 class UpdateManager : MonoSingleton<ResourceManager>
 {

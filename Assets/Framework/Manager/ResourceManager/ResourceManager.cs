@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Framework.Notify;
 
 //资源加载方式
 public enum ResourceLoadMode
@@ -21,6 +22,11 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     private AssetBundleResourceLoader abLoader;
     private ResourceManager()
     {
+    }
+
+    public override void StartUp()
+    {
+        NotifyManager.Instance.AddNotify(NotifyIds.FRAMEWORK_LOAD_COMMON_AB, LoadCommonAB);
     }
 
     public void SetResourceLoadMode(ResourceLoadMode mode)
@@ -83,6 +89,15 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         else
         {
             return Instantiate(abLoader.LoadAsset<AudioClip>(ResourceType.Audio, resName, folder));
+        }
+    }
+
+    public void LoadCommonAB(NotifyArg args)
+    {
+        string[] commonAB = {"UI/Prefab/Common"};
+        if (loadMode == ResourceLoadMode.AssetBundle)
+        {
+            abLoader.StageLoadAB(commonAB);
         }
     }
 
