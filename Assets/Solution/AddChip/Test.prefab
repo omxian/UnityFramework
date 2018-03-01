@@ -560,7 +560,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u52A0   \u6CE8"
+  m_Text: "\u5237     \u65B0"
 --- !u!114 &114516506668380878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -884,9 +884,10 @@ MonoBehaviour:
   sliderInfoText: {fileID: 114714406758520028}
   up: {fileID: 114809442811948330}
   down: {fileID: 114734393631838492}
+  refresh: {fileID: 114516506668380878}
   limitCount: 36
   bigBlind: 100
-  playerChip: 500
+  playerChip: 6000
   addBase: 150
 --- !u!114 &114840576039841400
 MonoBehaviour:

@@ -114,7 +114,10 @@ namespace Unity.Framework.Editor
                 AssetImporter importer = AssetImporter.GetAtPath(file);
                 importer.assetBundleName = resourceName;
                 importer.assetBundleVariant = null;
+                importer.SaveAndReimport();
+                AssetDatabase.SaveAssets();
             }
+            AssetDatabase.Refresh();
         }
 
         private static void ClearAssetBundleName()

@@ -36,6 +36,9 @@ namespace Unity.Framework.Editor
                         //关闭mipmap
                         importer.mipmapEnabled = false;
                     }
+
+                    importer.SaveAndReimport();
+                    AssetDatabase.SaveAssets();
                 }
             }
             AssetDatabase.Refresh();
