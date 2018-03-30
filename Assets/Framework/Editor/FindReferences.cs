@@ -23,6 +23,9 @@ public class FindReferences
                 .Where(s => withoutExtensions.Contains(Path.GetExtension(s).ToLower())).ToArray();
             int startIndex = 0;
 
+            Object originObj = AssetDatabase.LoadAssetAtPath<Object>(path);
+            //Debug.Log("开始匹配", originObj);
+
             EditorApplication.update = delegate ()
             {
                 string file = files[startIndex];
@@ -40,7 +43,7 @@ public class FindReferences
                     EditorUtility.ClearProgressBar();
                     EditorApplication.update = null;
                     startIndex = 0;
-                    Debug.Log("匹配结束");
+                    Debug.Log("匹配结束", originObj);
                 }
 
             };
