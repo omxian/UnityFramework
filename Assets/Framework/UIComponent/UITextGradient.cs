@@ -30,6 +30,11 @@ public class UITextGradient : BaseMeshEffect
 
     private void ApplyGradient(List<UIVertex> vertexList, int start, int end)
     {
+        if (vertexList.Count == 0)
+        {
+            return;
+        }
+
         float bottomY = vertexList[0].position.y;
         float topY = vertexList[0].position.y;
         for (int i = start; i < end; ++i)
