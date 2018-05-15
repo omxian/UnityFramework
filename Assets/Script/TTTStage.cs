@@ -183,8 +183,15 @@ public class TTTStage : StageComponent
     //缓存UI游戏对象
     private void InitGameAreaObject()
     {
-        playerOneGo = ResourceManager.Instance.LoadPrefab("PlayerOneSelect", "TicTacToe");
-        playerTwoGo = ResourceManager.Instance.LoadPrefab("PlayerTwoSelect", "TicTacToe");
+        if (!playerOneGo)
+        {
+            playerOneGo = ResourceManager.Instance.LoadPrefab("PlayerOneSelect", "TicTacToe");
+        }
+
+        if (!playerTwoGo)
+        {
+            playerTwoGo = ResourceManager.Instance.LoadPrefab("PlayerTwoSelect", "TicTacToe");
+        }
     }
 
     //返回当前玩家的游戏对象
