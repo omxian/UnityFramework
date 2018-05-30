@@ -90,7 +90,7 @@ public class NetImage : MonoBehaviour
         {
             var sp = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), Vector2.one * 0.5f);
             image.sprite = sp;
-            image.SetNativeSize();
+            //image.SetNativeSize();
         }
     }
 
