@@ -15,15 +15,31 @@ namespace Unity.Framework
         private bool pointerDown = false;
         private bool longPressTriggered = false;
         private float longPressStartTime;
+        private float currentDoubleClickTime = 0f;
+        private static float doubleClickEffectTime = 0.3f;
 
         public Action OnDown;
         public Action OnUp;
         public Action OnClick;
+        public Action OnDoubleClick;
         public Action OnLongPressUp;
         public Action OnLongPress;
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (OnDoubleClick != null)
+            {
+                if (Time.time - currentDoubleClickTime > doubleClickEffectTime)
+                {
+                    currentDoubleClickTime = Time.time;
+                }
+                else
+                {
+                    OnDoubleClick();
+                }
+                currentDoubleClickTime = Time.time;
+            }
+
             if (!longPressTriggered && OnClick != null)
             {
                 OnClick();
