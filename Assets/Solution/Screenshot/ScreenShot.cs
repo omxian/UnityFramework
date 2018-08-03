@@ -57,7 +57,7 @@ public class ScreenShot : MonoBehaviour {
         CheckDirectory(savePath);
         CheckFile(path);
 
-        Application.CaptureScreenshot(path);
+        ScreenCapture.CaptureScreenshot(path);
         Debug.Log("Finish path:" + path);
     }
     private void CheckDirectory(string savePath)
