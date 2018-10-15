@@ -11,6 +11,7 @@ public enum ResourceType
     Manifest,//AssetBundle依赖文件
     Texture, //大图
     Audio, //音效
+    BGM, //背景音乐
     UI_Prefab, //UI预制
     UI_Sprite, //UI精灵图
     Prefab, //普通预制
@@ -21,13 +22,13 @@ public static class AssetPath
     public static string abSuffix = ".ab";
     //本地资源加载路径;
     public static string resourcePath = "Assets/ExternalAsset/";
-    
+
     public static string PersistentDataPath
     {
         get
         {
             string path = string.Empty;
-            if(Application.isMobilePlatform)
+            if (Application.isMobilePlatform)
             {
                 path = Application.persistentDataPath;
             }
@@ -70,6 +71,7 @@ public static class AssetPath
         {ResourceType.Manifest,"manifest"},
         {ResourceType.Texture,"Texture" },
         {ResourceType.Audio,"Audio" },
+        {ResourceType.BGM, "Audio/BGM" },
         {ResourceType.UI_Prefab,"UI/Prefab" },
         {ResourceType.UI_Sprite,"UI/Sprite" },
         {ResourceType.Prefab,"Prefab" },
@@ -78,7 +80,7 @@ public static class AssetPath
     /// <summary>
     /// 获得资源的加载路径
     /// </summary>
-    public static string GetResPath(bool isAssetBundle,string path, string name)
+    public static string GetResPath(bool isAssetBundle, string path, string name)
     {
         if (isAssetBundle)
         {

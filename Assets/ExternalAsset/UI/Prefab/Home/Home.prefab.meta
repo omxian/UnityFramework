@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: b5f48bba10d828f458e87ab858635ea3
-timeCreated: 1513323869
-licenseType: Pro
 NativeFormatImporter:
+  externalObjects: {}
   mainObjectFileID: 100100000
   userData: 
   assetBundleName: ui_prefab_home.ab

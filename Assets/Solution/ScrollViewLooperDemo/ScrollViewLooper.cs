@@ -25,11 +25,11 @@ public class ScrollViewLooper : MonoBehaviour
 
     private INITSTATE initStae;
     [SerializeField]
-    private ScrollViewCell cellPrefab;
+    private ScrollViewCell cellPrefab = null;
     [SerializeField]
     private Vector2 offset = Vector2.zero;
     [SerializeField]
-    private RectTransform content;
+    private RectTransform content = null;
     [SerializeField]
     private int NUMBER_OF_COLUMNS = 1;  //表示并排显示几个，比如是上下滑动，当此处为2时表示一排有两个cell
     [SerializeField]

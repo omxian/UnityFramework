@@ -15,6 +15,7 @@ public class LocalResourceLoader
     {
         {ResourceType.Texture,new string[] {".jpg",".png",".dds",".tga"} },
         {ResourceType.Audio,new string[] {".ogg",".mp3",".wav"} },
+        {ResourceType.BGM,new string[] {".ogg",".mp3",".wav"} },
         {ResourceType.UI_Prefab,new string[] {".prefab"} },
         {ResourceType.UI_Sprite,new string[] {".png"} },
         {ResourceType.Prefab,new string[] {".prefab"} },

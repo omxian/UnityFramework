@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: 1ba55e9ba4a1af44fb15db5cdea2e1fe
-timeCreated: 1499659971
-licenseType: Pro
 AudioImporter:
+  externalObjects: {}
   serializedVersion: 6
   defaultSettings:
     loadType: 0
@@ -16,6 +15,7 @@ AudioImporter:
   normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
+  ambisonic: 0
   3D: 1
   userData: 
   assetBundleName: audio.ab

@@ -26,7 +26,7 @@ public class AudioManager : MonoSingleton<AudioManager>
             return;
         }
 
-        AudioClip audioClip = ResourceManager.Instance.LoadAudioClip(audioArg.AudioName, audioArg.Folder);
+        AudioClip audioClip = ResourceManager.Instance.LoadAudioClip(audioArg.AudioName, audioArg.IsBgm, audioArg.Folder);
         AudioSource audioSource = audioArg.IsBgm ? FrameworkRoot.bgmAudioSource : FrameworkRoot.soundAudioSource;
         audioSource.clip = audioClip;
         audioSource.volume = audioArg.IsBgm ? bgmVolume : soundVolume;

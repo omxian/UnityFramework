@@ -1,11 +1,10 @@
 fileFormatVersion: 2
 guid: 26f3b4efab601084cab11542f2599cdd
-timeCreated: 1514446293
-licenseType: Pro
 AudioImporter:
+  externalObjects: {}
   serializedVersion: 6
   defaultSettings:
-    loadType: 0
+    loadType: 2
     sampleRateSetting: 0
     sampleRateOverride: 44100
     compressionFormat: 1
@@ -16,7 +15,8 @@ AudioImporter:
   normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
+  ambisonic: 0
   3D: 1
   userData: 
-  assetBundleName: audio.ab
+  assetBundleName: audio_bgm.ab
   assetBundleVariant: 

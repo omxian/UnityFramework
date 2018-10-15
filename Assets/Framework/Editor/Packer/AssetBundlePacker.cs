@@ -32,7 +32,8 @@ namespace Unity.Framework.Editor
             ClearDirectory();
         }
 
-        private static void BuildAssetBundle(BuildTarget targetPlatform)
+        [MenuItem("Build/Set Res Info")]
+        private static void SetResInfo()
         {
             //clear AssetBundle name
             ClearAssetBundleName();
@@ -40,6 +41,13 @@ namespace Unity.Framework.Editor
             SetAssetBundleName(AssetPath.resourcePath);
             //set sprite packing tag
             new SpritePacker().SetSprite();
+
+            AssetDatabase.Refresh();
+        }
+
+        private static void BuildAssetBundle(BuildTarget targetPlatform)
+        {
+            Util.CreateIfDirectoryNotExist(Path.Combine(EditorTool.GetUnityRootFile(), AssetPath.tempPath));
             //开始打包到临时文件夹
             BuildPipeline.BuildAssetBundles(AssetPath.tempPath, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.Android);
             //重命名依赖文件

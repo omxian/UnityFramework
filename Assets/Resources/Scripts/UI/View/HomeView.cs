@@ -12,13 +12,17 @@ public class HomeView : ViewComponent
 {
     public UnityAction OnTicTacToeBtnAction = DefaultAction;
     public Button TicTacToeBtn;
+    public UnityAction OnCarouselBtnAction = DefaultAction;
+    public Button CarouselBtn;
 
 	public override IEnumerator BindUI()
 	{
 		base.BindUI();
         TicTacToeBtn = transform.Find("TicTacToeBtn").GetComponent<Button>();
         TicTacToeBtn.onClick.AddListener(()=>{ OnTicTacToeBtnAction();});
-        
+        CarouselBtn = transform.Find("CarouselBtn").GetComponent<Button>();
+        CarouselBtn.onClick.AddListener(()=>{ OnCarouselBtnAction();});
+
 		yield return null;
 	}
 
@@ -26,6 +30,7 @@ public class HomeView : ViewComponent
     {
 		base.Clear();
         TicTacToeBtn.onClick.RemoveAllListeners();
+        CarouselBtn.onClick.RemoveAllListeners();
 
 		Destroy(gameObject);
     }

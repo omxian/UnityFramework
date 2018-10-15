@@ -80,21 +80,21 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         }
     }
 
-    public AudioClip LoadAudioClip(string resName, string folder = "")
+    public AudioClip LoadAudioClip(string resName, bool isBGM, string folder = "")
     {
         if (loadMode == ResourceLoadMode.Local)
         {
-            return Instantiate(localLoader.LoadAsset<AudioClip>(ResourceType.Audio, resName, folder));
+            return Instantiate(localLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, folder));
         }
         else
         {
-            return Instantiate(abLoader.LoadAsset<AudioClip>(ResourceType.Audio, resName, folder));
+            return Instantiate(abLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, folder));
         }
     }
 
     public void LoadCommonAB(NotifyArg args)
     {
-        string[] commonAB = {"UI/Prefab/Common"};
+        string[] commonAB = { "UI/Prefab/Common" };
         if (loadMode == ResourceLoadMode.AssetBundle)
         {
             abLoader.StageLoadAB(commonAB);
@@ -103,7 +103,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
 
     public void StageLoadAB(StageComponent stage)
     {
-        if(loadMode == ResourceLoadMode.AssetBundle)
+        if (loadMode == ResourceLoadMode.AssetBundle)
         {
             StageInfo info = UIInfo.stageInfoDict[stage.GetType()];
             abLoader.StageLoadAB(info.abName);

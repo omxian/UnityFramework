@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -8,6 +9,22 @@ namespace Unity.Framework
 {
     public static class Util
     {
+        public static void CreateIfDirectoryNotExist(string savePath)
+        {
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+        }
+
+        public static void DeleteIfFileExist(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
         public static double GetUTCTimestamp()
         {
             return (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;

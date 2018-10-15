@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Realization : ScrollViewCell
 {
     [SerializeField]
-    private Text text;
+    private Text text = null;
     protected override void ConfigureCellData()
     {
         if (dataObject == null)

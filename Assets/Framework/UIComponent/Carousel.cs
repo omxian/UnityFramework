@@ -192,18 +192,6 @@ public class Carousel : UIBehaviour, IEventSystemHandler, IBeginDragHandler, IIn
         base.OnEnable();
         resizeChildren();
         return;
-        if (Application.isPlaying)
-        {
-            if (ContentIsLongerThanRect())
-            {
-                int s;
-                do
-                {
-                    s = GetBoundaryState();
-                    LoopCell(s);
-                } while (s != 0);
-            }
-        }
     }
     protected virtual void Update()
     {

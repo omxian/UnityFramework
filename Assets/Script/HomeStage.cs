@@ -16,7 +16,13 @@ public class HomeStage: StageComponent
     {
         home = view;
         home.OnTicTacToeBtnAction = OnTTTClick;
-        TriggerNotify(NotifyIds.PLAY_AUDIO, new AudioNotifyArg(true,"BGM_0")); 
+        home.OnCarouselBtnAction = OnCarouselClick;
+        TriggerNotify(NotifyIds.PLAY_AUDIO, new AudioNotifyArg(true, "BGM_0")); 
+    }
+
+    private void OnCarouselClick()
+    {
+
     }
 
     private void OnTTTClick()

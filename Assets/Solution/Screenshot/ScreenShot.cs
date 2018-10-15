@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.Framework;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,28 +57,15 @@ public class ScreenShot : MonoBehaviour {
     private void HandleTexture2D(Texture2D screenshot, string fileName)
     {
         string path = savePath + fileName;
-        CheckDirectory(savePath);
-        CheckFile(path);
+        Util.CreateIfDirectoryNotExist(savePath);
+        Util.DeleteIfFileExist(path);
 
         texture.texture = null;
         texture.texture = screenshot;
         File.WriteAllBytes(path, ImageConversion.EncodeToJPG((Texture2D)texture.texture));
+#if UNITY_EDITOR
         AssetDatabase.Refresh();
+#endif
         Debug.Log("Finish path:" + path);
-    }
-    private void CheckDirectory(string savePath)
-    {
-        if (!Directory.Exists(savePath))
-        {
-            Directory.CreateDirectory(savePath);
-        }
-    }
-
-    private void CheckFile(string path)
-    {
-        if (File.Exists(path))
-        {
-            File.Delete(path);
-        }
     }
 }
