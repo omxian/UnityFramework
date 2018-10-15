@@ -117,7 +117,6 @@ public class SliderTest : MonoBehaviour
             val = val > 1 ? 1 : val;
         }
 
-        Debug.Log("max value:" + val);
         return val;
     }
 

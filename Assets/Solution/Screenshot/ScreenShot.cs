@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,16 +9,12 @@ public class ScreenShot : MonoBehaviour {
 
     public Button Solution1;
     public Button Solution2;
+    public RawImage texture;
 
     private string savePath = "Assets/Solution/Screenshot/Result/";
 	void Start () {
-        Solution1.onClick.AddListener(CaptureScreenshot);
-        Solution2.onClick.AddListener(StartText2DCoroutine);
-    }
-
-    private void StartText2DCoroutine()
-    {
-        StartCoroutine(Texture2DScreenShot());
+        Solution1.onClick.AddListener(()=> { StartCoroutine(Texture2DScreenShot()); });
+        Solution2.onClick.AddListener(()=> { StartCoroutine(CaptureScreenshot()); });
     }
 
     /// <summary>
@@ -31,33 +28,39 @@ public class ScreenShot : MonoBehaviour {
     {
         Rect rect = new Rect(0f, 0f, Screen.width, Screen.height); //左下角0,0 右上角width,height
         Texture2D screenShot = new Texture2D((int)rect.width,(int)rect.height,TextureFormat.RGB24,false);
+        
+        string fileName = "Screenshot2.png";
+
         yield return new WaitForEndOfFrame();
 
         screenShot.ReadPixels(rect, 0, 0);
         screenShot.Apply();
-
-        byte[] bytes = screenShot.EncodeToPNG();
-        string saveFileName = "Screenshot2.png";
-        string path = savePath + saveFileName;
-        CheckDirectory(savePath);
-        CheckFile(path);
-        File.WriteAllBytes(path, bytes);
-        Debug.Log("Finish path:" + path);
+        
+        HandleTexture2D(screenShot, fileName);
     }
 
     /// <summary>
     /// Application.CaptureScreenshot实现的全屏截图
     /// 缺点是只能截全屏
+    /// 其实也是需要等待一帧后调用，不然unity会崩溃
     /// </summary>
-    private void CaptureScreenshot()
+    IEnumerator CaptureScreenshot()
     {
-        string saveFileName = "Screenshot1.png";
-        string path = savePath + saveFileName;
+        string fileName = "Screenshot1.png";
+        yield return new WaitForEndOfFrame();
+        HandleTexture2D(ScreenCapture.CaptureScreenshotAsTexture(), fileName);
+    }
 
+    private void HandleTexture2D(Texture2D screenshot, string fileName)
+    {
+        string path = savePath + fileName;
         CheckDirectory(savePath);
         CheckFile(path);
 
-        ScreenCapture.CaptureScreenshot(path);
+        texture.texture = null;
+        texture.texture = screenshot;
+        File.WriteAllBytes(path, ImageConversion.EncodeToJPG((Texture2D)texture.texture));
+        AssetDatabase.Refresh();
         Debug.Log("Finish path:" + path);
     }
     private void CheckDirectory(string savePath)
