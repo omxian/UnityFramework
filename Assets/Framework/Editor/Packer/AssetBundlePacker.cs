@@ -22,8 +22,7 @@ namespace Unity.Framework.Editor
             //构建AssetBundle
             BuildCurrentAssetBundle();
             //构建APK
-            string path = EditorUtility.SaveFilePanel("保存apk", Application.dataPath, Util.GetCurrentDate(), "apk");
-            BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(EditorTool.GetUnityRootFile(), "APK"), BuildTarget.Android, BuildOptions.None);
+            BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, string.Format("APK/{0}.apk", Util.GetCurrentDate()), BuildTarget.Android, BuildOptions.None);
         }
 
         [MenuItem("Build/Build Current AssetBundle", priority = 2)]
