@@ -9,12 +9,12 @@ namespace Unity.Framework.Editor
     /// <summary>
     /// 处理图集相关问题
     /// </summary>
-    public class SpritePacker
+    public static class SpritePacker
     {
-        private string spritePath = "Assets/ExternalAsset/UI/Sprite";
+        private const string spritePath = "Assets/ExternalAsset/UI/Sprite";
 
         //设置图片，压缩质量,Packing Tag等属性
-        public void SetSprite()
+        public static void SetSprite()
         {
             int i = 0;
             string[] directories = Directory.GetDirectories(spritePath);
@@ -33,7 +33,7 @@ namespace Unity.Framework.Editor
                     {
                         //设置sprite packing tag
                         importer.spritePackingTag = i.ToString();
-                        //关闭mipmap
+                        //关闭mipmap,节省内存
                         importer.mipmapEnabled = false;
                     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class HomeStage: StageComponent
+public class HomeStage : StageComponent
 {
     HomeView home;
     protected override void Init()
@@ -17,7 +17,7 @@ public class HomeStage: StageComponent
         home = view;
         home.OnTicTacToeBtnAction = OnTTTClick;
         home.OnCarouselBtnAction = OnCarouselClick;
-        TriggerNotify(NotifyIds.PLAY_AUDIO, new AudioNotifyArg(true, "BGM_0")); 
+        TriggerNotify(NotifyIds.PLAY_AUDIO, new AudioNotifyArg(true, "BGM_0", "BGM"));
     }
 
     private void OnCarouselClick()

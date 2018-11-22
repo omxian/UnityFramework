@@ -25,9 +25,9 @@ public class LocalResourceLoader
     /// 使用资源类别和资源名称加载资源
     /// folder参数用来加载UI/Sprite等有文件目录的资源
     /// </summary>
-    public T LoadAsset<T>(ResourceType resType, string resName,string folder = "") where T : UnityEngine.Object
+    public T LoadAsset<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
     {
-        string path = AssetPath.GetResPath(false, AssetPath.resourcePath + AssetPath.ResourcePath[resType], Path.Combine(folder,resName));
+        string path = AssetPath.GetResPath(false, AssetPath.resourcePath + AssetPath.ResourcePath[resType], Path.Combine(folder, resName));
         string[] resSuffix = ResourceSuffix[resType];
         for (int i = 0; i < resSuffix.Length; i++)
         {
@@ -59,7 +59,7 @@ public class LocalResourceLoader
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    private T LoadAsset<T>(string path)  where T : UnityEngine.Object
+    private T LoadAsset<T>(string path) where T : UnityEngine.Object
     {
 #if UNITY_EDITOR
         return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);

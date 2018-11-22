@@ -84,11 +84,11 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     {
         if (loadMode == ResourceLoadMode.Local)
         {
-            return Instantiate(localLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, folder));
+            return Instantiate(localLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, ""));
         }
         else
         {
-            return Instantiate(abLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, folder));
+            return Instantiate(abLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, resName));
         }
     }
 

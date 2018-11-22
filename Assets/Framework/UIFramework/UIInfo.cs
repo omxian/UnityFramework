@@ -45,7 +45,7 @@ public static class UIInfo
 
     public static Dictionary<Type, StageInfo> stageInfoDict = new Dictionary<Type, StageInfo> {
         {typeof(TestStage), new StageInfo(new string[] {"UI/Prefab/test"})},
-        {typeof(HomeStage), new StageInfo(new string[] {"UI/Prefab/Home", "Audio","Audio/BGM"})},
+        {typeof(HomeStage), new StageInfo(new string[] {"UI/Prefab/Home", "Audio","Audio/BGM/BGM_0"})},
         {typeof(TTTStage), new StageInfo(new string[] {"UI/Prefab/TicTacToe", "Prefab/TicTacToe"})},
     };
 }

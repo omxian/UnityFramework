@@ -61,10 +61,6 @@ public static class AssetPath
             return path;
         }
     }
-    //临时manifest名称（Unity自动生成的与打包路径相关的名称）
-    public const string tempManifestName = "abTemp";
-    //AssetBundle打包临时路径
-    public static string tempPath = string.Format("./{0}/", tempManifestName);
 
     public static Dictionary<ResourceType, string> ResourcePath = new Dictionary<ResourceType, string>()
     {

@@ -7,49 +7,31 @@ namespace Unity.Framework.Editor
     //本类用于对资源打AssetBundle
     public class AssetBundlePacker
     {
-        [MenuItem("Build/Build APK")]
+        //临时manifest名称（Unity自动生成的与打包路径相关的名称）
+        public const string tempManifestName = "abTemp";
+        //AssetBundle打包临时路径
+        public static string tempPath = Path.Combine(EditorTool.GetUnityRootFile(), tempManifestName);
+
+        [MenuItem("Build/Build APK", priority = 0)]
         private static void BuildApk()
         {
             //切换平台
-            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android ,BuildTarget.Android);
+            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
             //清理目录
-            ClearDirectory();
+            ClearAssetBundleDirectory();
             //构建AssetBundle
-            BuildAndroidAssetBundle();
+            BuildCurrentAssetBundle();
             //构建APK
-            BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, string.Format("APK/{0}.apk", Util.GetCurrentDate()), BuildTarget.Android, BuildOptions.None);
+            string path = EditorUtility.SaveFilePanel("保存apk", Application.dataPath, Util.GetCurrentDate(), "apk");
+            BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(EditorTool.GetUnityRootFile(), "APK"), BuildTarget.Android, BuildOptions.None);
         }
 
-        [MenuItem("Build/Build Android AssetBundle")]
-        private static void BuildAndroidAssetBundle()
+        [MenuItem("Build/Build Current AssetBundle", priority = 2)]
+        private static void BuildCurrentAssetBundle()
         {
-            BuildAssetBundle(BuildTarget.Android);
-        }
-
-        [MenuItem("Build/Clear Android AssetBundle")]
-        private static void ClearAssetBundle()
-        {
-            ClearDirectory();
-        }
-
-        [MenuItem("Build/Set Res Info")]
-        private static void SetResInfo()
-        {
-            //clear AssetBundle name
-            ClearAssetBundleName();
-            //set AssetBundle name
-            SetAssetBundleName(AssetPath.resourcePath);
-            //set sprite packing tag
-            new SpritePacker().SetSprite();
-
-            AssetDatabase.Refresh();
-        }
-
-        private static void BuildAssetBundle(BuildTarget targetPlatform)
-        {
-            Util.CreateIfDirectoryNotExist(Path.Combine(EditorTool.GetUnityRootFile(), AssetPath.tempPath));
+            Util.CreateIfDirectoryNotExist(tempPath);
             //开始打包到临时文件夹
-            BuildPipeline.BuildAssetBundles(AssetPath.tempPath, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.Android);
+            BuildPipeline.BuildAssetBundles(tempPath, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, EditorUserBuildSettings.activeBuildTarget);
             //重命名依赖文件
             RenameTempManifest();
             //清理StremingAssets目录
@@ -60,18 +42,33 @@ namespace Unity.Framework.Editor
             AssetDatabase.Refresh();
         }
 
+        [MenuItem("Build/Set Resource Info", priority = 3)]
+        private static void SetResInfo()
+        {
+            //清理AB名称
+            ClearAssetBundleName();
+            //通过文件夹设置AB名称
+            SetAssetBundleNameByFolder(AssetPath.resourcePath);
+            //通过文件夹设置AB名称
+            SetMultipleAssetBundeNameByFile(new string[] { "Assets/ExternalAsset/Texture/", "Assets/ExternalAsset/Audio/BGM/" });
+            //设置Sprite Tag
+            SpritePacker.SetSprite();
+
+            AssetDatabase.Refresh();
+        }
+
         /// <summary>
         /// 重命名依赖文件
         /// </summary>
         private static void RenameTempManifest()
         {
-            string targetFile = AssetPath.tempPath + AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix;
-            if(File.Exists(targetFile))
+            string targetFile = Path.Combine(tempPath , AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix);
+            if (File.Exists(targetFile))
             {
                 File.Delete(targetFile);
             }
 
-            File.Move(AssetPath.tempPath + AssetPath.tempManifestName, targetFile);
+            File.Move(Path.Combine(tempPath, tempManifestName), targetFile);
         }
 
         /// <summary>
@@ -79,7 +76,7 @@ namespace Unity.Framework.Editor
         /// </summary>
         private static void CopyToStreamingAssets()
         {
-            string[] assetBundleFiles = Directory.GetFiles(AssetPath.tempPath);
+            string[] assetBundleFiles = Directory.GetFiles(tempPath);
 
             foreach (string file in assetBundleFiles)
             {
@@ -93,18 +90,59 @@ namespace Unity.Framework.Editor
         //删除临时文件夹
         private static void DeleteTempDirectory()
         {
-            if(Directory.Exists(AssetPath.tempPath))
+            if (Directory.Exists(tempPath))
             {
-                Directory.Delete(AssetPath.tempPath, true);
+                Directory.Delete(tempPath, true);
             }
         }
-        
-        private static void SetAssetBundleName(string path)
+
+        private static void SetMultipleAssetBundeNameByFile(string[] paths)
+        {
+            foreach (string path in paths)
+            {
+                SetAssetBundeNameByFile(path);
+            }
+        }
+
+        //根据文件设置AB，一个文件一个ab
+        private static void SetAssetBundeNameByFile(string path)
         {
             //如有文件夹，继续往里找
             foreach (string directory in Directory.GetDirectories(path))
             {
-                SetAssetBundleName(directory);
+                SetAssetBundeNameByFile(directory);
+            }
+
+            //有文件，标记名称
+            foreach (string file in Directory.GetFiles(path))
+            {
+                if (Path.GetExtension(file) == ".meta")
+                {
+                    continue;
+                }
+
+                string resourceName = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file));
+                resourceName = resourceName.Substring(AssetPath.resourcePath.Length);
+                resourceName = resourceName.ToLower();
+                resourceName = resourceName.Replace('\\', '_');
+                resourceName = resourceName.Replace('/', '_');
+                resourceName += AssetPath.abSuffix;
+                AssetImporter importer = AssetImporter.GetAtPath(file);
+                importer.assetBundleName = resourceName;
+                importer.assetBundleVariant = null;
+                importer.SaveAndReimport();
+                AssetDatabase.SaveAssets();
+            }
+            AssetDatabase.Refresh();
+        }
+
+        //根据文件夹设置AB，一个文件夹一个ab
+        private static void SetAssetBundleNameByFolder(string path)
+        {
+            //如有文件夹，继续往里找
+            foreach (string directory in Directory.GetDirectories(path))
+            {
+                SetAssetBundleNameByFolder(directory);
             }
 
             //有文件，标记名称
@@ -138,10 +176,12 @@ namespace Unity.Framework.Editor
             AssetDatabase.RemoveUnusedAssetBundleNames();
         }
 
-        private static void ClearDirectory()
+        [MenuItem("Build/Clear Current AssetBundle", priority = 1)]
+        private static void ClearAssetBundleDirectory()
         {
             ClearStremingAssets();
             ClearTemp();
+            Debug.Log("Clear AssetBundle Directory");
         }
 
         private static void ClearStremingAssets()
@@ -155,11 +195,11 @@ namespace Unity.Framework.Editor
 
         private static void ClearTemp()
         {
-            if (Directory.Exists(AssetPath.tempPath))
+            if (Directory.Exists(tempPath))
             {
-                Directory.Delete(AssetPath.tempPath, true);
+                Directory.Delete(tempPath, true);
             }
-            Directory.CreateDirectory(AssetPath.tempPath);
+            Directory.CreateDirectory(tempPath);
         }
     }
 }
