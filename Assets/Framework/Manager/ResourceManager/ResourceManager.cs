@@ -13,8 +13,7 @@ public enum ResourceLoadMode
 
 /// <summary>
 /// 资源加载器，负责AssetBundle资源/Local资源的加载
-/// TODO: 重构成两个ResourceManager?
-/// </summary>
+/// TODO: 重构成两个ResourceManager?/// </summary>
 public class ResourceManager : MonoSingleton<ResourceManager>
 {
     private ResourceLoadMode loadMode;
@@ -51,6 +50,18 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         else if (loadMode == ResourceLoadMode.AssetBundle)
         {
             abLoader = new AssetBundleResourceLoader();
+        }
+    }
+
+    public Texture LoadTexture(string resName, string folder = "")
+    {
+        if (loadMode == ResourceLoadMode.Local)
+        {
+            return localLoader.LoadAsset<Texture>(ResourceType.Texture, resName, folder);
+        }
+        else
+        {
+            return abLoader.LoadAsset<Texture>(ResourceType.Texture, resName, folder.Length > 0 ? folder + "/" + resName : resName);
         }
     }
 
