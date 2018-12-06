@@ -1,9 +1,9 @@
 # UnityFramework    
-##Info
+## Info
 Using Unity2018 and Visual Studio.    
 Personal framework and solutions in Unity.    
 
-##Implemented Solution（How to do）
+## Implemented Solution（How to do）
 - Carousel（轮播图）
 - Emoji
 - Image Effect
@@ -21,12 +21,12 @@ Personal framework and solutions in Unity.
 	- ImageGhost
 	- TextSpacing
 	- UITextGradient
-##Editor Tools
+## Editor Tools
 - UI Code Generator
 - Assetbundle Packer
 - Assetbundle Builder 
 - APK Builder
-##Framework
+## Framework
 - UI Framework
 - Resource Loader
 - Notify System
