@@ -437,6 +437,8 @@ namespace Reuniter
                 case "particledoublecurves":
                 case "particledoublecurvessigned":
                     return EditorGUIUtility.FindTexture("ScriptableObject Icon");
+                case "": 
+                    return EditorGUIUtility.FindTexture("DefaultAsset Icon");
             }
             return EditorGUIUtility.FindTexture("DefaultAsset Icon");
         }
@@ -817,7 +819,11 @@ namespace Reuniter
                     var iconRect = new Rect(lastRect);
                     iconRect.width = iconRect.height;
                     iconRect.xMin = ICON_XMIN;
-                    GUI.DrawTexture(iconRect, GetIconForFile(x.Name), ScaleMode.ScaleToFit);
+                    Texture icon = GetIconForFile(x.Name);
+                    if (icon != null)
+                    {
+                        GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit);
+                    }
 
                     GUILayout.Space(20);
                     GUILayout.FlexibleSpace();
@@ -1048,7 +1054,7 @@ namespace Reuniter
             Selection.objects = newSelection.ToArray();
             if (!openAssets)
             {
-                var allGameObjects = Selection.objects.All(x => x is GameObject);
+                //var allGameObjects = Selection.objects.All(x => x is GameObject);
                 var noneGameObject = !Selection.objects.Any(x => x is GameObject);
 
                 //if (allGameObjects)
