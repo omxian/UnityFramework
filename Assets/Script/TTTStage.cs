@@ -185,12 +185,12 @@ public class TTTStage : StageComponent
     {
         if (!playerOneGo)
         {
-            playerOneGo = ResourceManager.Instance.LoadPrefab("PlayerOneSelect", "TicTacToe");
+            playerOneGo = ResourceManager.Instance.LoadPrefab("Assets/ExternalAsset/Prefab/TicTacToe/PlayerOneSelect.prefab");
         }
 
         if (!playerTwoGo)
         {
-            playerTwoGo = ResourceManager.Instance.LoadPrefab("PlayerTwoSelect", "TicTacToe");
+            playerTwoGo = ResourceManager.Instance.LoadPrefab("Assets/ExternalAsset/Prefab/TicTacToe/PlayerTwoSelect.prefab");
         }
     }
 

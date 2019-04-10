@@ -2,6 +2,8 @@
 using UnityEditor;
 using System.IO;
 using Unity.Framework;
+using System.Text;
+
 namespace Unity.Framework.Editor
 {
     //本类用于对资源打AssetBundle
@@ -28,6 +30,9 @@ namespace Unity.Framework.Editor
         [MenuItem("Build/Build Current AssetBundle", priority = 2)]
         private static void BuildCurrentAssetBundle()
         {
+            //生成ab配对列表文件
+            GenAssetBundleMapingList();
+            //创建或清理临时目录
             Util.CreateIfDirectoryNotExist(tempPath);
             //开始打包到临时文件夹
             BuildPipeline.BuildAssetBundles(tempPath, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, EditorUserBuildSettings.activeBuildTarget);
@@ -39,6 +44,33 @@ namespace Unity.Framework.Editor
             CopyToStreamingAssets();
             //刷新Editor
             AssetDatabase.Refresh();
+        }
+
+        private static void GenAssetBundleMapingList()
+        {
+            StringBuilder sb = new StringBuilder();
+            string[] abNames = AssetDatabase.GetAllAssetBundleNames();
+            foreach (var abName in abNames)
+            {
+                string[] assetPaths = AssetDatabase.GetAssetPathsFromAssetBundle(abName);
+
+                if (assetPaths != null && assetPaths.Length > 0)
+                {
+                    sb.Append(abName).Append("\n");
+                    foreach (var assetPath in assetPaths)
+                    {
+                        sb.Append("\t").Append(assetPath).Append("\n");
+                    }
+                }
+            }
+            string genPath = "Assets/ExternalAsset/bundle_to_assets_map.txt";
+            var dir = Path.GetDirectoryName(genPath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            File.WriteAllText(genPath, sb.ToString());
+            AssetDatabase.Refresh();
+            AssetImporter importer = AssetImporter.GetAtPath(genPath);
+            importer.SetAssetBundleNameAndVariant(AssetPath.abMapingListAB + AssetPath.abSuffix, string.Empty);
         }
 
         [MenuItem("Build/Set Resource Info", priority = 3)]
@@ -64,7 +96,7 @@ namespace Unity.Framework.Editor
         /// </summary>
         private static void RenameTempManifest()
         {
-            string targetFile = Path.Combine(tempPath , AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix);
+            string targetFile = Path.Combine(tempPath, AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix);
             if (File.Exists(targetFile))
             {
                 File.Delete(targetFile);

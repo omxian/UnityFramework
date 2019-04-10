@@ -1,0 +1,92 @@
+audio.ab
+	Assets/ExternalAsset/Audio/UI_Click.mp3
+audio_bgm_bgm_0.ab
+	Assets/ExternalAsset/Audio/bgm/BGM_0.mp3
+audio_bgm_bgm_1.ab
+	Assets/ExternalAsset/Audio/bgm/BGM_1.mp3
+bundle_to_assets_map.ab
+	Assets/ExternalAsset/bundle_to_assets_map.ab
+	Assets/ExternalAsset/BundleToAssetsMap.txt
+font.ab
+	Assets/ExternalAsset/Font/FZZhunYuanGBK.TTF
+font_bmfont.ab
+	Assets/ExternalAsset/Font/BMFont/AttackCritDamage.fnt
+	Assets/ExternalAsset/Font/BMFont/AttackCritDamage.fontsettings
+	Assets/ExternalAsset/Font/BMFont/AttackCritDamage.mat
+	Assets/ExternalAsset/Font/BMFont/AttackCritDamage_0.png
+	Assets/ExternalAsset/Font/BMFont/AttackDamage.fnt
+	Assets/ExternalAsset/Font/BMFont/AttackDamage.fontsettings
+	Assets/ExternalAsset/Font/BMFont/AttackDamage.mat
+	Assets/ExternalAsset/Font/BMFont/AttackDamage_0.png
+	Assets/ExternalAsset/Font/BMFont/AttackMiss.fnt
+	Assets/ExternalAsset/Font/BMFont/AttackMiss.fontsettings
+	Assets/ExternalAsset/Font/BMFont/AttackMiss.mat
+	Assets/ExternalAsset/Font/BMFont/AttackMiss_0.png
+	Assets/ExternalAsset/Font/BMFont/Exp.fnt
+	Assets/ExternalAsset/Font/BMFont/Exp.fontsettings
+	Assets/ExternalAsset/Font/BMFont/Exp.mat
+	Assets/ExternalAsset/Font/BMFont/Exp_0.png
+	Assets/ExternalAsset/Font/BMFont/HurtCritDamege.fnt
+	Assets/ExternalAsset/Font/BMFont/HurtCritDamege.fontsettings
+	Assets/ExternalAsset/Font/BMFont/HurtCritDamege.mat
+	Assets/ExternalAsset/Font/BMFont/HurtCritDamege_0.png
+	Assets/ExternalAsset/Font/BMFont/HurtDamage.fnt
+	Assets/ExternalAsset/Font/BMFont/HurtDamage.fontsettings
+	Assets/ExternalAsset/Font/BMFont/HurtDamage.mat
+	Assets/ExternalAsset/Font/BMFont/HurtDamage_0.png
+	Assets/ExternalAsset/Font/BMFont/Treat.fnt
+	Assets/ExternalAsset/Font/BMFont/Treat.fontsettings
+	Assets/ExternalAsset/Font/BMFont/Treat.mat
+	Assets/ExternalAsset/Font/BMFont/Treat_0.png
+	Assets/ExternalAsset/Font/BMFont/TreatCrit.fnt
+	Assets/ExternalAsset/Font/BMFont/TreatCrit.fontsettings
+	Assets/ExternalAsset/Font/BMFont/TreatCrit.mat
+	Assets/ExternalAsset/Font/BMFont/TreatCrit_0.png
+material.ab
+	Assets/ExternalAsset/Material/gray.mat
+	Assets/ExternalAsset/Material/UGUIEmoji.mat
+prefab_blood.ab
+	Assets/ExternalAsset/Prefab/Blood/AttackCritDamage2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/AttackCritDamageText.prefab
+	Assets/ExternalAsset/Prefab/Blood/AttackDamage2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/AttackDamageText.prefab
+	Assets/ExternalAsset/Prefab/Blood/AttackMiss2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/AttackMissText.prefab
+	Assets/ExternalAsset/Prefab/Blood/Dodge2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/DodgeText.prefab
+	Assets/ExternalAsset/Prefab/Blood/Exp2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/ExpText.prefab
+	Assets/ExternalAsset/Prefab/Blood/HurtCritDamage2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/HurtCritDamageText.prefab
+	Assets/ExternalAsset/Prefab/Blood/HurtDamage2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/HurtDamageText.prefab
+	Assets/ExternalAsset/Prefab/Blood/Treat2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/TreatCrit2DText.prefab
+	Assets/ExternalAsset/Prefab/Blood/TreatCritText.prefab
+	Assets/ExternalAsset/Prefab/Blood/TreatText.prefab
+prefab_testmodel.ab
+	Assets/ExternalAsset/Prefab/TestModel/10086.prefab
+prefab_tictactoe.ab
+	Assets/ExternalAsset/Prefab/TicTacToe/PlayerOneSelect.prefab
+	Assets/ExternalAsset/Prefab/TicTacToe/PlayerTwoSelect.prefab
+texture_login.ab
+	Assets/ExternalAsset/Texture/Login.jpg
+ui_prefab_carousel.ab
+	Assets/ExternalAsset/UI/Prefab/Carousel/Carousel.prefab
+ui_prefab_home.ab
+	Assets/ExternalAsset/UI/Prefab/Home/Home.prefab
+ui_prefab_tictactoe.ab
+	Assets/ExternalAsset/UI/Prefab/TicTacToe/TTT.prefab
+ui_sprite_addchip.ab
+	Assets/ExternalAsset/UI/Sprite/AddChip/chouma.png
+	Assets/ExternalAsset/UI/Sprite/AddChip/huangseanniu.png
+	Assets/ExternalAsset/UI/Sprite/AddChip/jiahao.png
+	Assets/ExternalAsset/UI/Sprite/AddChip/jianhao.png
+	Assets/ExternalAsset/UI/Sprite/AddChip/qipao.png
+	Assets/ExternalAsset/UI/Sprite/AddChip/UI-SCMJ-heisezhezhao.png
+	Assets/ExternalAsset/UI/Sprite/AddChip/yindaotiao.png
+ui_sprite_carousel.ab
+	Assets/ExternalAsset/UI/Sprite/Carousel/ad_1.png
+	Assets/ExternalAsset/UI/Sprite/Carousel/ad_2.png
+ui_sprite_tictactoe.ab
+	Assets/ExternalAsset/UI/Sprite/TicTacToe/GameBg.png

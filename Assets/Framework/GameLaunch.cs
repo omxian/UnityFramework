@@ -28,6 +28,7 @@ public class GameLaunch : MonoBehaviour
         StageManager.Instance.StartUp();
         AudioManager.Instance.StartUp();
         ResourceManager.Instance.StartUp();
+        ConfigManager.Instance.StartUp();
     }
 }
 

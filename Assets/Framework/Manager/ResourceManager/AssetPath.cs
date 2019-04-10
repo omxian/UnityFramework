@@ -15,6 +15,7 @@ public enum ResourceType
     UI_Prefab, //UI预制
     UI_Sprite, //UI精灵图
     Prefab, //普通预制
+    TextAsset, //文本文件
 }
 
 public static class AssetPath
@@ -22,23 +23,8 @@ public static class AssetPath
     public static string abSuffix = ".ab";
     //本地资源加载路径;
     public static string resourcePath = "Assets/ExternalAsset/";
-
-    public static string PersistentDataPath
-    {
-        get
-        {
-            string path = string.Empty;
-            if (Application.isMobilePlatform)
-            {
-                path = Application.persistentDataPath;
-            }
-            else
-            {
-                path = Application.streamingAssetsPath;
-            }
-            return path;
-        }
-    }
+    //ab匹配列表的ab名
+    public static string abMapingListAB = "bundle_to_assets_map";
 
     //AssetBundle本地加载路径
     public static string StreamingAssetsPath
@@ -90,7 +76,7 @@ public static class AssetPath
 
     public static string GetABPath(string ab)
     {
-        return Path.Combine(AssetPath.StreamingAssetsPath, PathToAssetBundleName(ab));
+        return Path.Combine(StreamingAssetsPath, PathToAssetBundleName(ab));
     }
 
     /// <summary>

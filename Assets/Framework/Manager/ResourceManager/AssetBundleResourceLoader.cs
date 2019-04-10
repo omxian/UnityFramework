@@ -8,32 +8,60 @@ using UnityEngine;
 /// 对AssetBundleLoader进行管理
 /// TODO： 需要检查依赖是否正确
 /// </summary>
-public class AssetBundleResourceLoader
+public class AssetBundleResourceLoader : Loader
 {
+    private readonly Dictionary<string, string> assetPath2bundleName = new Dictionary<string, string>();
     private Dictionary<string, AssetBundleHandler> handlerDictionary = new Dictionary<string, AssetBundleHandler>();
+    private AssetBundleManifest manifest;
 
-    private AssetBundleManifest _manifest;
-    private AssetBundleManifest manifest
+    public AssetBundleResourceLoader()
     {
-        get
+        AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[ResourceType.Manifest]));
+        manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+        GenABMapingList();
+    }
+
+    private void GenABMapingList()
+    {
+        AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, AssetPath.abMapingListAB + AssetPath.abSuffix));
+        TextAsset textAsset = bundle.LoadAsset<TextAsset>(AssetPath.abMapingListAB);
+        string[] lines = textAsset.text.Split('\n');
+        bundle.Unload(true);
+        string bundleName = null;
+        foreach (var line in lines)
         {
-            if (_manifest == null)
+            if (string.IsNullOrEmpty(line))
+                continue;
+
+            if (line.StartsWith("\t"))
             {
-                AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[ResourceType.Manifest]));
-                _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+                if (bundleName != null)
+                {
+                    var assetPath = line.Substring(1);
+                    if (assetPath2bundleName.ContainsKey(assetPath))
+                    {
+                        assetPath2bundleName[assetPath] = bundleName;
+                    }
+                    else
+                    {
+                        assetPath2bundleName.Add(assetPath, bundleName);
+                    }
+                }
             }
-            return _manifest;
+            else
+            {
+                bundleName = line;
+            }
         }
     }
 
     /// <summary>
     /// 同步加载资源
     /// </summary>
-    public T LoadAsset<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
+    public T LoadAsset<T>(string resPath) where T : UnityEngine.Object
     {
-        folder = folder.Length > 0 ? "/" + folder : folder;
-        string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        return handlerDictionary[path].LoadAsset<T>(resName);
+        string abName = assetPath2bundleName[resPath];
+        return handlerDictionary[abName].LoadAsset<T>(resPath);
     }
 
     /// <summary>
@@ -59,7 +87,7 @@ public class AssetBundleResourceLoader
         {
             LoadDependAssetBundle(path);
             AssetBundleHandler handler = ObjectPoolManager.Instance.Get<AssetBundleHandler>();
-            handler.Init(AssetBundle.LoadFromFile(path));
+            handler.Init(AssetBundle.LoadFromFile(Application.streamingAssetsPath + '/' + path));
             handler.IncreaseReference();
             handlerDictionary.Add(path, handler);
         }
@@ -107,29 +135,22 @@ public class AssetBundleResourceLoader
         }
     }
 
-    public void UnLoadAsset(ResourceType resType, string resName, string folder = "")
+    public void UnLoadAsset(string resPath)
     {
-        folder = folder.Length > 0 ? "/" + folder : folder;
-        string assetPath = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        UnLoadAsset(assetPath);
-    }
-
-    private void UnLoadAsset(string assetPath)
-    {
-        AssetBundleHandler handler = handlerDictionary[assetPath];
-        TryUnloadHandler(assetPath, handler);
-        TryUnloadDependAssetBundle(assetPath);
+        string bundleName = assetPath2bundleName[resPath];
+        AssetBundleHandler handler = handlerDictionary[bundleName];
+        TryUnloadHandler(bundleName, handler);
+        TryUnloadDependAssetBundle(bundleName);
     }
 
     #region Stage相关
     public void StageLoadAB(string[] ab)
     {
-        if(ab != null && ab.Length != 0)
+        if (ab != null && ab.Length != 0)
         {
-            foreach(string assetName in ab)
+            foreach (string assetName in ab)
             {
-                string path = AssetPath.GetABPath(assetName);
-                LoadHandler(path);
+                LoadHandler(assetName);
             }
         }
     }

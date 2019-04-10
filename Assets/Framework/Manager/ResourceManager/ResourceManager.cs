@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using Framework.Notify;
+using System.IO;
 
 //资源加载方式
 public enum ResourceLoadMode
@@ -13,12 +14,11 @@ public enum ResourceLoadMode
 
 /// <summary>
 /// 资源加载器，负责AssetBundle资源/Local资源的加载
-/// TODO: 重构成两个ResourceManager?/// </summary>
+/// </summary>
 public class ResourceManager : MonoSingleton<ResourceManager>
 {
     private ResourceLoadMode loadMode;
-    private LocalResourceLoader localLoader;
-    private AssetBundleResourceLoader abLoader;
+    private Loader loader;
     private ResourceManager()
     {
     }
@@ -45,71 +45,44 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     {
         if (loadMode == ResourceLoadMode.Local)
         {
-            localLoader = new LocalResourceLoader();
+            loader = new LocalResourceLoader();
         }
         else if (loadMode == ResourceLoadMode.AssetBundle)
         {
-            abLoader = new AssetBundleResourceLoader();
+            loader = new AssetBundleResourceLoader();
         }
     }
 
-    public Texture LoadTexture(string resName, string folder = "")
+    public Texture LoadTexture(string resPath)
     {
-        if (loadMode == ResourceLoadMode.Local)
-        {
-            return localLoader.LoadAsset<Texture>(ResourceType.Texture, resName, folder);
-        }
-        else
-        {
-            return abLoader.LoadAsset<Texture>(ResourceType.Texture, resName, folder.Length > 0 ? folder + "/" + resName : resName);
-        }
+        return loader.LoadAsset<Texture>(resPath);
+    }
+
+    //TODO 需要实现方法
+    public byte[] LoadConfig()
+    {
+        TextAsset textAsset = loader.LoadAsset<TextAsset>("");
+        return textAsset.bytes;
     }
 
     //加载ExternalAsset/Prefab目录下的资源
-    public GameObject LoadPrefab(string resName, string folder = "")
+    public GameObject LoadPrefab(string resPath)
     {
-        if (loadMode == ResourceLoadMode.Local)
-        {
-            return Instantiate(localLoader.LoadAsset<GameObject>(ResourceType.Prefab, resName, folder));
-        }
-        else
-        {
-            return Instantiate(abLoader.LoadAsset<GameObject>(ResourceType.Prefab, resName, folder));
-        }
+        return Instantiate(loader.LoadAsset<GameObject>(resPath));
     }
 
-    //加载ExternalAsset/UI/Prefab目录下的资源
-    public GameObject LoadUIPrefab(string resName, string folder = "")
+    public AudioClip LoadAudioClip(string resPath)
     {
-        if (loadMode == ResourceLoadMode.Local)
-        {
-            return Instantiate(localLoader.LoadAsset<GameObject>(ResourceType.UI_Prefab, resName, folder));
-        }
-        else
-        {
-            return Instantiate(abLoader.LoadAsset<GameObject>(ResourceType.UI_Prefab, resName, folder));
-        }
-    }
-
-    public AudioClip LoadAudioClip(string resName, bool isBGM, string folder = "")
-    {
-        if (loadMode == ResourceLoadMode.Local)
-        {
-            return Instantiate(localLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, ""));
-        }
-        else
-        {
-            return Instantiate(abLoader.LoadAsset<AudioClip>(isBGM ? ResourceType.BGM : ResourceType.Audio, resName, resName));
-        }
+        return Instantiate(loader.LoadAsset<AudioClip>(resPath));
     }
 
     public void LoadCommonAB(NotifyArg args)
     {
-        string[] commonAB = { "UI/Prefab/Common" };
-        if (loadMode == ResourceLoadMode.AssetBundle)
-        {
-            abLoader.StageLoadAB(commonAB);
-        }
+        //string[] commonAB = { "UI/Prefab/Common" };
+        //if (loadMode == ResourceLoadMode.AssetBundle)
+        //{
+            //abLoader.StageLoadAB(commonAB);
+        //}
     }
 
     public void StageLoadAB(StageComponent stage)
@@ -117,16 +90,16 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         if (loadMode == ResourceLoadMode.AssetBundle)
         {
             StageInfo info = UIInfo.stageInfoDict[stage.GetType()];
-            abLoader.StageLoadAB(info.abName);
+            (loader as AssetBundleResourceLoader).StageLoadAB(info.abName);
         }
     }
 
     public void StageUnLoadAB(StageComponent stage)
     {
-        if (loadMode == ResourceLoadMode.AssetBundle)
-        {
-            StageInfo info = UIInfo.stageInfoDict[stage.GetType()];
-            abLoader.StageUnLoadAB(info.abName);
-        }
+        //if (loadMode == ResourceLoadMode.AssetBundle)
+        //{
+        //    StageInfo info = UIInfo.stageInfoDict[stage.GetType()];
+        //    abLoader.StageUnLoadAB(info.abName);
+        //}
     }
 }

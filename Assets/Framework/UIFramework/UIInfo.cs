@@ -5,14 +5,12 @@ using System;
 
 public class ViewInfo
 {
-    public string resName;
-    public string resFolder;
+    public string resPath;
     public DisplayType showType;
     public DisplayType hideType;
-    public ViewInfo(string resName, string resFolder = "", DisplayType showType = DisplayType.Normal, DisplayType hideType = DisplayType.Normal)
+    public ViewInfo(string resPath, DisplayType showType = DisplayType.Normal, DisplayType hideType = DisplayType.Normal)
     {
-        this.resName = resName;
-        this.resFolder = resFolder;
+        this.resPath = resPath;
         this.showType = showType;
         this.hideType = hideType;
     }
@@ -38,14 +36,17 @@ public static class UIInfo
     /// </summary>
     public static Dictionary<Type, ViewInfo> viewInfoDict = new Dictionary<Type, ViewInfo>
     {
-        {typeof(TTTView), new ViewInfo("TTT","TicTacToe", DisplayType.Fade, DisplayType.Fade) },
-        {typeof(HomeView), new ViewInfo("Home","Home", DisplayType.Fade, DisplayType.Fade) },
-        {typeof(TestView), new ViewInfo("TestLoadStageUI","test", DisplayType.Pop, DisplayType.Pop) }
+        {typeof(TTTView), new ViewInfo("Assets/ExternalAsset/UI/Prefab/TicTacToe/TTT.prefab", DisplayType.Fade, DisplayType.Fade) },
+        {typeof(HomeView), new ViewInfo("Assets/ExternalAsset/UI/Prefab/Home/Home.prefab", DisplayType.Fade, DisplayType.Fade) },
+        {typeof(TestView), new ViewInfo("", DisplayType.Pop, DisplayType.Pop) }
     };
 
+    /// <summary>
+    /// Stageinfo中的信息为ab名
+    /// </summary>
     public static Dictionary<Type, StageInfo> stageInfoDict = new Dictionary<Type, StageInfo> {
-        {typeof(TestStage), new StageInfo(new string[] {"UI/Prefab/test"})},
-        {typeof(HomeStage), new StageInfo(new string[] {"UI/Prefab/Home", "Audio","Audio/BGM/BGM_0"})},
-        {typeof(TTTStage), new StageInfo(new string[] {"UI/Prefab/TicTacToe", "Prefab/TicTacToe"})},
+        {typeof(TestStage), new StageInfo(new string[] {""})},
+        {typeof(HomeStage), new StageInfo(new string[] { "ui_prefab_home.ab", "audio.ab", "audio_bgm_bgm_0.ab"})},
+        {typeof(TTTStage), new StageInfo(new string[] { "ui_prefab_tictactoe.ab", "prefab_tictactoe.ab"})},
     };
 }

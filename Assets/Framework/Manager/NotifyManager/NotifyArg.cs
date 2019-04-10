@@ -31,27 +31,20 @@ public class AudioNotifyArg : NotifyArg
         private set;
     }
 
-    public string AudioName
+    public string AudioPath
     {
         get;
         private set;
     }
 
-    public string Folder
-    {
-        get;
-        private set;
-    }
-
-    public AudioNotifyArg(bool isBgm, string audioName, string folder = "")
+    public AudioNotifyArg(bool isBgm, string audioPath)
     {
         IsBgm = isBgm;
-        AudioName = audioName;
-        Folder = folder;
+        AudioPath = audioPath;
     }
 
     public bool IsSame(AudioNotifyArg arg1)
     {
-        return arg1.IsBgm == IsBgm && arg1.Folder == Folder && arg1.AudioName == AudioName;
+        return arg1.IsBgm == IsBgm && arg1.AudioPath == AudioPath;
     }
 }

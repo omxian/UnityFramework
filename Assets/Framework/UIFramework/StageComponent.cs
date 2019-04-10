@@ -30,7 +30,7 @@ public class StageComponent : BaseComponent
         ViewInfo viewInfo;
         if (UIInfo.viewInfoDict.TryGetValue(uiType, out viewInfo))
         {
-            GameObject go = ResourceManager.Instance.LoadUIPrefab(viewInfo.resName, viewInfo.resFolder);
+            GameObject go = ResourceManager.Instance.LoadPrefab(viewInfo.resPath);
             if(parent == null)
             {
                 parent = FrameworkRoot.ui;
