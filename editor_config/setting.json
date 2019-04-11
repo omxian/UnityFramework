@@ -1,0 +1,14 @@
+{
+    "appName": "raqwf",
+    "version": "",
+    "serverHost": "",
+    "resouceHost": "",
+    "umengAndroidKey": "",
+    "umengIOSKey": "",
+    "quickProductCode": "",
+    "isDevMode": false,
+    "isChannel": false,
+    "touristLogin": false,
+    "weChatLogin": false,
+    "channelLogin": false
+}
