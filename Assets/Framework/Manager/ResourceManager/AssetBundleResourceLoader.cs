@@ -16,7 +16,7 @@ public class AssetBundleResourceLoader : Loader
 
     public AssetBundleResourceLoader()
     {
-        AssetBundle ab = AssetBundle.LoadFromFile(AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[ResourceType.Manifest]));
+        AssetBundle ab = AssetBundle.LoadFromFile(Path.Combine(AssetPath.StreamingAssetsPath, AssetPath.manifestABName));
         manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
         GenABMapingList();
     }
@@ -68,11 +68,10 @@ public class AssetBundleResourceLoader : Loader
     /// 异步加载资源
     /// </summary>
     /// <returns>返回AssetBundleRequest自行处理</returns>
-    public AssetBundleRequest LoadAssetAsync<T>(ResourceType resType, string resName, string folder = "") where T : UnityEngine.Object
+    public AssetBundleRequest LoadAssetAsync<T>(string resPath) where T : UnityEngine.Object
     {
-        folder = folder.Length > 0 ? "/" + folder : folder;
-        string path = AssetPath.GetResPath(true, AssetPath.StreamingAssetsPath, AssetPath.ResourcePath[resType] + folder);
-        return handlerDictionary[path].LoadAssetAsync<T>(resName);
+        string bundle = assetPath2bundleName[resPath];
+        return handlerDictionary[bundle].LoadAssetAsync<T>(resPath);
     }
 
     /// <summary>
@@ -135,34 +134,32 @@ public class AssetBundleResourceLoader : Loader
         }
     }
 
-    public void UnLoadAsset(string resPath)
+    public void UnLoadAsset(string bundleName)
     {
-        string bundleName = assetPath2bundleName[resPath];
         AssetBundleHandler handler = handlerDictionary[bundleName];
         TryUnloadHandler(bundleName, handler);
         TryUnloadDependAssetBundle(bundleName);
     }
 
     #region Stage相关
-    public void StageLoadAB(string[] ab)
+    public void LoadAssetBundle(string[] abs)
     {
-        if (ab != null && ab.Length != 0)
+        if (abs != null && abs.Length != 0)
         {
-            foreach (string assetName in ab)
+            foreach (string ab in abs)
             {
-                LoadHandler(assetName);
+                LoadHandler(ab);
             }
         }
     }
 
-    public void StageUnLoadAB(string[] ab)
+    public void UnLoadAssetBundle(string[] abs)
     {
-        if (ab != null && ab.Length != 0)
+        if (abs != null && abs.Length != 0)
         {
-            foreach (string assetName in ab)
+            foreach (string ab in abs)
             {
-                string path = AssetPath.GetABPath(assetName);
-                UnLoadAsset(path);
+                UnLoadAsset(ab);
             }
         }
     }

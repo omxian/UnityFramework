@@ -61,7 +61,18 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     //TODO 需要实现方法
     public byte[] LoadConfig()
     {
-        TextAsset textAsset = loader.LoadAsset<TextAsset>("");
+        if (loadMode == ResourceLoadMode.AssetBundle)
+        {
+            (loader as AssetBundleResourceLoader).LoadAssetBundle(new string[] { AssetPath.configABName });
+        }
+
+        TextAsset textAsset = loader.LoadAsset<TextAsset>("Assets/ExternalAsset/Configs/Config.bytes");
+
+        if (loadMode == ResourceLoadMode.AssetBundle)
+        {
+            (loader as AssetBundleResourceLoader).UnLoadAssetBundle(new string[] { AssetPath.configABName });
+        }
+
         return textAsset.bytes;
     }
 
@@ -81,7 +92,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         //string[] commonAB = { "UI/Prefab/Common" };
         //if (loadMode == ResourceLoadMode.AssetBundle)
         //{
-            //abLoader.StageLoadAB(commonAB);
+        //abLoader.StageLoadAB(commonAB);
         //}
     }
 
@@ -90,7 +101,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         if (loadMode == ResourceLoadMode.AssetBundle)
         {
             StageInfo info = UIInfo.stageInfoDict[stage.GetType()];
-            (loader as AssetBundleResourceLoader).StageLoadAB(info.abName);
+            (loader as AssetBundleResourceLoader).LoadAssetBundle(info.abName);
         }
     }
 

@@ -25,7 +25,10 @@ public static class AssetPath
     public static string resourcePath = "Assets/ExternalAsset/";
     //ab匹配列表的ab名
     public static string abMapingListAB = "bundle_to_assets_map";
-
+    //manifest的ab名
+    public static string manifestABName = "manifest.ab";
+    //配置文件的ab名
+    public static string configABName = "excel_configs.ab";
     //AssetBundle本地加载路径
     public static string StreamingAssetsPath
     {
@@ -46,47 +49,5 @@ public static class AssetPath
             }
             return path;
         }
-    }
-
-    public static Dictionary<ResourceType, string> ResourcePath = new Dictionary<ResourceType, string>()
-    {
-        {ResourceType.Manifest,"manifest"},
-        {ResourceType.Texture,"Texture" },
-        {ResourceType.Audio,"Audio" },
-        {ResourceType.BGM, "Audio/BGM" },
-        {ResourceType.UI_Prefab,"UI/Prefab" },
-        {ResourceType.UI_Sprite,"UI/Sprite" },
-        {ResourceType.Prefab,"Prefab" },
-    };
-
-    /// <summary>
-    /// 获得资源的加载路径
-    /// </summary>
-    public static string GetResPath(bool isAssetBundle, string path, string name)
-    {
-        if (isAssetBundle)
-        {
-            return Path.Combine(path, PathToAssetBundleName(name));
-        }
-        else
-        {
-            return Path.Combine(path, name);
-        }
-    }
-
-    public static string GetABPath(string ab)
-    {
-        return Path.Combine(StreamingAssetsPath, PathToAssetBundleName(ab));
-    }
-
-    /// <summary>
-    /// 将Path 转换为AssetBundle名称
-    /// </summary>
-    private static string PathToAssetBundleName(string path)
-    {
-        path = path.ToLower();
-        path = path.Replace('/', '_');
-        path += abSuffix;
-        return path;
     }
 }

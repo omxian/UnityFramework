@@ -78,16 +78,12 @@ namespace Unity.Framework.Editor
         {
             //清理AB名称
             ClearAssetBundleName();
-            //设置AB这一块以后可以写一个编辑器窗口
-            //加载对应的资源都需要有特殊的方法，可以考虑弄个文件做映射
-
             //通过文件夹设置AB名称
             SetAssetBundleNameByFolder(AssetPath.resourcePath);
             //通过文件夹设置AB名称
             SetMultipleAssetBundeNameByFile(new string[] { "Assets/ExternalAsset/Texture/", "Assets/ExternalAsset/Audio/BGM/" });
             //设置Sprite Tag
             SpritePacker.SetSprite();
-
             AssetDatabase.Refresh();
         }
 
@@ -96,7 +92,7 @@ namespace Unity.Framework.Editor
         /// </summary>
         private static void RenameTempManifest()
         {
-            string targetFile = Path.Combine(tempPath, AssetPath.ResourcePath[ResourceType.Manifest] + AssetPath.abSuffix);
+            string targetFile = Path.Combine(tempPath, AssetPath.manifestABName);
             if (File.Exists(targetFile))
             {
                 File.Delete(targetFile);
