@@ -10,7 +10,6 @@ namespace Unity.Framework.Editor
 {
     public class ConfigBuilder
     {
-        [MenuItem("Build/Convert Config", priority = 4)]
         public static void ConvertConfig()
         {
             BuildConfig();

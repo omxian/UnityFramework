@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using UnityEngine;
 
 [Serializable]
 public class Setting
@@ -7,33 +8,14 @@ public class Setting
     private static Setting setting;
     public string appName;
     public string version;
-    public string serverHost;
-    public string resouceHost;
-    public string umengAndroidKey;
-    public string umengIOSKey;
-    public string quickProductCode;
-    public bool isDevMode;
-    public bool isChannel;
-    public bool touristLogin;
-    public bool weChatLogin;
-    public bool channelLogin;
     //获取setting实例
     public static Setting Get()
     {
         if (setting == null)
         {
-            //TODO 加载配置
-            //setting = LoadSetting(Context.Game.Config.GetPath("setting.json"));
+            setting = LoadSetting(Application.streamingAssetsPath + "/setting.json");
         }
 
-        return setting;
-    }
-
-    //重新加载Setting
-    public static Setting Reload()
-    {
-        //TODO
-        //setting = LoadSetting(Context.Game.Config.GetPath("setting.json"));
         return setting;
     }
 
@@ -43,7 +25,7 @@ public class Setting
         {
 #if UNITY_EDITOR
             byte[] _data = AssetUtil.ReadFile("editor_config/setting.json");
-            string savePath = UnityEngine.Application.streamingAssetsPath + "/setting.json";
+            string savePath = Application.streamingAssetsPath + "/setting.json";
             _data = EnCode(_data);
             File.WriteAllBytes(savePath, _data);
             path = savePath;
@@ -57,7 +39,7 @@ public class Setting
         Setting setting;
         if (!string.IsNullOrEmpty(str))
         {
-            setting = UnityEngine.JsonUtility.FromJson<Setting>(str);
+            setting = JsonUtility.FromJson<Setting>(str);
         }
         else
             setting = new Setting();

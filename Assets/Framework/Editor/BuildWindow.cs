@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Unity.Framework.Editor;
 
 public class BuildWindow : EditorWindow
 {
@@ -116,10 +117,6 @@ public class BuildWindow : EditorWindow
         GUILayout.Space(5);
         setting.version = EditorGUILayout.TextField("版本号:", setting.version);
         GUILayout.Space(5);
-        setting.serverHost = EditorGUILayout.TextField("服务器地址:", setting.serverHost);
-        GUILayout.Space(5);
-        setting.resouceHost = EditorGUILayout.TextField("热更资源地址:", setting.resouceHost);
-        GUILayout.Space(5);
         GUILayout.BeginHorizontal();
         GUILayout.Space(5);
         GUILayout.Label("keystore", GUILayout.Width(146), GUILayout.Height(18f));
@@ -147,19 +144,46 @@ public class BuildWindow : EditorWindow
         PlayerSettings.Android.keystorePass = keystoreCnf.keypass;
         PlayerSettings.Android.keyaliasName = keystoreCnf.keyaliname;
         PlayerSettings.Android.keyaliasPass = keystoreCnf.keyalipass;
-
         GUILayout.Space(5);
 
-        if (GUILayout.Button("一键打AssetBundle"))
+        if (GUILayout.Button("转配置"))
         {
-            //AssetBundleTool.QuickBuildAssetBundle();
+            ConfigBuilder.BuildConfig();
+        }
+
+        if (GUILayout.Button("设置资源信息(AB名、SpriteTag)"))
+        {
+            AssetBundlePacker.SetResInfo();
+        }
+
+        if (GUILayout.Button("清理AssetBundle"))
+        {
+            AssetBundlePacker.ClearAssetBundleDirectory();
             SaveSetting();
         }
 
-        if (GUILayout.Button("快速构建（不打ab）"))
+        if (GUILayout.Button("构建AssetBundle(差量更新)"))
+        {
+            AssetBundlePacker.BuildCurrentAssetBundle();
+            SaveSetting();
+        }
+
+        if (GUILayout.Button("重新构建AssetBundle"))
+        {
+            AssetBundlePacker.ClearAssetBundleDirectory();
+            AssetBundlePacker.BuildCurrentAssetBundle();
+            SaveSetting();
+        }
+
+        if (GUILayout.Button("快速构建"))
         {
             SaveSetting();
             Build();
+        }
+
+        if (GUILayout.Button("切换平台并构建APK"))
+        {
+            AssetBundlePacker.BuildApk();
         }
 
         EditorGUILayout.EndScrollView();

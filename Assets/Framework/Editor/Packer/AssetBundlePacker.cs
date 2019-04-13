@@ -14,8 +14,7 @@ namespace Unity.Framework.Editor
         //AssetBundle打包临时路径
         public static string tempPath = Path.Combine(EditorTool.GetUnityRootFile(), tempManifestName);
 
-        [MenuItem("Build/Build APK", priority = 0)]
-        private static void BuildApk()
+        public static void BuildApk()
         {
             //切换平台
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
@@ -27,8 +26,7 @@ namespace Unity.Framework.Editor
             BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, string.Format("APK/{0}.apk", Util.GetCurrentDate()), BuildTarget.Android, BuildOptions.None);
         }
 
-        [MenuItem("Build/Build Current AssetBundle", priority = 2)]
-        private static void BuildCurrentAssetBundle()
+        public static void BuildCurrentAssetBundle()
         {
             //生成ab配对列表文件
             GenAssetBundleMapingList();
@@ -73,8 +71,7 @@ namespace Unity.Framework.Editor
             importer.SetAssetBundleNameAndVariant(AssetPath.abMapingListAB + AssetPath.abSuffix, string.Empty);
         }
 
-        [MenuItem("Build/Set Resource Info", priority = 3)]
-        private static void SetResInfo()
+        public static void SetResInfo()
         {
             //清理AB名称
             ClearAssetBundleName();
@@ -206,8 +203,7 @@ namespace Unity.Framework.Editor
             AssetDatabase.RemoveUnusedAssetBundleNames();
         }
 
-        [MenuItem("Build/Clear Current AssetBundle", priority = 1)]
-        private static void ClearAssetBundleDirectory()
+        public static void ClearAssetBundleDirectory()
         {
             ClearStremingAssets();
             ClearTemp();
