@@ -46,6 +46,7 @@ public class ScreenShot : MonoBehaviour {
     /// Application.CaptureScreenshot实现的全屏截图
     /// 缺点是只能截全屏
     /// 其实也是需要等待一帧后调用，不然unity会崩溃
+    /// 2017版本中ScreenCapture.CaptureScreenshot要一会才会出现，时间不定
     /// </summary>
     IEnumerator CaptureScreenshot()
     {
