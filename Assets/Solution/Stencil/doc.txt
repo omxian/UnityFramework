@@ -1,0 +1,4 @@
+3d裁剪方案（https://www.xuanyusong.com/archives/4562）：
+	mask挂 RectMask3D 脚本 ，指定裁剪id
+	图片自动裁剪，因为RectMask3D继承默认系统的RectMask2D	
+	3d物品，如粒子、模型，需要修改其shader实现裁剪通道（见Cube.shader的add部分），挂上RectItem3d脚本，Type选择Equal，当id与mask的id相同时就会裁剪
