@@ -302,7 +302,7 @@ public class BuildWindow : EditorWindow
     /// </summary>
     public static void BuildAndroid()
     {
-        EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Internal;
+        EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
         EditorUserBuildSettings.exportAsGoogleAndroidProject = false;
 
         DateTime date = DateTime.Now;
