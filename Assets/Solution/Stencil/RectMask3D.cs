@@ -20,7 +20,7 @@ public class RectMask3D : RectMask2D
     }
 
 #if UNITY_EDITOR
-    protected void OnValidate()
+    protected override void OnValidate()
     {
         if (Application.isPlaying)
         {

@@ -33,7 +33,7 @@ namespace TMPro.Examples
                 m_Transform = gameObject.GetComponent<Transform>();
         }
 
-
+        [System.Obsolete]
         void OnDrawGizmos()
         {
             // Update Text Statistics
@@ -89,6 +89,7 @@ namespace TMPro.Examples
         /// Method to draw a rectangle around each character.
         /// </summary>
         /// <param name="text"></param>
+        [System.Obsolete]
         void DrawCharactersBounds()
         {
             TMP_TextInfo textInfo = m_TextComponent.textInfo;

@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scene/Slash.unity
     guid: ca1cc6778d1f3f148b2050dc333b3c37
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Solution/Crawler/Pretty.unity
+    guid: 81c1a699a2aaddf4ebd49fb27ddb1096
   m_configObjects: {}

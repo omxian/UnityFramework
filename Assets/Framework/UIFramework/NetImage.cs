@@ -94,6 +94,7 @@ public class NetImage : MonoBehaviour
         }
     }
 
+    [Obsolete]
     private IEnumerator _load()
     {
         using (WWW www = new WWW(_url))
