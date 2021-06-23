@@ -21,6 +21,7 @@ Personal framework and solutions in Unity.
 	- ImageGhost
 	- TextSpacing
 	- UITextGradient
+	- IrregularClick
 ## Editor Tools
 - UI Code Generator
 - Assetbundle Packer
